@@ -1,13 +1,10 @@
-# My Bellybutton TiddlyWiki Server
+# My TW5 Ticket Search Server
 
 > Draft
 
-TiddlyWikis are stored by the server to present a directory list of available TiddlyWikis to load to users browser.
-
 ## Recommendations
-The pages of the server have been designed with simplicity in mind. Well... as much as HTML, stylesheets, views, and javascript code can be _simple_.
+The `config.js` settings allow the colors, logo, header, and such to be set. Mostly relating to pages displayed in tiddler iframes. Knowledge of [Express][] and [Mustache][] would be helpful. This site is not currently using iframes (is sending tiddlers to the TiddlyWiki front-end).
 
-The `config.js` settings allow the colors, logo, header, and such to be set to your personal preferences. Knowledge of [Express][] and [Mustache][] would be helpful - but no rocket science going on here, so even beginners should be able to make a distinctive site.
 
 ## Installation
 > The server requires [git][3] and [nodejs][4] to be pre-installed on your computer.
@@ -15,8 +12,8 @@ The `config.js` settings allow the colors, logo, header, and such to be set to y
 Clone the server repository and install it:
 
 ```cmd
-git clone https://github.com/PotOfCoffee2Go/bellybutton-server.git
-cd bellybutton-server
+git clone https://github.com/PotOfCoffee2Go/tw5-tickets.git
+cd tw5-tickets
 npm install
 ```
 
@@ -25,7 +22,7 @@ There are various ways to fire up the server. We'll use :
 ```cmd
 npm start
 ```
-Barring [Murphy's Law][] the home page should show up in your browser at address `http://localhost:8000`. To see a TiddlyWiki of notes about the server, press the 'Docs' button or go to `http://localhost:8000/docs`.
+Barring [Murphy's Law][] the home page should show up in your browser at address `http://localhost:8000`.
 
 A common tweak is to change the port which the server 'listens'. This can be changed in `config.js` or a quick and dirty way is to pass the 'port' as a parameter when starting the server:
 
