@@ -169,7 +169,7 @@ const fetch = (...args) =>
 	import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 // Get Personal Access Token from '.env' file
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({path: '../../.envt'});
 const TOKEN = process.env.TOKEN;
 
 // Set fetch header options
