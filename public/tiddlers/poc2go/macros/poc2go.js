@@ -1,0 +1,421 @@
+/*\
+title: $:/plugins/poc2go/sockets/macros/poc2go.js
+type: application/javascript
+module-type: macro
+
+Macro to fetch a dynamic server tiddler
+
+\*/
+(function(){
+
+/*jslint node: true, browser: true */
+/*global $tw: false */
+"use strict";
+
+exports.name = "poc2go";
+
+exports.params = [
+	{name: 'command'},
+	{name: 'path'},
+	{name: 'options'},
+];
+
+
+// ------
+// Add a tiddler that has state of the network status
+$tw.wiki.addTiddler(new $tw.Tiddler({
+	title: '$:/temp/poc2go/netstat',
+	text: 'Server Offline',
+}));
+
+// ------
+// Just in case things go sideways...
+// Errror popup
+const offlinePopup = () => {
+	var dm = $tw.utils.domMaker,
+		heading = dm("h1",{text: 'Server is offline'}),
+		prompt = dm("div",{text: 'The wiki can still be used as a regular TiddlyWiki', "class": "pc-noserver-prompt"}),
+		message = dm("div",{text: '', "class":"pc-noserver-message"}),
+		button = dm("div",{children: [dm("button",{text: ( $tw.language == undefined ? "close" : $tw.language.getString("Buttons/Close/Caption") )})], "class": "pc-noserver-prompt"}),
+		form = dm("form",{children: [heading,prompt,message,button], "class": "pc-noserver-form"});
+	document.body.insertBefore(form,document.body.firstChild);
+	form.addEventListener("submit",function(event) {
+		document.body.removeChild(form);
+		event.preventDefault();
+		return false;
+	},true);
+	return null;
+}
+
+// Init all $tw.poc2go functions to show 'server offline' popup
+$tw.poc2go = {
+	status: 'offline',
+	socket: null,
+	resizeIframe: offlinePopup,
+	tStamp: offlinePopup,
+	netstat: offlinePopup,
+	socketLog: offlinePopup,
+	toStory: offlinePopup,
+	socketEmit: offlinePopup,
+	tiddler: {
+		fetch: offlinePopup,
+		request: offlinePopup,
+		send:  offlinePopup,
+		saved:  offlinePopup,
+		construct: offlinePopup,
+		refresh: offlinePopup,
+		tidToTiddler: offlinePopup,
+	}
+};
+
+/*
+Running the poc2go macro
+ examples:
+ * <$button actions="<<poc2go 'fetch' 'Test/mystuff'>>" >Usage</$button>
+ * <$macrocall $name='poc2go' command=fetch path=tickets />
+
+ command = 'fetch','fetch-tostory', 'send'
+ path = tiddler on which command is performed
+ options = only used with specific 'fetch's
+
+ Any these three status can let macro run
+  offline - popup saying offline
+  connected - all is good
+  disconnected - socket.io will buffer/send on reconnect
+ Otherwise socket.io is still starting up
+  Keep trying for up to 10 seconds - then quietly give up
+*/
+exports.run = function(command, path, options, tries = 0) {
+	if (['offline','connected','disconnected'].indexOf($tw.poc2go.status) > -1) {
+		// Use fields of this tiddler as options
+		if (!options) options = jsonOptions();
+
+		// Fetch a dynamic server tiddler (no scrolling)
+		if (command === 'fetch') { $tw.poc2go.tiddler.fetch(path, options, false); }
+		// Fetch a dynamic server tiddler - to story (scroll tiddler to top also)
+		else if (command === 'fetch-tostory') { $tw.poc2go.tiddler.fetch(path, options, true); }
+		// Request a server tiddler (no scrolling)
+		else if (command === 'send') { $tw.poc2go.tiddler.send(path, true); }
+	} else { // still starting up - so try later
+		if (tries < 20) { // If tried for 10 seconds - just give up
+			setTimeout(() => exports.run(command, path, options, tries+1), 500);
+		}
+	}
+};
+
+/*\
+When this macro is loaded by TW $:/boot the following module is
+executed which fetches the socket.io library from the server and is loaded
+into the site <head> element. The library maintains a connection to the
+server independently from TiddlyWiki.
+
+If the socket.io fetch is successful the module will add the poc2go
+namespace to $tw ($tw.poc2go) which interfaces socket events (on the network
+side) to/from tiddlers (on the TiddlyWiki side).
+\*/
+
+var socketLibrary = '/socket.io/socket.io.min.js';
+
+
+// ------
+// Helper functions
+
+// Format all ticket fields (except 'text') as a json string
+const jsonOptions = () => {
+	let tickets = $tw.wiki.getTiddler('TiddlyWiki5 Backlog Tickets');
+	const fields = new Object();
+	if(tickets) {
+		for(var field in tickets.fields) {
+			if (field !== 'text')	fields[field] = tickets.getFieldString(field);
+		}
+	}
+	return JSON.stringify(fields);
+}
+
+// Resize when onload in an iframe
+// Need to add a few pixels to height to remove the vertical
+// scrollbar in some edge cases
+const resizeIframe = (elem, addPixels = 16) => {
+	if (!window.parent) return; // if not an iframe just return
+	let frame = undefined;
+	if (typeof elem === 'string') {
+		frame = window.parent.document.getElementById(elem);
+	}
+	else {
+		frame = elem;
+	}
+	if (frame && frame.contentWindow.document.body) frame.style.height =
+		(frame.contentWindow.document.body.scrollHeight + addPixels) + 'px';
+}
+
+// Format timestamp text always same length
+const tStamp = () => {
+	return ((new Date()).toLocaleDateString(undefined, {
+		hourCycle: 'h24',
+		year: 'numeric', month: '2-digit', day: '2-digit',
+		hour: '2-digit', minute: '2-digit', second: '2-digit'
+		}) + ' ').replace(',', '');
+}
+
+// update netstat
+const netstat = (text) => {
+	let body = {
+		title: '$:/temp/poc2go/netstat',
+		text: $tw.poc2go.tStamp() + text,
+		created: $tw.wiki.getCreationFields(),
+		modified: $tw.wiki.getModificationFields()
+	};
+	return $tw.wiki.addTiddler(new $tw.Tiddler(body));
+}
+
+// Log socket info to a tiddler using wikitext
+const socketLog = (text) => {
+	// Timestamp the text
+	text = $tw.poc2go.tStamp() + text;
+
+	// Begin wikitext code block including new text to be added to log
+	let logs = ['```', text];
+
+	// Get previous text already in the log
+	let curLog = $tw.wiki.getTiddlerText('Socket Log');
+	let logLines = curLog ? curLog.split('\n') : [];
+
+	// Limit to the most recent 25 text messages
+	let nbrLines = logLines.length < 25 ? logLines.length : 25;
+	for (let i = 0; i < nbrLines; i++) {
+		if (!/^```/.test(logLines[i])) logs.push(logLines[i]);
+	}
+	// End the code block
+	logs.push('```');
+
+	// Create/update the Socket Log tiddler
+	let body = {
+		title: 'Socket Log',
+		text: logs.join('\n'),
+		socketEvent: 'Socket Log'
+	}
+	$tw.poc2go.tiddler.construct(body);
+}
+
+// -------
+// Network interface
+
+// Fetch a dynamic tiddler constructed by server
+// Is a regular HTTP fetch - no sockets
+const tidFetch = (path, options = {}, toStory = true) => {
+	let data = { content: { path, options }, toStory };
+	fetch('/fetch', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify(data),
+	})
+	// Verify fetch successful
+	.then((res) => {
+		if (res.status !== 200) {
+			throw new Error(`Unable to fetch ${path} - HTTP status: ${res.status}`);
+		}
+		return res.json();
+	})
+	// Load tiddler to the wiki
+	.then((rsp) => {
+		// Got a body so is a tiddler
+		if (rsp.data && rsp.data.body) {
+			$tw.poc2go.tiddler.tidToTiddler(rsp, 'fetch.tiddler', rsp.data.toStory);
+		}
+	})
+	.catch((err) => {
+		console.log(err);
+	})
+}
+
+// Emit to server via standard 'server' socket message
+// Send and forget - the response (if any) comes back as a different message
+const socketEmit = (evt, content = {}, toStory = false) => {
+	$tw.poc2go.socket.emit(evt, { content, toStory }, () => {});
+}
+
+// Request tiddler from server uses socket Acknowledgement (callbacks)
+const tidRequest = (title, toStory) => {
+	let data = { content: { title }, toStory };
+	$tw.poc2go.socket.emit('server.tiddler', data,
+		// returns content with tiddler fields
+		(rsp) => {
+			$tw.poc2go.tiddler.tidToTiddler(rsp, 'server.tiddler', toStory);
+	})
+}
+
+// Send tiddler to server uses socket Acknowledgement (callbacks)
+const tidSend = (title, toStory) => {
+	let tiddler = title;
+	if (typeof title === 'string') {
+		tiddler = $tw.wiki.getTiddler(title);
+	}
+	// convert to .tid format
+	// (todo: find where TW does this?)
+	let tid = '';
+	Object.keys(tiddler.fields).forEach((fld) => {
+		if (fld !== 'text') {
+			if (['created', 'modified','fetched'].indexOf(fld) !== -1) {
+				// If date is TW format leave as
+				if (/^\d/.test(tiddler.fields[fld])) {
+					tid += (fld + ': ' + tiddler.fields[fld] + '\n');
+				}	else { // need to convert date to TW format
+					tid += (fld + ': ' + $tw.utils.stringifyDate(tiddler.fields[fld]) + '\n');
+				}
+			}	else { // not a date field
+				tid += (fld + ': ' + tiddler.fields[fld] + '\n');
+			}
+		}
+	})
+	// All fields done - now for the text
+	tid += '\n';
+	tid += (tiddler.fields['text'] ? tiddler.fields['text'] : '');
+
+	// Send .tid to server
+	let data = { content: { title, tid }, toStory };
+	$tw.poc2go.socket.emit('server.savetid', data,
+		// returns content with writefile acknowledgement
+		(rsp) => {
+			$tw.poc2go.tiddler.saved(rsp, 'server.savetid', toStory);
+	})
+}
+
+// Confirm .tid saved on server
+const tidSaved = (rsp, socketEvent, toStory = false) => {
+	console.log('Tiddler Saved');
+}
+
+// -------
+// TiddlyWiki interface
+
+// Construct a tiddler - if exists update fields
+const construct = (body, toStory = false) => {
+	let exist = $tw.wiki.getTiddler(body.title);
+	body.created = exist ? exist.fields.created : $tw.wiki.getCreationFields();
+	$tw.wiki.addTiddler(new $tw.Tiddler(body, $tw.wiki.getModificationFields()));
+	if (toStory) $tw.poc2go.toStory(body.title);
+}
+
+// Refresh a tiddler by re-adding it - can retitle it too.
+const refresh = (title, toTitle = '') => {
+	let copy = $tw.wiki.getTiddler(title);
+	copy.fields.refreshed = copy.fields.refreshed ? copy.fields.refreshed++ : 0;
+	if (toTitle) copy.fields.title = toTitle;
+	$tw.wiki.addTiddler($tw.poc2go.tiddler.construct(copy.fields, true));
+}
+
+// Open tiddler in story river
+const toStory = (toTitle, fromTitle) => {
+	var story = new $tw.Story();
+	story.navigateTiddler(toTitle, fromTitle);
+}
+
+// Convert .tid format to tiddler
+const tidToTiddler = (rsp, socketEvent, toStory = false) => {
+	let defaults = Object.assign({
+		socketEvent: socketEvent,
+		fetched: $tw.utils.stringifyDate($tw.wiki.getModificationFields()['modified']) },
+		$tw.wiki.getCreationFields(),
+		$tw.wiki.getModificationFields());
+
+	if (rsp.data.error) {
+		rsp.data.body = {
+			title: 'Server Error',
+			text: "title: Server Error\n\n```json\n" + JSON.stringify(rsp.data.error, null, 2) + "\n```\n"
+		}
+	}
+
+	var tiddlers = $tw.wiki.deserializeTiddlers(".tid", rsp.data.body.text);
+	$tw.utils.each(tiddlers, (tiddler) => {
+		tiddler.tags = tiddler.tags || '';
+		if (!/server/.test(tiddler.tags)) tiddler.tags = ('poc2go ' + tiddler.tags).trim();
+		$tw.wiki.addTiddler(Object.assign({}, defaults, tiddler));
+	});
+
+	if (toStory) $tw.utils.each(tiddlers,(tiddler) => {
+		$tw.poc2go.toStory(tiddler.title);
+	});
+}
+
+// -------
+// Assign functions to '$tw.poc2go' namespace
+
+// Initialize $tw.poc2go namespace
+const initialize = () => {
+	// Assign functions to $tw 'poc2go' namespace
+	$tw.poc2go = {
+		status: 'connecting',
+		socket: io(),
+		resizeIframe: resizeIframe,
+		tStamp: tStamp,
+		netstat: netstat,
+		socketLog: socketLog,
+		toStory: toStory,
+		socketEmit: socketEmit,
+		tiddler: {
+			fetch: tidFetch,
+			request: tidRequest,
+			send: tidSend,
+			saved: tidSaved,
+			construct: construct,
+			refresh: refresh,
+			tidToTiddler: tidToTiddler,
+		},
+	}
+
+	// Assign actions to perform from socket events
+
+	// When connected, log the connection and emit to server to
+	//  display the browser is connected
+	$tw.poc2go.socket.on('client.connected', (data) => {
+		$tw.poc2go.status = 'connected';
+		console.log(`Browser socket ${$tw.poc2go.socket.id} connected`);
+		$tw.poc2go.socketLog(`Browser socket ${data} connected`);
+		$tw.poc2go.netstat(`Server Connected`);
+		$tw.poc2go.socketEmit('server.log', { text: `Browser confirmed socket ${$tw.poc2go.socket.id} connected` });
+	})
+
+	// Disconnected from server
+	$tw.poc2go.socket.on('disconnect', (reason) => {
+		$tw.poc2go.status = 'disconnected';
+		$tw.poc2go.socketLog(`Browser socket disconnected - ${reason}`);
+		$tw.poc2go.netstat(`Server Disconnect - ${reason}`);
+		console.log(reason);
+	});
+
+	// Server tiddler changed
+	$tw.poc2go.socket.on('client.tiddler.change', (rsp) => {
+		$tw.poc2go.tiddler.tidToTiddler(rsp, 'client.tiddler.change');
+	});
+}
+
+// Fetch socket.io library from server
+//  load into site <head>,
+//  connect to server
+//  initialize $tw.poc2go namespace
+// Is async so TW $:/boot continues loading wiki
+//  while socket.io is being initialized
+fetch(socketLibrary)
+	// Verify library fetch successful
+	.then((res) => {
+		if (res.status !== 200) {
+			throw new Error(`Unable to fetch socket.io - HTTP status: ${res.status}`);
+		}
+		$tw.poc2go.status = 'loading';
+		return res.text();
+	})
+	// Load socket library into browser
+	.then((text) => {
+		let elem = document.createElement("script");
+		elem.innerHTML = text;
+		document.head.appendChild(elem);
+	})
+	// Load socket functions into $tw.poc2go and connect socket
+	.then(() => {
+		initialize();
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+
+})();

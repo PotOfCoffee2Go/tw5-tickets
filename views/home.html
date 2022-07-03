@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Home page -->
+<head>
+	{{{cfg.head}}}
+	{{{cfg.styles.theme}}}
+	{{{cfg.styles.home}}}
+
+	<title>Home</title>
+</head>
+
+<body>
+<!--  {{{cfg.logo}}} -->
+	{{{cfg.heading}}}
+<div class="top-text">
+	<span class="bttn" style="float:right;" onclick="refreshIframe();">Refresh</span>
+<div>
+	See:
+	<span class="bttn" onclick="poc2go.fetch('directory', '');">Table of Contents</span>
+	<span class="bttn" onclick="poc2go.fetch('tickets', '');">TiddlyWiki Tickets</span>
+	<span> Opens a tiddler from server</span>
+</div>
+<div style="padding-top: 2em;">
+	News:
+	<span class="bttn" onclick="poc2go.emit('server.news', { name: 'NPR', url: 'http://www.npr.org/rss/rss.php?id=1001', maxItems: 15 }, true);">NPR</span>
+	<span class="bttn" onclick="poc2go.emit('server.news', { name: 'CNN', url: 'http://rss.cnn.com/rss/cnn_topstories.rss', maxItems: 15 }, true);">CNN</span>
+	<span class="bttn" onclick="poc2go.emit('server.news', { name: 'USA Today', url: 'http://rssfeeds.usatoday.com/UsatodaycomNation-TopStories', maxItems: 15 }, true);">USA Today</span>
+	<span class="bttn" onclick="poc2go.emit('server.news', { name: 'Onion', url: 'https://www.theonion.com/rss', maxItems: 15 }, true);">Onion</span>
+	<span> Opens a web tiddler from the server via socket.io</span>
+</div>
+</div>
+<div class="bottom-text">
+<div style="padding-top: 2em;">
+	Chat:
+	<span class="bttn" onclick="poc2go.request('Chat/Signin.tid', true);">Chat</span>
+	<span> Opens a web page in tiddler iframe that allows anybody on server to chat</span>
+</div>
+<div style="padding-top: 2em;">
+	Minecraft:
+	<span class="bttn" onclick="poc2go.request('Minecraft/Intro-01.tid', true);">Minecraft Blog</span>
+	<span> Opens a Minecraft blog - how I play minecraft!</span>
+</div>
+<div style="padding-top: 2em;">
+	TiddlyWiki Directory:
+	<span class="bttn" onclick="poc2go.request('Wiki Directory.tid', true);">Wiki Directory</span>
+	<span> Opens a web page in tiddler iframe that interacts with TiddlyWiki</span>
+</div>
+<div style="padding-top: 2em;">
+	test:
+	<span class="bttn" onclick="toStory('Terminal Colors');">Terminal Colors</span>
+	<span class="bttn" onclick="poc2go.request('my-styles.tid');">Styles</span>
+	<span class="bttn" onclick="console.log('$tw', $tw);">$tw</span>
+	<span> Opens a web tiddler from the server via poc2go.io</span>
+</div>
+	{{{cfg.footer}}}
+</div>
+</body>
+
+</html>

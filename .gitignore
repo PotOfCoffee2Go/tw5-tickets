@@ -1,0 +1,14 @@
+# Node
+node_modules/
+
+# Logs
+logs/
+
+# Environment variables
+.env
+
+# uploads is temp directory
+uploads/
+
+# Ticket Data - get with node issues.js
+github-issues.json

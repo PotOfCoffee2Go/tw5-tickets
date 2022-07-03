@@ -1,0 +1,31 @@
+{
+  "name": "tw5-ticket-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./bin/bellybutton"
+  },
+  "bin": {
+    "bellybutton": "./bin/bellybutton"
+  },
+  "keywords": [],
+  "author": "PotOfCoffee2Go",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.16.4",
+    "feedparser": "^2.2.10",
+    "minisearch": "^5.0.0",
+    "mustache": "^4.1.0",
+    "nanoid": "^3.2.0",
+    "node-fetch": "^3.2.3",
+    "node-watch": "^0.7.3",
+    "socket.io": "^4.4.1",
+    "winston": "^3.8.1",
+    "yargs": "^16.2.0"
+  }
+}
