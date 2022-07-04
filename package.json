@@ -8,7 +8,7 @@
     "start": "./bin/tw5-tickets"
   },
   "bin": {
-    "bellybutton": "./bin/bellybutton"
+    "tw5-tickets": "./bin/tw5-tickets"
   },
   "keywords": [],
   "author": "PotOfCoffee2Go",

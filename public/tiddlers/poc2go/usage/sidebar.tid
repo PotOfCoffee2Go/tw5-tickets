@@ -6,10 +6,10 @@ tags: info server
 title: $:/poc2go/tiddler/usage/page
 
 <span style="float: right;">
-<$link to="$:/poc2go/socket/settings" tooltip="Server Settings">{{$:/temp/poc2go/netstat}}</$link>
+<$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Settings">{{$:/temp/poc2go/netstat}}</$link>
 </span>
 
-{{$:/poc2go/tiddler/usage/heading}}
+{{$:/poc2go/ui/usage/heading}}
 
 !!!Side Bar
 

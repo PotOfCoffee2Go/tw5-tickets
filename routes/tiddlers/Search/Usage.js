@@ -44,6 +44,9 @@ copyText: Keep a copy
 
 !!!Usage
 
+<hr style="opacity: .5;">
+{{$:/poc2go/ui/usage/heading}}
+
 The
 <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Search/Suggest'>>">Topics</$button>
 button displays some common search words pertaining to TiddlyWiki.
@@ -87,11 +90,6 @@ The '
 The search includes only ''open'' tickets that are on the [[TW5 GitHub repository|https://github.com/Jermolene/TiddlyWiki5]]. The title and body are scanned (ie: ticket comments are NOT part of the scan). The server database is updated from GitHub once a day.
 
 Enjoy! - [[PotOfCoffee2Go]]
-
-<details><summary>More...</summary>
-<hr style="opacity:.5;">
-{{$:/poc2go/ui/usage/heading}}
-</details>
 
 {{$:/poc2go/ui/footing}}
 `;
