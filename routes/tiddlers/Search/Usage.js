@@ -34,7 +34,7 @@ copyText: Keep a copy
 <$button actions="<<poc2go 'fetch' 'tickets/Search/Options'>>">Options</$button>
 <$button actions="<<poc2go 'fetch' 'tickets/Search/Usage'>>"><b>Usage</b></$button>
 <$button actions="<<poc2go 'fetch' 'tickets/Search/About'>>">About</$button>
-<span style="float: right;"><$link to="$:/poc2go/socket/status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link></span>
+<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link></span>
 
 ----
 
