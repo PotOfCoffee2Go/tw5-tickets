@@ -42,6 +42,8 @@ copyText: Keep a copy
 <$button class="bttn" actions=<<actions>> >{{$:/core/images/advanced-search-button}} Search</$button>
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
 
+<span style="float: right;"><img src="/assets/images/options.svg"></span>
+
 !!!Options
 
 <div style="float:left; width: 39%;">

@@ -47,6 +47,8 @@ copyText: Keep a copy
 <hr style="opacity: .5;">
 {{$:/poc2go/ui/usage/heading}}
 
+<span style="float: right;"><img src="/assets/images/usage.svg"></span>
+
 The
 <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Search/Suggest'>>">Topics</$button>
 button displays some common search words pertaining to TiddlyWiki.

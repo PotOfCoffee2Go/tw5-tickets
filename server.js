@@ -5,8 +5,6 @@ const fs = require('fs');
 const { cfg } = require('./server/config');
 // Set server home directory
 cfg.homeDir = process.cwd();
-// Server-side credentials
-require('dotenv').config({path: '../.env'});
 // Command line options
 require('./server/cli')(cfg);
 
@@ -37,8 +35,7 @@ app.use(routes);
 // Assign a mime type to .tid files
 express.static.mime.define({'text/plain': ['tid']})
 
-// Expose pages to the docs, public, and browser-side scripts
-app.use(express.static(cfg.homeDir + '/docs'));
+// Expose public and browser-side scripts
 app.use(express.static(cfg.homeDir + '/public'));
 app.use(express.static(cfg.homeDir + '/views/scripts'));
 
