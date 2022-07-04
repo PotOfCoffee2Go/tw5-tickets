@@ -53,7 +53,7 @@ multiWord: ${search.opt.multiWord}
 topicOrder: ${search.opt.topicOrder}
 `;
 
-const workingTiddler = (search) =>
+const workingTiddler = (cfg, search) =>
 `title: TiddlyWiki5 Backlog Tickets
 searchWords: ${search.opt.searchWords}
 tags: server
@@ -91,7 +91,7 @@ copyText: Keep a copy
 <$button actions="<<poc2go 'fetch' 'tickets/Search/Options'>>">Options</$button>
 <$button actions="<<poc2go 'fetch' 'tickets/Search/Usage'>>">Usage</$button>
 <$button actions="<<poc2go 'fetch' 'tickets/Search/About'>>">About</$button>
-<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link></span>
+<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link> - v${cfg.pkg.version}</span>
 
 <hr style="opacity: .5;">
 
@@ -152,11 +152,11 @@ const contentFooting = () => `
 {{$:/poc2go/ui/footing}}
 `;
 
-const searchTiddler = (search, copy = false) => {
+const searchTiddler = (cfg, search, copy = false) => {
 	if (copy) {
 		return copyTiddler(search) + contentTiddler(search);
 	}
-	return workingTiddler(search) + contentTiddler(search) + contentFooting();
+	return workingTiddler(cfg, search) + contentTiddler(search) + contentFooting();
 };
 
 // ---------------------------------
@@ -243,6 +243,6 @@ exports.run = (cfg, data, copy = false) => {
 	}
 
 	const search = ticketSearch(opt);
-	return searchTiddler(search, copy);
+	return searchTiddler(cfg, search, copy);
 }
 

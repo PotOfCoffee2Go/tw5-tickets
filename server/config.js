@@ -44,4 +44,7 @@ cfg.styles = require('../views/styles');
 // Log file
 cfg.log = require('./logger');
 
+// Package info
+cfg.pkg = require('../package.json');
+
 exports.cfg = cfg;

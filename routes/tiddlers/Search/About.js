@@ -1,4 +1,4 @@
-const tid = (opt) => `created: 20220618230816674
+const tid = (cfg, opt) => `created: 20220618230816674
 modified:	20220618230816674
 creator: PotOfCoffee2Go
 modifier: PotOfCoffee2Go
@@ -34,7 +34,7 @@ copyText: Keep a copy
 <$button actions="<<poc2go 'fetch' 'tickets/Search/Options'>>">Options</$button>
 <$button actions="<<poc2go 'fetch' 'tickets/Search/Usage'>>">Usage</$button>
 <$button actions="<<poc2go 'fetch' 'tickets/Search/About'>>"><b>About</b></$button>
-<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link></span>
+<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link> - v${cfg.pkg.version}</span>
 
 ----
 
@@ -56,6 +56,6 @@ No server side tracking is implemented. All users are anonymous. Thus sadly, the
 // ---------------------------------
 // Run the fetch issues request
 exports.run = (cfg, data) => {
-	return tid(data.content.opt);
+	return tid(cfg, data.content.opt);
 }
 
