@@ -90,10 +90,10 @@ Enjoy! - [[PotOfCoffee2Go]]
 
 <details><summary>More...</summary>
 <hr style="opacity:.5;">
-{{$:/poc2go/tiddler/usage/heading}}
+{{$:/poc2go/ui/usage/heading}}
 </details>
 
-{{$:/poc2go/tiddler/footing}}
+{{$:/poc2go/ui/footing}}
 `;
 
 // ---------------------------------

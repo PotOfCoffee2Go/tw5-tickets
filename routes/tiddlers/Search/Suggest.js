@@ -67,7 +67,7 @@ Order by
 
 ${links.join('\n')}
 
-{{$:/poc2go/tiddler/footing}}
+{{$:/poc2go/ui/footing}}
 `;
 
 // ---------------------------------

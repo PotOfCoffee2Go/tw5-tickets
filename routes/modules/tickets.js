@@ -147,11 +147,16 @@ on <$view field=fetched format=date template="DDth mmm YYYY at 0hh:0mm:0ss" />.
 ${search.titles}
 
 `;
+
+const contentFooting = () => `
+{{$:/poc2go/ui/footing}}
+`;
+
 const searchTiddler = (search, copy = false) => {
 	if (copy) {
 		return copyTiddler(search) + contentTiddler(search);
 	}
-	return workingTiddler(search) + contentTiddler(search);
+	return workingTiddler(search) + contentTiddler(search) + contentFooting();
 };
 
 // ---------------------------------

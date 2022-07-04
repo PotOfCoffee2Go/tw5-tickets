@@ -86,7 +86,7 @@ Topics order -
 
 <$button class="bttn" actions="<<poc2go 'fetch' 'tickets/Search/Options' '{ reset: true }'>>" >Reset</$button>
 
-{{$:/poc2go/tiddler/footing}}
+{{$:/poc2go/ui/footing}}
 `;
 
 // ---------------------------------

@@ -50,7 +50,7 @@ This wiki must be online to be fully functional - is currrently hosted at https:
 
 No server side tracking is implemented. All users are anonymous. Thus sadly, there is no way to keep your last option settings - since not using sessions, cookies, or localstorage.
 
-{{$:/poc2go/tiddler/footing}}
+{{$:/poc2go/ui/footing}}
 `;
 
 // ---------------------------------
