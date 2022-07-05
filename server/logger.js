@@ -3,7 +3,7 @@ const { combine, timestamp, json } = format;
 
 const rightTwoChar = (txt) => ('00' + txt).substr(-2);
 let d = new Date();
-let logFilename = './logs/' + d.getFullYear() + "-" + rightTwoChar(d.getMonth()) +
+let logFilename = './logs/' + d.getFullYear() + "-" + rightTwoChar(d.getMonth()+1) +
 	"-" + rightTwoChar(d.getDate()) + "-" + "server.log";
 
 const logger = createLogger({

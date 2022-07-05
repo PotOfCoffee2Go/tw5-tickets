@@ -93,7 +93,11 @@ exports.run = function(command, path, options, tries = 0) {
 		if (command === 'fetch') { $tw.poc2go.tiddler.fetch(path, options, false); }
 		// Fetch a dynamic server tiddler - to story (scroll tiddler to top also)
 		else if (command === 'fetch-tostory') { $tw.poc2go.tiddler.fetch(path, options, true); }
-		// Request a server tiddler (no scrolling)
+		// Request a static server tiddler (no scrolling)
+		else if (command === 'request') { $tw.poc2go.tiddler.request(path, options, false); }
+		// Request a static server tiddler - to story (scroll tiddler to top also)
+		else if (command === 'request-tostory') { $tw.poc2go.tiddler.request(path, options, true); }
+		// Store tiddler on server
 		else if (command === 'send') { $tw.poc2go.tiddler.send(path, true); }
 	} else { // still starting up - so try later
 		if (tries < 20) { // If tried for 10 seconds - just give up
@@ -156,7 +160,7 @@ const tStamp = () => {
 		}) + ' ').replace(',', '');
 }
 
-// update netstat
+// Update netstat tiddler
 const netstat = (text) => {
 	let body = {
 		title: '$:/temp/poc2go/netstat',
@@ -358,7 +362,7 @@ const initialize = () => {
 
 // Fetch socket.io library from server
 //  load into site <head>,
-//  connect to server
+//  socket.io connect to server
 //  initialize $tw.poc2go namespace
 // Is async so TW $:/boot continues loading wiki
 //  while socket.io is being initialized

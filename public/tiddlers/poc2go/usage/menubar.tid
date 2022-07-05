@@ -2,7 +2,7 @@ caption: Usage Menu Bar
 created: 20220627065903440
 icon: $:/core/images/file
 modified: 20220627070155753
-tags: info server
+tags: server
 title: $:/poc2go/tiddler/usage/page
 
 <span style="float: right;">
