@@ -28,6 +28,7 @@ exports.ticketDefaults = (opt) => {
 		copyButton: '{{$:/core/images/import-button}}',
 		multiWord: 'single',
 		topicOrder: 'rank',
+		copyType: 'text/vnd.tiddlywiki',
 	}, opt);
 }
 
@@ -51,6 +52,8 @@ shownTickets: ${search.opt.shownTickets}
 shownPage: ${search.opt.shownPage}
 multiWord: ${search.opt.multiWord}
 topicOrder: ${search.opt.topicOrder}
+type: ${search.opt.copyType}
+
 `;
 
 const workingTiddler = (cfg, search) =>
@@ -72,6 +75,7 @@ shownPage: ${search.opt.shownPage}
 copyButton: {{$:/core/images/import-button}}
 multiWord: ${search.opt.multiWord}
 topicOrder: ${search.opt.topicOrder}
+copyType: ${search.opt.copyType}
 copyText: Keep a copy
 
 \\define actions()
@@ -132,6 +136,9 @@ copyText: Keep a copy
 		&nbsp;&nbsp;
 		<$checkbox field="prefix" checked="yes" unchecked="no" default="no" actions=<<actions>> > Prefix</$checkbox>
 	</span>
+	<span style="float: right;margin-left: -4px;margin-top: -.5em;">
+		<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
+	</span>
 </div>
 <div style="clear: both;"></div>
 <hr style="opacity: .5;">
@@ -148,11 +155,19 @@ ${search.titles}
 
 `;
 
+// Tickets Search JSON Tiddler
+const jsonTiddler = (search) => `
+${search.json}
+`;
+
 const contentFooting = () => `
 {{$:/poc2go/ui/footing}}
 `;
 
 const searchTiddler = (cfg, search, copy = false) => {
+	if (copy && search.opt.copyType === 'application/json') {
+		return copyTiddler(search) + jsonTiddler(search);
+	}
 	if (copy) {
 		return copyTiddler(search) + contentTiddler(search);
 	}
@@ -215,10 +230,13 @@ const ticketSearch = (opt) => {
 
 	let page = 1;
 	const titles = [];
-	limits.forEach((ticket) => {
+	limits.forEach((ticket, idx) => {
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}
 	[[${ticket.user.login}|${ticket.user.html_url}]] ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] (search score: ${Math.floor(ticket.score)})</pre>`);
+
+		// Reduce fields about the user
+		limits[idx].user = { login: limits[idx].user.login, html_url: limits[idx].user.html_url };
 	})
 
 	var format = '';
@@ -226,7 +244,7 @@ const ticketSearch = (opt) => {
 	opt.shownTickets = `${titles.length}`;
 	opt.foundTickets = `${foundTickets.length}`;
 	if (titles.length) format = titles.join('<hr style="opacity: .3; margin-top: -1em;">');
-	return { opt, titles: format };
+	return { opt, titles: format, json: JSON.stringify(limits, null, 2) };
 }
 
 

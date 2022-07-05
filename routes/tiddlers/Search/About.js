@@ -18,6 +18,7 @@ shownTickets: ${opt.shownTickets}
 shownPage: ${opt.shownPage}
 multiWord: ${opt.multiWord}
 topicOrder: ${opt.topicOrder}
+copyType: ${opt.copyType}
 copyText: Keep a copy
 
 \\define addWord(word)

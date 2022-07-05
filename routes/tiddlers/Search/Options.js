@@ -18,6 +18,7 @@ shownTickets: ${opt.shownTickets}
 shownPage: ${opt.shownPage}
 multiWord: ${opt.multiWord}
 topicOrder: ${opt.topicOrder}
+copyType: ${opt.copyType}
 copyText: Keep a copy
 
 \\define addWord(word)
@@ -80,6 +81,8 @@ Topics order -
 <$checkbox field="prefix" checked="yes" unchecked="no" default="no"> Prefix search (so that 'moto' will match 'motorcycle')</$checkbox>
 <br>
 <$checkbox field="fuzzy" checked="yes" unchecked="no" default="no"> Fuzzy search (mispelled 'ismael' will match 'ishmael')</$checkbox>
+<br>
+<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json (format Keep a copy as JSON)</$checkbox>
 <br>
 <$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open tiddler when keeping a copy</$checkbox>
 </div>
