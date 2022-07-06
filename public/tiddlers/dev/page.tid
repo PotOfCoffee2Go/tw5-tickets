@@ -7,6 +7,7 @@ caption:	Developer Page
 
 <$button class="bttn" actions="<<poc2go request-tostory dev/page.tid>>" >Intro</$button>
 <$button class="bttn" actions="<<poc2go request-tostory dev/startup.tid>>" >Startup</$button>
+<$button class="bttn" actions="<<poc2go request-tostory dev/dirs.tid>>" >Directories</$button>
 <$button class="bttn" actions="<<poc2go request-tostory dev/branching.tid>>" >Branching</$button>
 <span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Search/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
 <hr style="opacity: .5;">

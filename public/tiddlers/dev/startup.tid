@@ -3,10 +3,11 @@ modified: 20220706160000481
 tags: server
 title: Developer Page
 icon: $:/core/images/github
-caption:	Developer Page
+caption:	Developer Startup
 
 <$button class="bttn" actions="<<poc2go request-tostory dev/page.tid>>" >Intro</$button>
 <$button class="bttn" actions="<<poc2go request-tostory dev/startup.tid>>" >Startup</$button>
+<$button class="bttn" actions="<<poc2go request-tostory dev/dirs.tid>>" >Directories</$button>
 <$button class="bttn" actions="<<poc2go request-tostory dev/branching.tid>>" >Branching</$button>
 <span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Search/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
 <hr style="opacity: .5;">

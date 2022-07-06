@@ -7,6 +7,7 @@ caption:	Developer Branching
 
 <$button class="bttn" actions="<<poc2go request-tostory dev/page.tid>>" >Intro</$button>
 <$button class="bttn" actions="<<poc2go request-tostory dev/startup.tid>>" >Startup</$button>
+<$button class="bttn" actions="<<poc2go request-tostory dev/dirs.tid>>" >Directories</$button>
 <$button class="bttn" actions="<<poc2go request-tostory dev/branching.tid>>" >Branching</$button>
 <span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Search/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
 <hr style="opacity: .5;">
@@ -20,8 +21,9 @@ To prevent spamming the Git history - when creating a new  branch on [[Git|https
 Assume going to produce commits for v0.10.6
 
 ```
-git checkout -b v0.10.6
+git checkout -b dev
 npm version 0.10.6 -m "Upgrade to v%s"
+git tag -d 0.10.6
 ```
 
 Do and create commits for your changes as you go.
@@ -43,9 +45,7 @@ Merge to 'main'
 
 ```
 git checkout main
-git merge v0.10.6
+git rebase dev main
 ```
 
 At some point push to GitHub.
-
-
