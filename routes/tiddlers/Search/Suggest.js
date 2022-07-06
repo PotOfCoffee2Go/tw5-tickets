@@ -30,8 +30,7 @@ copyText: Keep a copy
 <$action-setfield searchWords=$word$ />
 \\end
 \\define addWord(word)
-<<replaceWord $word$>>
-<$action-navigate $to="TiddlyWiki5 Backlog Tickets" />
+<$macrocall $name='poc2go' command=fetch-tostory path=tickets options='{ "searchWords": "$word$" }' />
 \\end
 \\define actions()
 <$macrocall $name='poc2go' command=fetch path=tickets />

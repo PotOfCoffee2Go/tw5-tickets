@@ -86,8 +86,8 @@ Running the poc2go macro
 */
 exports.run = function(command, path, options, tries = 0) {
 	if (['offline','connected','disconnected'].indexOf($tw.poc2go.status) > -1) {
-		// Use fields of this tiddler as options
-		if (!options) options = jsonOptions();
+		// Combine options param with fields of this tiddler
+		options = jsonOptions(options);
 
 		// Fetch a dynamic server tiddler (no scrolling)
 		if (command === 'fetch') { $tw.poc2go.tiddler.fetch(path, options, false); }
@@ -124,15 +124,20 @@ var socketLibrary = '/socket.io/socket.io.min.js';
 // Helper functions
 
 // Format all ticket fields (except 'text') as a json string
-const jsonOptions = () => {
-	let tickets = $tw.wiki.getTiddler('TiddlyWiki5 Backlog Tickets');
+const jsonOptions = (opt) => {
+	try {
+		opt = JSON.parse(opt);
+	} catch (e) {
+		opt = {};
+	};
+	let tiddler = $tw.wiki.getTiddler('TiddlyWiki5 Backlog Tickets');
 	const fields = new Object();
-	if(tickets) {
-		for(var field in tickets.fields) {
-			if (field !== 'text')	fields[field] = tickets.getFieldString(field);
+	if(tiddler) {
+		for(var field in tiddler.fields) {
+			if (field !== 'text')	fields[field] = tiddler.getFieldString(field);
 		}
 	}
-	return JSON.stringify(fields);
+	return JSON.stringify(Object.assign(fields, opt));
 }
 
 // Resize when onload in an iframe
