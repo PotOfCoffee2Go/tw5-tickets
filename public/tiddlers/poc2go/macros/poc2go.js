@@ -35,7 +35,7 @@ const offlinePopup = () => {
 	var dm = $tw.utils.domMaker,
 		heading = dm("h1",{text: 'Server is offline'}),
 		prompt = dm("div",{text: 'The wiki can still be used as a regular TiddlyWiki', "class": "pc-noserver-prompt"}),
-		message = dm("div",{text: '', "class":"pc-noserver-message"}),
+		message = dm("div",{text: 'Can go online to TW5 Ticket Search at https://tw5.poc2go.com', "class":"pc-noserver-message"}),
 		button = dm("div",{children: [dm("button",{text: ( $tw.language == undefined ? "close" : $tw.language.getString("Buttons/Close/Caption") )})], "class": "pc-noserver-prompt"}),
 		form = dm("form",{children: [heading,prompt,message,button], "class": "pc-noserver-form"});
 	document.body.insertBefore(form,document.body.firstChild);

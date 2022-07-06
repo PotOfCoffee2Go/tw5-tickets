@@ -54,7 +54,7 @@ multiWord: ${search.opt.multiWord}
 topicOrder: ${search.opt.topicOrder}
 type: ${search.opt.copyType}
 
-`;
+<b>[[TW5 Ticket Search|https://tw5.poc2go.com]]</b>`;
 
 const workingTiddler = (cfg, search) =>
 `title: TiddlyWiki5 Backlog Tickets
@@ -142,12 +142,12 @@ copyText: Keep a copy
 </div>
 <div style="clear: both;"></div>
 <hr style="opacity: .5;">
-`;
+
+<b>TW5 Ticket Search</b>`;
 
 // ---------------------------------
 // Tickets Search Tiddler
-const contentTiddler = (search) => `
-<b>[[TW5 Ticket Search|https://tw5.poc2go.com]]</b> showing ${search.opt.shownTickets} of ${search.opt.foundTickets} tickets matching &quot;${search.opt.searchWords}&quot;
+const contentTiddler = (search) => ` showing ${search.opt.shownTickets} of ${search.opt.foundTickets} tickets matching &quot;${search.opt.searchWords}&quot;
 sorted by ${search.opt.sortBy}&nbsp;${search.opt.sortOrder}
 on <$view field=fetched format=date template="DDth mmm YYYY at 0hh:0mm:0ss" />.
 

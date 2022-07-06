@@ -1,0 +1,51 @@
+created: 20220706151549689
+modified: 20220706160000481
+tags: server
+title: Developer Page
+icon: $:/core/images/github
+caption:	Developer Branching
+
+<$button class="bttn" actions="<<poc2go request-tostory dev/page.tid>>" >Intro</$button>
+<$button class="bttn" actions="<<poc2go request-tostory dev/startup.tid>>" >Startup</$button>
+<$button class="bttn" actions="<<poc2go request-tostory dev/branching.tid>>" >Branching</$button>
+<span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Search/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
+<hr style="opacity: .5;">
+
+!!!Branching
+
+> This is a note to myself.
+
+To prevent spamming the Git history - when creating a new  branch on [[Git|https://git-scm.com]]
+
+Assume going to produce commits for v0.10.6
+
+```
+git checkout -b v0.10.6
+npm version 0.10.6 -m "Upgrade to v%s"
+```
+
+Do and create commits for your changes as you go.
+
+When ready to merge to main branch
+
+```
+git log --oneline --graph --decorate
+```
+
+Let's say 3 commits are to be in this upgrade
+'squash' all commits to the first one.
+
+```
+git rebase -i HEAD~3
+```
+
+Merge to 'main'
+
+```
+git checkout main
+git merge v0.10.6
+```
+
+At some point push to GitHub.
+
+

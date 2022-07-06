@@ -1,0 +1,17 @@
+created: 20220706151549689
+modified: 20220706160000481
+tags: server
+title: Developer Page
+icon: $:/core/images/github
+caption:	Developer Page
+
+<$button class="bttn" actions="<<poc2go request-tostory dev/page.tid>>" >Intro</$button>
+<$button class="bttn" actions="<<poc2go request-tostory dev/startup.tid>>" >Startup</$button>
+<$button class="bttn" actions="<<poc2go request-tostory dev/branching.tid>>" >Branching</$button>
+<span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Search/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
+<hr style="opacity: .5;">
+
+This site is part of an experiment of building a TiddlyWiki that interacts with an [[express|http://expressjs.com/]] server. Tiddlers exist both in the TiddlyWiki .HTML file as well as the server.
+
+The idea is the server delivers tiddlers, assets, and rarely web pages. This is done using HTTP and [[socket.io|https://socket.io]] which allows a more flexible interface between server and browser.
+
