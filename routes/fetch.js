@@ -16,6 +16,8 @@ const fetch = async (cfg, req, res) => {
 		opt = {}
 	}
 
+	cfg.log.info({action: 'fetch', path: data.content.path, searchWords: opt.searchWords});
+
 	if (data.content.path === 'ticketscopy') {
 		data.content.opt = tickets.ticketDefaults(opt);
 		data.body = {
@@ -68,7 +70,6 @@ const fetch = async (cfg, req, res) => {
 			title: 'GitHub Issue',
 			text: tickets.run(cfg, data)
 		}
-		cfg.log.info({action: data.content.path, searchWords: data.content.opt.searchWords});
 		res.json({data});
 		return;
 	}

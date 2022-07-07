@@ -1,7 +1,7 @@
 {
-  "name": "tw5-ticket-server",
-  "version": "0.10.7",
-  "description": "",
+  "name": "tw5-tickets",
+  "version": "0.10.8",
+  "description": "Search TiddlyWiki5 repository issues and pull requests",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,7 +18,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.16.4",
-    "feedparser": "^2.2.10",
     "minisearch": "^5.0.0",
     "mustache": "^4.1.0",
     "nanoid": "^3.2.0",
