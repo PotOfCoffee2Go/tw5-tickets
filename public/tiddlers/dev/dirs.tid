@@ -1,14 +1,14 @@
 created: 20220706151549689
 modified: 20220706160000481
 tags: server
-title: Developer Page
+title: Development
 icon: $:/core/images/github
-caption:	Developer Directories
+caption: Developer Directories
 
-<$button class="bttn" actions="<<poc2go request-tostory dev/page.tid>>" >Intro</$button>
-<$button class="bttn" actions="<<poc2go request-tostory dev/startup.tid>>" >Startup</$button>
-<$button class="bttn" actions="<<poc2go request-tostory dev/dirs.tid>>" >Directories</$button>
-<$button class="bttn" actions="<<poc2go request-tostory dev/branching.tid>>" >Branching</$button>
+<$button class="bttn" actions="<<poc2go request dev/intro.tid>>" >Intro</$button>
+<$button class="bttn" actions="<<poc2go request dev/startup.tid>>" >Startup</$button>
+<$button class="bttn" actions="<<poc2go request dev/dirs.tid>>" >Directories</$button>
+<$button class="bttn" actions="<<poc2go request dev/branching.tid>>" >Branching</$button>
 <span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Search/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
 <hr style="opacity: .5;">
 
@@ -52,3 +52,5 @@ caption:	Developer Directories
 		 Charsets / OS/2 support © 2001 by Kyosuke Tokoro
 	</p>
 </div>
+
+{{$:/poc2go/ui/footing}}
