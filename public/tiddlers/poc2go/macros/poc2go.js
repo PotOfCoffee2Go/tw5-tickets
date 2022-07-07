@@ -95,9 +95,9 @@ exports.run = function(command, path, options, tries = 0) {
 		// Fetch a dynamic server tiddler - to story (scroll tiddler to top also)
 		else if (command === 'fetch-tostory') { $tw.poc2go.tiddler.fetch(path, options, true); }
 		// Request a static server tiddler (no scrolling)
-		else if (command === 'request') { $tw.poc2go.tiddler.request(path, options, false); }
+		else if (command === 'request') { $tw.poc2go.tiddler.request(path, false); }
 		// Request a static server tiddler - to story (scroll tiddler to top also)
-		else if (command === 'request-tostory') { $tw.poc2go.tiddler.request(path, options, true); }
+		else if (command === 'request-tostory') { $tw.poc2go.tiddler.request(path, true); }
 		// Store tiddler on server
 		else if (command === 'send') { $tw.poc2go.tiddler.send(path, true); }
 	} else { // still starting up - so try later
@@ -131,7 +131,7 @@ const jsonOptions = (opt) => {
 	} catch (e) {
 		opt = {};
 	};
-	let tiddler = $tw.wiki.getTiddler('TiddlyWiki5 Backlog Tickets');
+	let tiddler = $tw.wiki.getTiddler('TiddlyWiki5 Open Tickets');
 	const fields = new Object();
 	if(tiddler) {
 		for(var field in tiddler.fields) {
@@ -181,6 +181,12 @@ const netstat = (text) => {
 // -------
 // Network interface
 
+// Emit to server a socket message
+// Send and forget - the response (if any) comes back as a different message
+const socketEmit = (evt, content = {}, toStory = false) => {
+	$tw.poc2go.socket.emit(evt, { content, toStory }, () => {});
+}
+
 // Fetch a dynamic tiddler constructed by server
 // Is a regular HTTP fetch - no sockets
 const tidFetch = (path, options = {}, toStory = true) => {
@@ -209,15 +215,9 @@ const tidFetch = (path, options = {}, toStory = true) => {
 	})
 }
 
-// Emit to server via standard 'server' socket message
-// Send and forget - the response (if any) comes back as a different message
-const socketEmit = (evt, content = {}, toStory = false) => {
-	$tw.poc2go.socket.emit(evt, { content, toStory }, () => {});
-}
-
 // Request tiddler from server uses socket Acknowledgement (callbacks)
-const tidRequest = (title, toStory) => {
-	let data = { content: { title }, toStory };
+const tidRequest = (path, toStory) => {
+	let data = { content: { path }, toStory };
 	$tw.poc2go.socket.emit('server.tiddler', data,
 		// returns content with tiddler fields
 		(rsp) => {

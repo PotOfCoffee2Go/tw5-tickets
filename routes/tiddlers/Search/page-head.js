@@ -4,7 +4,7 @@ exports.head = (cfg, opt) => `created: 20220618230816674
 modified:	20220618230816674
 creator: PotOfCoffee2Go
 modifier: PotOfCoffee2Go
-title: TiddlyWiki5 Backlog Tickets
+title: TiddlyWiki5 Open Tickets
 tags: server
 licence: [[MIT Licence]]
 icon: $:/poc2go/icon/cloud
