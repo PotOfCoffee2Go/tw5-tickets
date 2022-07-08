@@ -1,6 +1,6 @@
 const fs = require('fs');
 // Render views
-const { render, renderError } = require('../routes/render');
+const { render, renderError } = require('./iframes/render');
 
 // express router
 const express = require('express')
@@ -17,14 +17,14 @@ module.exports = (cfg) => {
 
 	// Preload Site page templates
 	const pages = {
-		home: fs.readFileSync(cfg.homeDir + '/views/home.html', { encoding: 'utf8' }),
+		home: fs.readFileSync(cfg.homeDir + '/server/iframes/home.html', { encoding: 'utf8' }),
 	};
 
 	// Web pages
 	router.get('/start', (req, res) => render(cfg, req, res, pages.home, {}));
 
 	// Fetch  dynamic tidder
-	const { fetch } = require('../routes/fetch');
+	const { fetch } = require('./routes/fetch');
 	router.post('/fetch', (req, res) => fetch(cfg, req, res));
 
 	// Browser request to show error page

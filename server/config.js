@@ -36,13 +36,13 @@ const cfg = {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" href="/favicon.png" />
-	<script src="/assigntw.js"></script>
+	<script src="assigntw.js"></script>
 	`,
 
 }
 
 // Theme and page specific styles
-cfg.styles = require('../views/styles');
+cfg.styles = require('./iframes/styles');
 
 // Log file
 cfg.log = require('./logger');

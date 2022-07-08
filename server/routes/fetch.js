@@ -1,11 +1,15 @@
-const tryToOpenFile = require('./modules/get-tiddler');
-const tickets = require('./modules/tickets');
+// If 'fetch' fails - try to send the .tid as if a socket 'request'
+const tryToOpenFile = require('../sockets/get-tiddler');
 
+// fetch tickets
+const tickets = require('./tickets');
+// Other tiddlers (pages) used with ticket search
 const searchOptions = require('./tiddlers/Search/Options');
 const searchUsage = require('./tiddlers/Search/Usage');
 const searchSuggest = require('./tiddlers/Search/Suggest');
 const searchAbout = require('./tiddlers/Search/About');
 
+// Route the 'fetch' command
 const fetch = async (cfg, req, res) => {
 	// console.log(req.body) // Show all fetches
 	const data = req.body;
@@ -74,13 +78,12 @@ const fetch = async (cfg, req, res) => {
 		return;
 	}
 
+	// Fetch command not found, so try as if a socket 'request'
 	data.content.title = data.content.path + '.tid';
 	tryToOpenFile(cfg, 0, data,
 		(result) => {
 			if (data.body) res.json({data})
 		});
-
-	//return res.json({info: 'hi me!!!'});
 }
 
 exports.fetch = fetch;
