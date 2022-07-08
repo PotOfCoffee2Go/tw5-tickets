@@ -49,7 +49,7 @@ Topics order -
 
 <div style="clear: both;"></div>
 
-<$button class="bttn" actions="<<poc2go 'fetch' 'tickets/Search/Options' '{ reset: true }'>>" >Reset</$button>
+<$button class="bttn" actions="<<poc2go 'fetch' 'tickets/Options' '{ reset: true }'>>" >Reset</$button>
 
 ${foot(cfg, opt)}
 `;

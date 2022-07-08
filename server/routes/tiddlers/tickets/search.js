@@ -5,6 +5,7 @@ searchWords: ${search.opt.searchWords}
 tags: TW5 tickets ${search.opt.searchWords.split(' ').join('-')}
 license: [[MIT Licence]]
 icon: $:/core/images/export-button
+path: ${search.opt.path}
 toStory: ${search.opt.toStory}
 maxTickets: ${search.opt.maxTickets}
 fuzzy: ${search.opt.fuzzy}
@@ -27,6 +28,7 @@ searchWords: ${search.opt.searchWords}
 tags: server
 license: [[MIT Licence]]
 icon: $:/poc2go/icon/cloud
+path: ${search.opt.path}
 toStory: ${search.opt.toStory}
 maxTickets: ${search.opt.maxTickets}
 fuzzy: ${search.opt.fuzzy}
@@ -44,10 +46,13 @@ copyType: ${search.opt.copyType}
 copyText: Keep a copy
 
 \\define actions()
-<$macrocall $name='poc2go' command=fetch path=tickets />
+<$macrocall $name='poc2go' command=fetch path=<<currentTiddler>> />
+\\end
+\\define gotoPage('page')
+<$macrocall $name='poc2go' command=fetch path=<<currentTiddler>>  options='{ "path": "tickets/$page$" }'/>
 \\end
 \\define copySearch()
-<$macrocall $name='poc2go' command={{!!toStory}} path=ticketscopy />
+<$macrocall $name='poc2go' command={{!!toStory}} path=<<currentTiddler>> options='{ "path": "ticketscopy" }' />
 <$action-setfield copyButton="{{$:/core/images/done-button}}" />
 <$action-setfield copyStyle="border-radius: 4px;fill: black;background:rgb(204, 204, 255);" />
 <$action-setfield copyText="Copied to tiddler" />
@@ -56,10 +61,10 @@ copyText: Keep a copy
 <$action-setfield searchWords="" />
 \\end
 
-<$button actions="<<poc2go 'fetch' 'tickets/Search/Suggest'>>">Topics</$button>
-<$button actions="<<poc2go 'fetch' 'tickets/Search/Options'>>">Options</$button>
-<$button actions="<<poc2go 'fetch' 'tickets/Search/Usage'>>">Usage</$button>
-<$button actions="<<poc2go 'fetch' 'tickets/Search/About'>>">About</$button>
+<$button actions="<<gotoPage Suggest>>">Topics</$button>
+<$button actions="<<gotoPage Options>>">Options</$button>
+<$button actions="<<gotoPage Usage>>">Usage</$button>
+<$button actions="<<gotoPage About>>">About</$button>
 <span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link> - v${cfg.pkg.version}</span>
 
 <hr style="opacity: .5;">

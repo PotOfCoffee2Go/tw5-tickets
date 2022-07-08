@@ -11,7 +11,7 @@ const tiddler = (cfg, opt) => `${head(cfg, opt)}
 <span style="float: right;"><img src="/assets/images/usage.svg"></span>
 
 The
-<$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Search/Suggest'>>">Topics</$button>
+<$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Suggest'>>">Topics</$button>
 button displays some common search words pertaining to TiddlyWiki.
 
 Enter a word or words in the textbox then press the <b>'Search'</b> button. Separate each word by a space. The search provides a 'score' based on number of words and hits found in the ticket. That can be used to sort the results.
