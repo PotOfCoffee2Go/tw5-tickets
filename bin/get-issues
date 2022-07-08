@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+// This job must be run from the project directory
+// 'npm run get-issues'
+
+// Output file
+// Needs to have .json file extension
+const githubIssuesFile = './public/assets/db/github-issues.json';
+
+// Get GitHub Personal Access Token from '.env' file
+//  that is in the projects -parent- directory
+//  containing the line:
+// TOKEN=YourGithubPersonalAccessToken
+require('dotenv').config({path: '../.env'});
+const TOKEN = process.env.TOKEN;
+
+// Link to GitHub issues by page
+const githubLink = (pagenbr) => `/repos/Jermolene/TiddlyWiki5/issues?page=${pagenbr}&per_page=100`;
+
+// ---------------------------------
+// Get data from GitHub
+const fetch = (...args) =>
+	import('node-fetch').then(({default: fetch}) => fetch(...args));
+
+// Set fetch header options
+const githubopts = {
+	headers: {
+		'Accept': 'application/vnd.github.v3+json',
+		'Authorization': `token ${TOKEN}`
+	},
+};
+
+// Collect all open GitHub issues
+const githubissues = [];
+const requestIssues = (pagenbr = 1) => {
+	// Fetch and process the feed
+	fetch(`https://api.github.com${githubLink(pagenbr)}`, githubopts)
+  .then((res) => {
+    if (res.status !== 200) {
+      throw new Error(`Fetch GitHub issues HTTP error - status: ${res.status}`);
+    } else {
+      return res.json()
+    }
+  })
+  .then((json) => {
+    // Build the ticket database
+    json.forEach((issue) => {
+      githubissues.push(issue);
+    })
+    // Keep fetching open issues until last (an empty) page
+    if (json.length) {
+      process.stdout.write('.');
+      setTimeout(() => requestIssues(pagenbr + 1), 300);
+    } else {
+      writeIssues();
+    }
+  })
+}
+
+// Write github issues to file
+const fs = require('fs');
+const writeIssues = () => {
+	fs.writeFile(githubIssuesFile, JSON.stringify(githubissues, null, 2), (err) => {
+		if (err) {
+			console.log('Write of GitHub issues error!');
+			throw err;
+		}
+		console.log(`\n${githubissues.length} GitHub Issues written to '${githubIssuesFile}'.`);
+	})
+};
+
+// ---------------------------------
+// Actions
+process.stdout.write('Fetching TW5 issues and pull requests ');
+requestIssues();

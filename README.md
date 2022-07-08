@@ -1,8 +1,6 @@
 # TW5 Ticket Search Server
 
-> Rough Draft - (some of these directions will change in the near future)
-
-The software is currently running at [TiddlyWiki5 Ticket Search][10] - https://tw5.poc2go.com
+The server is running at [TiddlyWiki5 Ticket Search][10] - https://tw5.poc2go.com
 
 ## Installation
 > The server requires [git][3] and [nodejs][4] to be pre-installed on your computer.
@@ -15,20 +13,19 @@ cd tw5-tickets
 npm install
 ```
 
-The more difficult part is to build the JSON database of tickets. To do so will need to use or create a [GitHub Personal Access Token][9]. Place the token in a file '.envt' in the 'parent' directory of the project (ie: parent of 'tw5-tickets') like so:
+The more difficult part is to build the JSON database of tickets. To do so will need to use or create a [GitHub Personal Access Token][9]. Place the token in a file '.env' in the 'parent' directory of the project (ie: parent of 'tw5-tickets') which contains a line like so:
 
-TOKEN=YourGithubPersonalToken
+`TOKEN=YourGithubPersonalAccessToken`
 
-For now, (will be changed in the near future) from the 'tw5-tickets/public' directory run `node ./issues.js` which will create the ticket database in file 'github-issues.json'.
-The server would get a MODULE_NOT_FOUND error if 'public/github-issues.json' is not present. Wonkie but works for now. Will be improved presently.
+From the 'tw5-tickets' project directory run `npm run get-issues` which will create the ticket database in file 'public/assets/db/github-issues.json'. If is not present a warning will be displayed when the server is launched.
 
-There are various ways to fire up the server. We'll use :
+Fire up the server:
 
 ```cmd
 npm start
 ```
 
-The Home page should show up in your browser at address `http://localhost:8000`.
+The TiddlyWiki should show up in your browser at address `http://localhost:8000`.
 
 A common tweak is to change the port which the server 'listens'. This can be changed in `server/config.js` or a quick and dirty way is to pass the 'port' as a parameter when starting the server:
 
