@@ -1,8 +1,8 @@
 // Implements server side socket.io processing
 
 // Tiddler get/set
-const getTiddler = require('./modules/get-tiddler');
-const setTiddler = require('./modules/set-tiddler');
+const getTiddler = require('./sockets/get-tiddler');
+const setTiddler = require('./sockets/set-tiddler');
 
 // Create and listen for socket.io connections
 module.exports = (cfg, app) => {
@@ -10,7 +10,7 @@ module.exports = (cfg, app) => {
 	const io = require('socket.io')(server);
 
 	// Watch and broadcast changes in tiddler (.tid) files
-	const watcher = require('./modules/watcher')(cfg, io);
+	const watcher = require('./sockets/watcher')(cfg, io);
 
 	// Handle connection
 	io.on('connection', (socket) => {

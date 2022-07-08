@@ -12,7 +12,7 @@ require('./server/cli')(cfg);
 // Express web and socket.io server
 const express = require('express');
 const app = express();
-const { server, io } = require('./routes/sockets')(cfg, app);
+const { server, io } = require('./server/sockets')(cfg, app);
 
 // Middleware
 const cors = require('cors');
@@ -37,7 +37,7 @@ express.static.mime.define({'text/plain': ['tid']})
 
 // Expose public and browser-side scripts
 app.use(express.static(cfg.homeDir + '/public'));
-app.use(express.static(cfg.homeDir + '/views/scripts'));
+app.use(express.static(cfg.homeDir + '/server/iframes/scripts'));
 
 // ------
 // Errrors

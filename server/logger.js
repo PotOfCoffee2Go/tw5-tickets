@@ -16,7 +16,6 @@ const logger = createLogger({
 		json()
 	),
 	exceptionHandlers: [
-		new transports.Console(),
 		new transports.File({ filename: './logs/server-error.log' })
 	],
 	transports: [

@@ -4,7 +4,7 @@ const {
   workingTiddler,
   contentTiddler,
   jsonTiddler,
-  contentFooting } = require('../tiddlers/Search/search');
+  contentFooting } = require('./tiddlers/Search/search');
 
 // Issue and pull requests gathered from GitHub
 var data = require('../../public/github-issues.json');

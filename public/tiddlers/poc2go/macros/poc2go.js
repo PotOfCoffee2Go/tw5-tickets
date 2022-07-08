@@ -26,7 +26,6 @@ exports.params = [
 $tw.wiki.addTiddler(new $tw.Tiddler({
 	title: '$:/temp/poc2go/netstat',
 	text: 'Server Offline',
-	site: ' - [[Go online|https://tw5.poc2go.com]]',
 }));
 
 // ------
@@ -171,7 +170,6 @@ const netstat = (text) => {
 	let body = {
 		title: '$:/temp/poc2go/netstat',
 		text: $tw.poc2go.tStamp() + text,
-		site: '',
 		created: $tw.wiki.getCreationFields(),
 		modified: $tw.wiki.getModificationFields()
 	};
@@ -393,6 +391,11 @@ fetch(socketLibrary)
 		initialize();
 	})
 	.catch((err) => {
+		$tw.wiki.addTiddler(new $tw.Tiddler({
+			title: '$:/temp/poc2go/netstat',
+			text: 'Server Offline',
+			site: '[[Go online|https://tw5.poc2go.com]] - ',
+		}));
 		console.log(err);
 	});
 
