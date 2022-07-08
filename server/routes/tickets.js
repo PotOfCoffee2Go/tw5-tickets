@@ -7,7 +7,17 @@ const {
   contentFooting } = require('./tiddlers/Search/search');
 
 // Issue and pull requests gathered from GitHub
-var data = require('../../public/github-issues.json');
+// Must have .json file extension
+const issuesDb = '../../public/assets/db/github-issues.json';
+var data;
+try {
+	require.resolve(issuesDb);
+	data = require(issuesDb);
+} catch(e) {
+	data = [];
+	console.log(`\x1b[31mTicket database - ${issuesDb} does not exist.\x1b[0m`);
+	console.log(`\x1b[31mNo tickets to search! Run 'npm run get-issues'\x1b[0m`);
+}
 
 // Module that performs the search
 const MiniSearch = require('minisearch');
