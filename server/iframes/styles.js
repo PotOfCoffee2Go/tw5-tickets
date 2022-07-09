@@ -55,26 +55,55 @@ theme: `
 `,
 
 // Styles for the home page
-home: `
-	<style>
-	body {
-		background-image: url('/assets/images/art-3561710_640.jpg');
-		background-repeat: no-repeat;
-		background-attachment: fixed;
-		background-size: cover;
-		line-height: 1.5rem;
-		color: #d1ac80;
-	}
-	.top-text {
-		padding-top: 2em;
-		padding-left: 40%;
-	}
-	.bottom-text {
-		padding-left: 28%;
-	}
-	.footer-text {
-		text-align: center;
-	}
+tree: `
+<style>
+html, body {
+ font-family : ariel, monospace, sans-serif;
+ line-height: .95rem;
+	background-image: url('/assets/images/sunset-1634374_640_dark.jpg');
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	overflow: hidden; /* Hide scrollbars */
+	color: #fe952a;
+	margin-left: 20px;
+}
+.left-div {
+	float: left;
+}
+.right-div {
+	float: right;
+	width: 70%;
+	margin-top: 3rem;
+	color: aquamarine;
+}
+
+P { font-weight: normal; font-family : ariel, monospace, sans-serif; color: white; background-color: transparent;}
+B { font-weight: normal; color: white; background-color: transparent;}
+A:visited { font-weight : normal; text-decoration : none; background-color : transparent; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
+A:link    { font-weight : normal; text-decoration : none; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
+A:hover   { color : #000000; font-weight : normal; text-decoration : underline; background-color : yellow; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
+A:active  { color : #000000; font-weight: normal; background-color : transparent; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
+.VERSION { font-size: small; font-family : arial, sans-serif; }
+.NORM  { color: yellow;  background-color: transparent;}
+.FIFO  { color: purple; background-color: transparent;}
+.CHAR  { color: blue; background-color: transparent;}
+.DIR   { color: yellow; background-color: transparent;}
+.BLOCK { color: yellow; background-color: transparent;}
+.LINK  { color: aqua;   background-color: transparent;}
+.SOCK  { color: fuchsia;background-color: transparent;}
+.EXEC  { color: green;  background-color: transparent;}
+
+.top-text {
+	padding-top: 2em;
+	padding-left: 40%;
+}
+.bottom-text {
+	padding-left: 28%;
+}
+.footer-text {
+	text-align: center;
+}
 </style>
 `,
 
