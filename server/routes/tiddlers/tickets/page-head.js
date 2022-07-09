@@ -8,6 +8,7 @@ title: TiddlyWiki5 Open Tickets
 tags: server
 licence: [[MIT Licence]]
 icon: $:/poc2go/icon/cloud
+path: tickets
 toStory: ${opt.toStory}
 maxTickets: ${opt.maxTickets}
 fuzzy: ${opt.fuzzy}
@@ -25,10 +26,10 @@ copyText: Keep a copy
 
 ${macros(cfg, opt)}
 
-<$button actions="<<poc2go 'fetch' 'tickets/Search/Suggest'>>">Topics</$button>
-<$button actions="<<poc2go 'fetch' 'tickets/Search/Options'>>">Options</$button>
-<$button actions="<<poc2go 'fetch' 'tickets/Search/Usage'>>">Usage</$button>
-<$button actions="<<poc2go 'fetch' 'tickets/Search/About'>>"><b>About</b></$button>
+<$button actions="<<gotoPage Suggest>>">Topics</$button>
+<$button actions="<<gotoPage Options>>">Options</$button>
+<$button actions="<<gotoPage Usage>>">Usage</$button>
+<$button actions="<<gotoPage About>>">About</$button>
 <span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link> - v${cfg.pkg.version}</span>
 
 ----

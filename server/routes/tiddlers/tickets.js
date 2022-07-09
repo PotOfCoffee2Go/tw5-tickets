@@ -1,14 +1,18 @@
+// Other tiddlers (pages) used with ticket search
+const searchOptions = require('./tickets/Options');
+const searchUsage = require('./tickets/Usage');
+const searchSuggest = require('./tickets/Suggest');
+const searchAbout = require('./tickets/About');
+
 // Components of search tiddler
 const {
-	copyTiddler,
-  workingTiddler,
-  contentTiddler,
-  jsonTiddler,
-  contentFooting } = require('./tiddlers/Search/search');
+	copyTiddler, workingTiddler,
+	contentTiddler, contentFooting,
+	jsonTiddler } = require('./tickets/search');
 
 // Issue and pull requests gathered from GitHub
 // Must have .json file extension
-const issuesDb = '../../public/assets/db/github-issues.json';
+const issuesDb = '../../../public/assets/db/github-issues.json';
 var data;
 try {
 	require.resolve(issuesDb);
@@ -30,9 +34,10 @@ const miniSearch = new MiniSearch({
 miniSearch.addAll(data)
 
 // Default ticket fields
-exports.ticketDefaults = (opt) => {
+ticketDefaults = (opt) => {
 	return Object.assign({
 		searchWords: '',
+		path: 'tickets',
 		toStory: 'fetch-tostory',
 		maxTickets: '10',
 		fuzzy: 'no',
@@ -85,7 +90,10 @@ const ticketSearch = (opt) => {
 	[[${ticket.user.login}|${ticket.user.html_url}]] ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] (search score: ${Math.floor(ticket.score)})</pre>`);
 
 		// Reduce fields about the user (makes JSON copy managable size)
-		limits[idx].user = { login: limits[idx].user.login, html_url: limits[idx].user.html_url };
+		limits[idx].user = {
+			login: limits[idx].user.login,
+			html_url: limits[idx].user.html_url
+		};
 	})
 
 	// Update search tiddler field values
@@ -148,18 +156,35 @@ const sortTickets = (foundTickets, opt) => {
 	}
 }
 
+const regularSearch = (cfg, data, copy) => {
+	const search = ticketSearch(data.content.opt);
+	return searchTiddler(cfg, search, copy);
+}
+
+const route = (cfg, data, copy) => {
+	const opt = data.content.opt;
+	if (opt.reset) {
+		data.content.opt = {};
+	}
+	data.content.opt = ticketDefaults(data.content.opt);
+	if (data.content.path === 'ticketscopy') return regularSearch(cfg, data, true);
+	if (data.content.path.indexOf('Options') > -1) return searchOptions.run(cfg, data);
+	if (data.content.path.indexOf('Usage') > -1) return searchUsage.run(cfg, data);
+	if (data.content.path.indexOf('Suggest') > -1) return searchSuggest.run(cfg, data);
+	if (data.content.path.indexOf('About') > -1) return searchAbout.run(cfg, data);
+
+	return regularSearch(cfg, data, false);
+}
+
+
 // ---------------------------------
 // Run the fetch issues request
 exports.run = (cfg, data, copy = false) => {
-	const opt = data.content.opt;
-
-	let maxTickets = parseInt(opt.maxTickets);
+	let maxTickets = parseInt(data.content.opt.maxTickets);
 	if (isNaN(maxTickets)) { maxTickets = 0; }
 
 	if (maxTickets < 1 || maxTickets > 30) {
-		opt.maxTickets = '10';
+		data.content.opt.maxTickets = '10';
 	}
-
-	const search = ticketSearch(opt);
-	return searchTiddler(cfg, search, copy);
+	return route(cfg, data, copy);
 }
