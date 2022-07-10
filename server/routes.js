@@ -18,10 +18,12 @@ module.exports = (cfg) => {
 	// Preload Site page templates
 	const pages = {
 		home: fs.readFileSync(cfg.homeDir + '/server/iframes/home.html', { encoding: 'utf8' }),
+		tree: fs.readFileSync(cfg.homeDir + '/server/iframes/tree.html', { encoding: 'utf8' }),
 	};
 
 	// Web pages
 	router.get('/start', (req, res) => render(cfg, req, res, pages.home, {}));
+	router.get('/tree', (req, res) => render(cfg, req, res, pages.tree, {}));
 
 	// Fetch  dynamic tidder
 	const { fetch } = require('./routes/fetch');
