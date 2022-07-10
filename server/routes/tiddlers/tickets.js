@@ -88,12 +88,6 @@ const ticketSearch = (opt) => {
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}
 	[[${ticket.user.login}|${ticket.user.html_url}]] ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] (search score: ${Math.floor(ticket.score)})</pre>`);
-
-		// Reduce fields about the user (makes JSON copy managable size)
-		limits[idx].user = {
-			login: limits[idx].user.login,
-			html_url: limits[idx].user.html_url
-		};
 	})
 
 	// Update search tiddler field values

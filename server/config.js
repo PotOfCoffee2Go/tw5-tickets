@@ -42,7 +42,7 @@ const cfg = {
 }
 
 // Theme and page specific styles
-cfg.styles = require('./iframes/styles');
+cfg.styles = require('./routes/styles');
 
 // Log file
 cfg.log = require('./logger');

@@ -37,8 +37,7 @@ express.static.mime.define({'text/plain': ['tid']})
 //  'iframes' are scripts designed for TiddlyWiki iframes
 //  'pages' are scripts designed for regular HTML pages
 app.use(express.static(cfg.homeDir + '/public'));
-app.use(express.static(cfg.homeDir + '/server/iframes/scripts'));
-app.use(express.static(cfg.homeDir + '/server/pages/scripts'));
+app.use(express.static(cfg.homeDir + '/server/routes/scripts/'));
 
 // ------
 // Errrors

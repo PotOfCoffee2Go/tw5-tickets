@@ -1,3 +1,11 @@
+caption: Network Interface
+created: 20220607214310616
+modified: 20220709074251977
+module-type: macro
+tags: 
+title: $:/plugins/poc2go/sockets/macros/poc2go.js
+type: application/javascript
+
 /*\
 title: $:/plugins/poc2go/sockets/macros/poc2go.js
 type: application/javascript

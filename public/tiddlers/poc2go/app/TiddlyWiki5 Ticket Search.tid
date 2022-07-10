@@ -1,0 +1,34 @@
+buttonText: Search TW5 Tickets
+created: 20220620091107740
+icon: $:/core/images/home-button
+modified: 20220709211407164
+tags: Home
+title: TiddlyWiki5 Ticket Search
+
+<span style="float: right;">
+{{$:/temp/poc2go/netstat!!site}}<$link to="$:/poc2go/tiddler/server-status" tooltip="Server Settings">{{$:/temp/poc2go/netstat}}</$link>
+</span>
+
+!!!TiddlyWiki5 Ticket Search
+
+<hr style="opacity: .5;">
+
+<div style="width: 100%;">
+<div style="float: left;width: 30%;">
+
+<$button class="bttn" actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>">{{!!buttonText}}</$button>
+
+Searches that you kept a copy:
+<<list-links filter:"[prefix[Search]] +[sort[title]]">>
+
+</div>
+
+<div style="float: right;width: 60%;">
+
+{{$:/poc2go/tiddler/welcome}}
+
+</div>
+</div>
+<div style="clear: both;"></div>
+
+{{$:/poc2go/ui/footing}}

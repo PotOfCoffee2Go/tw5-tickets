@@ -76,7 +76,9 @@ copyText: Keep a copy
 </span>
 
 <span style="margin-top: .5em;float: right;">
-<$button class="bttn" actions="<<copySearch>>"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;<$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>
+<$button class="bttn" actions="<<copySearch>>"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;
+<$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>
+	<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
 </span>
 
 <div style="clear: both;padding-top: .5rem;">
@@ -105,9 +107,6 @@ copyText: Keep a copy
 		<$checkbox field="fuzzy" checked="yes" unchecked="no" default="no" actions=<<actions>> > Fuzzy</$checkbox>
 		&nbsp;&nbsp;
 		<$checkbox field="prefix" checked="yes" unchecked="no" default="no" actions=<<actions>> > Prefix</$checkbox>
-	</span>
-	<span style="float: right;margin-left: -4px;margin-top: -.5em;">
-		<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
 	</span>
 </div>
 <div style="clear: both;"></div>

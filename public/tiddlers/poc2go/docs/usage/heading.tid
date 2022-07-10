@@ -1,0 +1,20 @@
+caption: Usage Heading
+created: 20220625180521957
+icon: $:/core/images/file
+modified: 20220705190800866
+tags: info
+title: $:/poc2go/usage/heading
+
+\define actions(path)
+<$macrocall $name='poc2go' command='request-tostory' path='$path$' />
+\end
+
+<span style="float: left;">
+<$button class="bttn" actions=<<actions 'poc2go/docs/usage/menubar.tid'>> >Menu Bar</$button>
+&nbsp;
+<$button class="bttn" actions=<<actions 'poc2go/docs/usage/sidebar.tid'>> >Sidebar</$button>
+&nbsp;
+<$button class="bttn" actions=<<actions 'poc2go/docs/usage/tags.tid'>> >Tags</$button>
+</span><br>
+
+<hr style="opacity: .5;">

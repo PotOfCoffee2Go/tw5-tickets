@@ -1,18 +1,14 @@
 const fs = require('fs');
-const _projectdir = require('path').resolve(__dirname, '..');
 
 // Render mustache templates
 const Mustache = require('mustache');
 
-// Load error page template on starup
-const pages = {
-  error: fs.readFileSync(_projectdir + '/iframes/error.html', { encoding: 'utf8' }),
-};
+// Page templates
+const pages = {};
 
 // Render template with dynamic data
 const render = (cfg, req, res, template, ctx = {}) => {
   ctx.cfg = cfg;
-  if (req.query.format === 'json') return res.json(ctx);
   return res.send(Mustache.render(template, ctx));
 }
 
@@ -22,5 +18,8 @@ const renderError = (cfg, req, res, error, fname = '') => {
   return render(cfg, req, res, pages.error, ctx);
 }
 
-exports.render = render;
-exports.renderError = renderError;
+// Load error page template
+module.exports = (cfg) => {
+  pages.error = fs.readFileSync(cfg.homeDir + '/server/routes/pages/error.html', { encoding: 'utf8' });
+  return {render, renderError};
+};

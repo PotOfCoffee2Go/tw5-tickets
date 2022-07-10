@@ -1,0 +1,16 @@
+caption: PotOfCoffee2Go
+created: 20220621192614547
+icon: $:/poc2go/images/bootstrap/person
+modified: 20220630151306930
+tags: info
+title: $:/poc2go/tiddler/potofcoffee2go
+
+"Another cup of coffee please, What could possibly go wrong?"
+
+<div style="float:left;"><img style="border-radius: 10% 30% 50%; margin-right: 1rem;" src="https://tw5.poc2go.com/assets/images/poc2go-250.png">
+</div>
+Big fan of TiddlyWiki!
+
+See me on [[TiddlyWiki Talk|https://talk.tiddlywiki.org/]] or [[GitHub|https://github.com/PotOfCoffee2Go]] or [[Twitter|https://twitter.com/PotOfCoffee2Go]] .
+
+{{$:/poc2go/tiddler/footing}}

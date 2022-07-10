@@ -34,26 +34,28 @@ const githubissues = [];
 const requestIssues = (pagenbr = 1) => {
 	// Fetch and process the feed
 	fetch(`https://api.github.com${githubLink(pagenbr)}`, githubopts)
-  .then((res) => {
-    if (res.status !== 200) {
-      throw new Error(`Fetch GitHub issues HTTP error - status: ${res.status}`);
-    } else {
-      return res.json()
-    }
-  })
-  .then((json) => {
-    // Build the ticket database
-    json.forEach((issue) => {
-      githubissues.push(issue);
-    })
-    // Keep fetching open issues until last (an empty) page
-    if (json.length) {
-      process.stdout.write('.');
-      setTimeout(() => requestIssues(pagenbr + 1), 300);
-    } else {
-      writeIssues();
-    }
-  })
+	.then((res) => {
+		if (res.status !== 200) {
+			throw new Error(`Fetch GitHub issues HTTP error - status: ${res.status}`);
+		} else {
+			return res.json()
+		}
+	})
+	.then((json) => {
+		// Build the ticket database
+		// Reduce fields about the user (makes JSON copy managable size)
+		json.forEach((issue) => {
+			issue.user = {login: issue.user.login, html_url: issue.user.html_url};
+			githubissues.push(issue);
+		})
+		// Keep fetching open issues until last (an empty) page
+		if (json.length) {
+			process.stdout.write('.');
+			setTimeout(() => requestIssues(pagenbr + 1), 300);
+		} else {
+			writeIssues();
+		}
+	})
 }
 
 // Write github issues to file

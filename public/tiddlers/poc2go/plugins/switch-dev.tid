@@ -1,0 +1,20 @@
+caption: Dev/Prod switcher
+created: 20220703223233265
+icon: $:/core/images/file
+modified: 20220704105132609
+tags: info
+title: $:/plugins/poc2go/tiddler/switch-dev
+
+\define setdev()
+<$action-setfield $tiddler="$:/poc2go/stylesheet-prod" $field="tags" $value="" />
+\end
+
+\define setprod()
+<$action-setfield $tiddler="$:/poc2go/stylesheet-prod" $field="tags" $value="$:/tags/Stylesheet" />
+\end
+
+<$button actions="<<setdev>>" >Development</$button>
+<$button actions="<<setprod>>" >Production</$button>
+
+
+{{$:/poc2go/tiddler/footing}}

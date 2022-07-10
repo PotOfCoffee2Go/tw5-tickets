@@ -1,7 +1,4 @@
-// If 'fetch' fails - try to send the .tid as if a socket 'request'
-const tryToOpenFile = require('../sockets/get-tiddler');
-
-// fetch tickets
+const fs = require('fs');
 const tickets = require('./tiddlers/tickets');
 
 // Route the 'fetch' command
@@ -26,12 +23,19 @@ const fetch = async (cfg, req, res) => {
 		return res.json({data});
 	}
 
-	// Fetch command not found, so try as if a socket 'request'
-	data.content.title = data.content.path + '.tid';
-	tryToOpenFile(cfg, 0, data,
-		(result) => {
-			if (data.body) res.json({data})
-		});
+	// Fetch command not found, so try as static tiddler
+	data.content.path = data.content.path + '.tid';
+	console.log(`\x1b[33mFetch static tiddler ${data.content.path} \x1b[0m`);
+	try {
+		const text = fs.readFileSync(cfg.homeDir + '/public/tiddlers/' + data.content.path, 'utf8');
+		data.body = {
+			text: text,
+		}
+	} catch (err) {
+		console.log('\x1b[31mFetch error', err, '\x1b[0m');
+		data.error = err;
+	}
+	return res.json({ data });
 }
 
 exports.fetch = fetch;

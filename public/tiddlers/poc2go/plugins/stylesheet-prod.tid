@@ -1,3 +1,11 @@
+caption: Stylesheet-prod
+created: 20220703222447776
+modified: 20220712045604127
+revision: 5
+tags: $:/tags/Stylesheet
+title: $:/poc2go/stylesheet-prod
+type: 
+
 .tc-tagged-server button[aria-label="edit"],
 .tc-tagged-server button[aria-label="more"],
 .tc-tagged-server button[aria-label^="export"],

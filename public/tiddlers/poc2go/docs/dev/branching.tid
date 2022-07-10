@@ -5,10 +5,10 @@ title: Development
 icon: $:/core/images/github
 caption: Developer Branching
 
-<$button class="bttn" actions="<<poc2go request dev/intro.tid>>" >Intro</$button>
-<$button class="bttn" actions="<<poc2go request dev/startup.tid>>" >Startup</$button>
-<$button class="bttn" actions="<<poc2go request dev/dirs.tid>>" >Directories</$button>
-<$button class="bttn" actions="<<poc2go request dev/branching.tid>>" >Branching</$button>
+<$button class="bttn" actions="<<poc2go request poc2go/docs/dev/intro.tid>>" >Intro</$button>
+<$button class="bttn" actions="<<poc2go request poc2go/docs/dev/startup.tid>>" >Startup</$button>
+<$button class="bttn" actions="<<poc2go request poc2go/docs/dev/dirs.tid>>" >Directories</$button>
+<$button class="bttn" actions="<<poc2go request poc2go/docs/dev/branching.tid>>" >Branching</$button>
 <span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
 <hr style="opacity: .5;">
 

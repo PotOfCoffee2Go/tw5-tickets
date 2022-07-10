@@ -1,7 +1,18 @@
+caption: Stylesheet
+created: 20220217054118546
+modified: 20220710103037664
+revision: 5
+tags: $:/tags/Stylesheet
+title: $:/poc2go/stylesheet
+type: 
+
 a.tc-tiddlylink-external {
   text-decoration: none;
 }
-
+/* Fix for chrome - flex tiddler right right */
+.lox-tiddler-toolbar:not(:first-child) {
+    justify-content: flex-end;
+}
 summary {
   margin-left: 2rem;
   font-weight: bold;
@@ -13,11 +24,6 @@ details > div {
 select {
   background: <<colour tab-background>>;
   color: <<colour tab-foreground>>;
-}
-
-/* Fix for chrome - flex tiddler right right */
-.lox-tiddler-toolbar:not(:first-child) {
-    justify-content: flex-end;
 }
 
 .pc-noserver-form {
