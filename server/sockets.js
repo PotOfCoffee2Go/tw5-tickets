@@ -4,6 +4,9 @@
 const getTiddler = require('./sockets/get-tiddler');
 const setTiddler = require('./sockets/set-tiddler');
 
+// Update TiddlyWiki
+const getUpdate = require('./sockets/get-update');
+
 // Create and listen for socket.io connections
 module.exports = (cfg, app) => {
 	const server = require('http').createServer(app);
@@ -31,6 +34,11 @@ module.exports = (cfg, app) => {
 		// Request web tiddler text from the server
 		socket.on('server.tiddler',  (data, callback) => {
 			getTiddler(cfg, socket, data, callback);
+		})
+
+		// Request tiddlywiki install
+		socket.on('server.install',  (data, callback) => {
+			getUpdate(cfg, socket, data, callback);
 		})
 
 		// Save web tiddler text from client

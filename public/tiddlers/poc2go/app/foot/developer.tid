@@ -11,6 +11,6 @@ All the source for both the server and TiddlyWiki front-end are on GitHub at [[P
 
 You can run the TW5 Ticket server on your local machine that has [[git|https://git-scm.com/]] and [[node.js|https://nodejs.org]] installed. The more difficult part is to keep the your ticket database up to date.
 
-See <$button class="tc-btn-invisible tc-tiddlylink" actions="<<poc2go request-tostory poc2go/dev/intro.tid>>" >More...</$button>
+See <$button class="tc-btn-invisible tc-tiddlylink" actions="<<poc2go request-tostory poc2go/docs/dev/intro.tid>>" >More...</$button>
 
 {{$:/poc2go/ui/footing}}

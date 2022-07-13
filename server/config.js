@@ -45,7 +45,8 @@ const cfg = {
 cfg.styles = require('./routes/styles');
 
 // Log file
-cfg.log = require('./logger');
+cfg.log = { info: () => {} }; // Remove logging to file
+//cfg.log = require('./logger');
 
 // Package info
 cfg.pkg = require('../package.json');

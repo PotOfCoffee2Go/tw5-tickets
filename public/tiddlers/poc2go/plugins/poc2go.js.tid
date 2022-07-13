@@ -2,7 +2,7 @@ caption: Network Interface
 created: 20220607214310616
 modified: 20220709074251977
 module-type: macro
-tags: 
+tags:
 title: $:/plugins/poc2go/sockets/macros/poc2go.js
 type: application/javascript
 
@@ -104,9 +104,9 @@ exports.run = function(command, path, options, tries = 0) {
 		// Fetch a dynamic server tiddler - to story (scroll tiddler to top also)
 		else if (command === 'fetch-tostory') { $tw.poc2go.tiddler.fetch(path, options, true); }
 		// Request a static server tiddler (no scrolling)
-		else if (command === 'request') { $tw.poc2go.tiddler.request(path, false); }
+		else if (command === 'request') { $tw.poc2go.tiddler.request(path, options, false); }
 		// Request a static server tiddler - to story (scroll tiddler to top also)
-		else if (command === 'request-tostory') { $tw.poc2go.tiddler.request(path, true); }
+		else if (command === 'request-tostory') { $tw.poc2go.tiddler.request(path, options, true); }
 		// Store tiddler on server
 		else if (command === 'send') { $tw.poc2go.tiddler.send(path, true); }
 	} else { // still starting up - so try later
@@ -225,9 +225,11 @@ const tidFetch = (path, options = {}, toStory = true) => {
 }
 
 // Request tiddler from server uses socket Acknowledgement (callbacks)
-const tidRequest = (path, toStory) => {
-	let data = { content: { path }, toStory };
-	$tw.poc2go.socket.emit('server.tiddler', data,
+const tidRequest = (path, options = {}, toStory) => {
+	var msg = 'server.tiddler';
+	if (path === 'server.install') msg = 'server.install';
+	let data = { content: { path, options }, toStory };
+	$tw.poc2go.socket.emit(msg, data,
 		// returns content with tiddler fields
 		(rsp) => {
 			$tw.poc2go.tiddler.tidToTiddler(rsp, 'server.tiddler', toStory);
@@ -302,19 +304,24 @@ const toStory = (toTitle, fromTitle) => {
 
 // Convert .tid format to tiddler
 const tidToTiddler = (rsp, socketEvent, toStory = false) => {
+	// Quietly return if request was just acknowledged
+	if (rsp.data.body && rsp.data.body.acknowledged) return;
+
+	// Set default tiddler field values
 	let defaults = Object.assign({
 		socketEvent: socketEvent,
 		fetched: $tw.utils.stringifyDate($tw.wiki.getModificationFields()['modified']) },
 		$tw.wiki.getCreationFields(),
 		$tw.wiki.getModificationFields());
 
+	// Error so display an error tiddler
 	if (rsp.data.error) {
 		rsp.data.body = {
-			title: 'Server Error',
 			text: "title: Server Error\n\n```json\n" + JSON.stringify(rsp.data.error, null, 2) + "\n```\n"
 		}
 	}
 
+	// Deserialize the tiddler
 	var tiddlers = $tw.wiki.deserializeTiddlers(".tid", rsp.data.body.text);
 	$tw.utils.each(tiddlers, (tiddler) => {
 		tiddler.tags = tiddler.tags || '';
@@ -322,6 +329,7 @@ const tidToTiddler = (rsp, socketEvent, toStory = false) => {
 		$tw.wiki.addTiddler(Object.assign({}, defaults, tiddler));
 	});
 
+	// Show in story river
 	if (toStory) $tw.utils.each(tiddlers,(tiddler) => {
 		$tw.poc2go.toStory(tiddler.title);
 	});
@@ -373,6 +381,11 @@ const initialize = () => {
 	// Server tiddler changed
 	$tw.poc2go.socket.on('client.tiddler.change', (rsp) => {
 		$tw.poc2go.tiddler.tidToTiddler(rsp, 'client.tiddler.change');
+	});
+
+	// Server tiddler update
+	$tw.poc2go.socket.on('client.tiddler.install', (rsp) => {
+		$tw.poc2go.tiddler.tidToTiddler(rsp, 'client.tiddler.install');
 	});
 }
 

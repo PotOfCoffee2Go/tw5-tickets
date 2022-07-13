@@ -111,7 +111,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div class="tc-splash-text">
 <h5>by PotOfCoffee2Go</h5>
-<img src="/assets/images/poc2go-250.png">
+<img src="/assets/images/poc2go-250.png" style="border-radius: 10px;">
 </div>
 
 <!-- Demonstrating how to embed a bitmap graphic

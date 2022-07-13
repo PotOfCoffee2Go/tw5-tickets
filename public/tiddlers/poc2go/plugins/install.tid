@@ -1,0 +1,85 @@
+caption: Install
+created: 20220714181615485
+modified: 20220714181615485
+icon: $:/core/images/github
+tags: info
+title: Install/Upgrade Ticket Search
+path: server.install
+installApp: no
+installDocs: no
+installPlugins: no
+installSidebar: no
+installSheets: no
+installConfig: no
+
+\define setdev()
+<$action-setfield $tiddler="$:/poc2go/stylesheet-prod" $field="tags" $value="" />
+\end
+
+\define setprod()
+<$action-setfield $tiddler="$:/poc2go/stylesheet-prod" $field="tags" $value="$:/tags/Stylesheet" />
+\end
+
+\define install()
+<$macrocall $name='poc2go' command=request path=<<currentTiddler>> />
+\end
+
+!!!Development Mode
+
+The the 'more' and 'edit' buttons in the upper right can be displayed (dev mode)
+or not (production mode). The stylesheets must be installed for this to work.
+
+<$radio field=mode value="development" actions="<<setdev>>" > Display </$radio>
+<$radio field=mode value="production" actions="<<setprod>>" > Hide </$radio>
+
+<hr style="opacity: .5;">
+
+!!!Installation
+Components of the TW5 Ticket Search system can be installed from the server.
+
+<$checkbox field="installApp" checked="yes" unchecked="no" default="no"> Application</$checkbox>
+<details>
+<summary>More...</summary>
+<hr style="opacity: .5;">
+Some details
+<hr style="opacity: .5;">
+</details>
+<$checkbox field="installDocs" checked="yes" unchecked="no" default="no"> Documentation </$checkbox><br>
+<details>
+<summary>More...</summary>
+<hr style="opacity: .5;">
+Some details
+<hr style="opacity: .5;">
+</details>
+<$checkbox field="installPlugins" checked="yes" unchecked="no" default="no"> Macros </$checkbox><br>
+<details>
+<summary>More...</summary>
+<hr style="opacity: .5;">
+Some details
+<hr style="opacity: .5;">
+</details>
+<$checkbox field="installSidebar" checked="yes" unchecked="no" default="no"> Sidebar </$checkbox><br>
+<details>
+<summary>More...</summary>
+<hr style="opacity: .5;">
+Some details
+<hr style="opacity: .5;">
+</details>
+<$checkbox field="installSheets" checked="yes" unchecked="no" default="no"> Stylesheets </$checkbox><br>
+<details>
+<summary>More...</summary>
+<hr style="opacity: .5;">
+Some details
+<hr style="opacity: .5;">
+</details>
+<$checkbox field="installConfig" checked="yes" unchecked="no" default="no"> Tiddlywiki Config </$checkbox><br>
+<details>
+<summary>More...</summary>
+<hr style="opacity: .5;">
+Some details
+<hr style="opacity: .5;">
+</details>
+
+<$button actions="<<install>>" >Install</$button>
+
+{{$:/poc2go/ui/footing}}

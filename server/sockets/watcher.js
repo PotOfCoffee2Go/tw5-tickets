@@ -27,7 +27,6 @@ module.exports = (cfg, io) => {
 				return console.log('Watcher.change', err);
 			}
 			data.body = {
-				title: fname.replace(/\.tid$/, ''),
 				text: text,
 			}
 			console.log(`\x1b[2;35mFile changed: ${fname}`, '\x1b[0m');
@@ -35,4 +34,5 @@ module.exports = (cfg, io) => {
 		})
 	});
 
+	console.log("Watching for file changes in directory '/public/tiddlers'");
 }
