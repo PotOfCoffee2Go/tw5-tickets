@@ -60,12 +60,15 @@ copyText: Keep a copy
 \\define clear()
 <$action-setfield searchWords="" />
 \\end
+\\define statusPage()
+<$macrocall $name='poc2go' command=request-tostory path="poc2go/app/socket-status.tid" />
+\\end
 
 <$button actions="<<gotoPage Suggest>>">Topics</$button>
 <$button actions="<<gotoPage Options>>">Options</$button>
 <$button actions="<<gotoPage Usage>>">Usage</$button>
 <$button actions="<<gotoPage About>>">About</$button>
-<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link> - v${cfg.pkg.version}</span>
+<span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
 
 <hr style="opacity: .5;">
 

@@ -6,7 +6,7 @@ tags: Home
 title: TiddlyWiki5 Ticket Search
 
 <span style="float: right;">
-{{$:/temp/poc2go/netstat!!site}}<$link to="$:/poc2go/tiddler/server-status" tooltip="Server Settings">{{$:/temp/poc2go/netstat}}</$link>
+{{$:/temp/poc2go/netstat!!site}}<$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Settings">{{$:/temp/poc2go/netstat}}</$link>
 </span>
 
 !!!TiddlyWiki5 Ticket Search

@@ -17,7 +17,7 @@ module.exports = (cfg, app) => {
 
 	// Handle connection
 	io.on('connection', (socket) => {
-		console.log('\x1b[2;35mConnected succesfully to socket ...', socket.id, '\x1b[0m');
+		console.log('\x1b[2;35mConnected succesfully to socket...', socket.id, '\x1b[0m');
 		// Send connected to client
 		socket.emit('client.connected', `${socket.id}`);
 

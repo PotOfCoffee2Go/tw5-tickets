@@ -4,7 +4,6 @@ const update = require('../../public/assets/db/updates.json');
 
 const installFiles = (cfg, socket, list, data) => {
 	list.forEach(path => {
-		console.log(`\x1b[33mServer install sending ${path} \x1b[0m`);
 		fs.readFile(cfg.homeDir + '/public/tiddlers/' + path, 'utf8', (err, text) => {
 			if (err) {
 				console.log('\x1b[31mserver.install error', err, '\x1b[0m');
@@ -22,7 +21,7 @@ const installFiles = (cfg, socket, list, data) => {
 
 // Request web tiddler text from the server
 module.exports = (cfg, socket, data, callback) => {
-	console.log(`\x1b[33mSocket request for TiddlyWiki update ${data.content.path} \x1b[0m`);
+	console.log(`\x1b[32mSocket request for TiddlyWiki update ${data.content.path} \x1b[0m`);
 	cfg.log.info({action: 'request', path: data.content.path});
 	var opt;
 	try {
@@ -57,6 +56,11 @@ module.exports = (cfg, socket, data, callback) => {
 	if (opt.installSheets === 'yes') {
 		installFiles(cfg, socket, update.sheets, data);
 	}
-
+	if (opt.installSplash === 'yes') {
+		installFiles(cfg, socket, update.splashscreen, data);
+	}
+	if (opt.installPalettes === 'yes') {
+		installFiles(cfg, socket, update.palettes, data);
+	}
 }
 

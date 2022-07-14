@@ -1,4 +1,4 @@
-const topics = require('./topics.json');
+const topics = require('../../../../public/assets/db/topics.json');
 const { head } = require('./page-head');
 const { foot } = require('./page-foot');
 

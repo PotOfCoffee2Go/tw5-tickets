@@ -30,7 +30,7 @@ ${macros(cfg, opt)}
 <$button actions="<<gotoPage Options>>">Options</$button>
 <$button actions="<<gotoPage Usage>>">Usage</$button>
 <$button actions="<<gotoPage About>>">About</$button>
-<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link> - v${cfg.pkg.version}</span>
+<span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
 
 ----
 

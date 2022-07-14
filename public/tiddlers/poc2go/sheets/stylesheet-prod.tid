@@ -2,9 +2,9 @@ caption: Stylesheet-prod
 created: 20220703222447776
 modified: 20220712045604127
 revision: 5
-tags: $:/tags/Stylesheet
+tags: poc2go
 title: $:/poc2go/stylesheet-prod
-type: 
+type:
 
 .tc-tagged-server button[aria-label="edit"],
 .tc-tagged-server button[aria-label="more"],
