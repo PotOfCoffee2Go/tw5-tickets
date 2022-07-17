@@ -28,21 +28,21 @@ module.exports = (cfg, app) => {
 
 		// Log message from a client
 		socket.on('server.log', (data) => {
-				console.log('\x1b[33m'  + data.content.text, '\x1b[0m');
+			console.log('\x1b[33m' + data.content.text, '\x1b[0m');
 		});
 
 		// Request web tiddler text from the server
-		socket.on('server.tiddler',  (data, callback) => {
+		socket.on('server.tiddler', (data, callback) => {
 			getTiddler(cfg, socket, data, callback);
 		})
 
 		// Request tiddlywiki install
-		socket.on('server.install',  (data, callback) => {
+		socket.on('server.install', (data, callback) => {
 			getUpdate(cfg, socket, data, callback);
 		})
 
 		// Save web tiddler text from client
-		socket.on('server.savetid',  (data, callback) => {
+		socket.on('server.savetid', (data, callback) => {
 			setTiddler(cfg, socket, data, callback);
 		})
 	});

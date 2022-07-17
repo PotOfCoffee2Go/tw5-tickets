@@ -44,7 +44,8 @@
 		"poc2go/app/foot/credits.tid"
 	],
 	"config": [
-		"poc2go/config/saverfilter.tid"
+		"poc2go/config/saverfilter.tid",
+		"poc2go/config/saveall.tid"
 	],
 	"splashscreen": [
 		"poc2go/app/splashscreen.tid"
