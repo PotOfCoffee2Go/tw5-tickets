@@ -1,0 +1,23 @@
+caption: Stylesheet-prod
+created: 20220703222447776
+modified: 20220712045604127
+revision: 5
+tags: poc2go
+title: $:/poc2go/stylesheet-prod
+type:
+
+.tc-tagged-server button[aria-label="edit"],
+.tc-tagged-server button[aria-label="more"],
+.tc-tagged-server button[aria-label^="export"],
+.tc-tagged-Home button[aria-label="edit"],
+.tc-tagged-Home button[aria-label="more"],
+.tc-tagged-Home button[aria-label="close"],
+.tc-tagged-Home button[aria-label^="export"],
+.tc-tagged-Home button[aria-label="delete"],
+.tc-tagged-Home section.lox-tiddler-bottom,
+.tc-tagged-info button[aria-label="edit"],
+.tc-tagged-info button[aria-label="more"],
+.tc-tagged-info button[aria-label^="export"],
+.tc-tagged-info button[aria-label="delete"] {
+  display: none;
+}

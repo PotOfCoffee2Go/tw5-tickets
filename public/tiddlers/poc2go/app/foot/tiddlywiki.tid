@@ -1,0 +1,21 @@
+caption: TiddlyWiki
+created: 20220621214558786
+icon: $:/core/icon
+modified: 20220710162830370
+tags: info
+title: $:/poc2go/tiddler/tiddlywiki
+
+\define lingo-base() $:/language/ControlPanel/
+
+TiddlyWiki <<version>>
+
+TiddlyWiki offical [[Home Site|https://tiddlywiki.org]]
+
+Other official TiddlyWiki sites include:
+
+* [[tiddlywiki.com|https://tiddlywiki.com]] – user documentation
+* [[talk.tiddlywiki.org|https://talk.tiddlywiki.org]] – user discussion forum
+* [[links.tiddlywiki.org|https://links.tiddlywiki.org]] – collection of links collaboratively curated by the community
+* [[tiddlywiki.com/dev|https://tiddlywiki.com/dev]] – internal ~JavaScript documentation
+
+{{$:/poc2go/ui/footing}}

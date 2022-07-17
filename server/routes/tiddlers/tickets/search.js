@@ -60,12 +60,15 @@ copyText: Keep a copy
 \\define clear()
 <$action-setfield searchWords="" />
 \\end
+\\define statusPage()
+<$macrocall $name='poc2go' command=request-tostory path="poc2go/app/socket-status.tid" />
+\\end
 
 <$button actions="<<gotoPage Suggest>>">Topics</$button>
 <$button actions="<<gotoPage Options>>">Options</$button>
 <$button actions="<<gotoPage Usage>>">Usage</$button>
 <$button actions="<<gotoPage About>>">About</$button>
-<span style="float: right;"><$link to="$:/poc2go/tiddler/socket-status" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$link> - v${cfg.pkg.version}</span>
+<span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
 
 <hr style="opacity: .5;">
 
@@ -76,7 +79,9 @@ copyText: Keep a copy
 </span>
 
 <span style="margin-top: .5em;float: right;">
-<$button class="bttn" actions="<<copySearch>>"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;<$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>
+<$button class="bttn" actions="<<copySearch>>"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;
+<$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>
+	<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
 </span>
 
 <div style="clear: both;padding-top: .5rem;">
@@ -105,9 +110,6 @@ copyText: Keep a copy
 		<$checkbox field="fuzzy" checked="yes" unchecked="no" default="no" actions=<<actions>> > Fuzzy</$checkbox>
 		&nbsp;&nbsp;
 		<$checkbox field="prefix" checked="yes" unchecked="no" default="no" actions=<<actions>> > Prefix</$checkbox>
-	</span>
-	<span style="float: right;margin-left: -4px;margin-top: -.5em;">
-		<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
 	</span>
 </div>
 <div style="clear: both;"></div>

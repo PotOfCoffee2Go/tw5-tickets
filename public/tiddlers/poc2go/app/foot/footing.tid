@@ -1,0 +1,14 @@
+caption: Footing
+created: 20220625172635425
+icon: $:/core/images/file
+modified: 20220704031009185
+tags: info
+title: $:/poc2go/ui/footing
+
+<hr style="opacity:.5;clear:both;">
+<span style="float: left;">| [[Site usage|$:/poc2go/tiddler/usingwiki]]&nbsp;|&nbsp;[[TiddlyWiki|$:/poc2go/tiddler/tiddlywiki]]&nbsp;|&nbsp;
+[[Developer|$:/poc2go/tiddler/developer]]&nbsp;|&nbsp;
+[[Credits|$:/poc2go/tiddler/credits]]&nbsp;|&nbsp;
+</span>
+ 
+<span style="float: right;">[[MIT Licence|$:/poc2go/tiddler/mitlicense]] &copy; 2021-2022 [[PotOfCoffee2Go|$:/poc2go/tiddler/potofcoffee2go]]</span>

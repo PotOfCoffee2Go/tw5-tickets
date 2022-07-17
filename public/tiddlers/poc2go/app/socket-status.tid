@@ -1,0 +1,32 @@
+caption: Server Status
+created: 20220623145124238
+icon: $:/core/images/folder
+modified: 20220704162540148
+tags: info
+title: $:/poc2go/tiddler/socket-status
+
+!!!Server status
+
+This wiki needs to be connected to the server to query the ticket database. The ''Home'' tiddler and tiddlers from the server will display the connection status in the upper-right of the tiddler.
+
+There are three possible statuses:
+
+* Offline
+* Server Connected
+* Server Disconnect
+
+''Offline'':
+
+This status occurs if you save the wiki locally. The TiddlyWiki will operate normally, but will not be able to request new searches. Any results that you 'Keep a copy' will be available when offline.
+
+''Server Connected'':
+
+This is the normal state when connected to the server. This status indicates that you can perform ticket searches, 'Keep a copy' and interact with server based tiddlers.
+
+''Server Disconnect'':
+
+This status is a sad thing. Means that you were connected to the server, but has been disconnected due to network issues or the server has crashed!
+
+The status may return to ''Server Connected'' if the network or server recovers.
+
+The status may show up for a minute or two when the server is restarted or updating it's database of TiddlyWiki tickets which occurs once daily.

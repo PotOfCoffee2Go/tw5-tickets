@@ -1,0 +1,57 @@
+{
+	"sheets": [
+		"poc2go/sheets/stylesheet.tid",
+		"poc2go/sheets/stylesheet-prod.tid",
+		"poc2go/app/devmode.tid"
+	],
+	"sidebar": [
+		"poc2go/sidebar/catacombs.tid"
+	],
+	"plugins": [
+		"poc2go/plugins/poc2go.js.tid",
+		"poc2go/plugins/install.tid",
+		"poc2go/plugins/Inline_wikilink.tid",
+		"poc2go/plugins/DefaultTiddlers.tid",
+		"poc2go/app/socket-status.tid"
+	],
+	"docs-usage": [
+		"poc2go/docs/usage/tags.tid",
+		"poc2go/docs/usage/sidebar.tid",
+		"poc2go/docs/usage/menubar.tid",
+		"poc2go/docs/usage/heading.tid"
+	],
+	"docs-dev": [
+		"poc2go/docs/dev/startup.tid",
+		"poc2go/docs/dev/intro.tid",
+		"poc2go/docs/dev/dirs.tid",
+		"poc2go/docs/dev/branching.tid"
+	],
+	"app": [
+		"poc2go/app/welcome.tid",
+		"poc2go/app/webwiki.tid",
+		"poc2go/app/TiddlyWiki5 Ticket Search.tid",
+		"poc2go/app/socket-status.tid",
+		"poc2go/app/potofcoffee2go.tid",
+		"poc2go/app/person.tid",
+		"poc2go/app/cloud.tid",
+		"poc2go/app/mitlicense.tid"
+	],
+	"app-foot": [
+		"poc2go/app/foot/developer.tid",
+		"poc2go/app/foot/usingwiki.tid",
+		"poc2go/app/foot/tiddlywiki.tid",
+		"poc2go/app/foot/footing.tid",
+		"poc2go/app/foot/credits.tid"
+	],
+	"config": [
+		"poc2go/config/saverfilter.tid"
+	],
+	"splashscreen": [
+		"poc2go/app/splashscreen.tid"
+	],
+	"palettes": [
+		"poc2go/palettes/Twilight.tid",
+		"poc2go/palettes/SolarizedDark.tid"
+	]
+
+}

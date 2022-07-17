@@ -1,0 +1,59 @@
+caption: Credits
+created: 20220624101829794
+icon: $:/core/images/file
+modified: 20220704163225244
+tags: info
+title: $:/poc2go/tiddler/credits
+
+!!!Credits
+
+This project required more resources than initially expected but just kinda 'grew'.
+
+''Network:''
+
+Both [[HTTP|https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview]] and [[Socket.IO|https://socket.io/]] are used to fetch assets, images, tiddlers, and resources from the server.
+
+''Client side:''
+
+<$link to="$:/poc2go/tiddler/tiddlywiki">{{$:/poc2go/tiddler/tiddlywiki!!caption}}</$link> https://tiddlywiki.org. A special thanks to all the TiddlyWiki developers and community members which posted answers (over the years) which were invaluable in the production of this site. "The bestest candy comes from strangers."
+
+Not to mention, since the front-end of the web site is a TiddlyWiki, the server delivers 'tiddlers', not HTML pages. These tiddlers rely on TiddlyWiki stuff like using [[filters|https://tiddlywiki.com/static/Filters.html]] , [[$action-widgets|https://tiddlywiki.com/static/ActionWidgets.html]], [[$buttton|https://tiddlywiki.com/static/ButtonWidget.html]], [[$view|https://tiddlywiki.com/static/ViewWidget.html]], etc.
+
+[[Tix|https://talk.tiddlywiki.org/t/tix-plugin-new-tiddler-experience-release/2859]] and [[Btx|https://talk.tiddlywiki.org/t/new-plugin-btx-bottom-toolbar-experience-tw-5-2-1/2684]] TiddlyWiki plugins available at https://tid.li/tw5/plugins.html by [[telmiger|https://talk.tiddlywiki.org/u/telmiger]] provides the story river display. Well organized into `<section>'s`. user engaging and developer friendly.
+
+The 'notebook' TiddlyWiki theme at https://github.com/NicolasPetton/notebook
+ provides the menu bar at the top of the story river (bottom on mobile). Is mobile friendly sidebar, both by [[Nicolas Petton|https://github.com/NicolasPetton]]
+
+''Server side:''
+
+The server is an [[express|http://expressjs.com/]] server. See the [[tw5-tickets repository|https://github.com/PotOfCoffee2Go/tw5-tickets]] on github for dependencies and source of the server.
+
+Would like to give special note of the [[minisearch|https://github.com/lucaong/minisearch/blob/master/README.md]] library which  performs the ticket search.
+
+The server accesses the GitHub [[TiddlyWiki5|https://github.com/Jermolene/TiddlyWiki5#readme]] issues and pull requests. The database is built using the [[GitHub REST API|https://docs.github.com/en/rest]] with the results stored on the server.
+
+The server site runs on domain '[[tw5.poc2go.com|https://tw5.poc2go.com]]' which is a shared host site powered by [[FastComet|https://www.fastcomet.com/]].
+
+''Development Environment:''
+
+The application was developed as [[lone cowboy coder|https://en.wikipedia.org/wiki/Cowboy_coding]] on a [[Raspberry Pi 4B|https://www.raspberrypi.com/software/]] (basically [[LXDE|https://www.lxde.org]] on debian [[Buster|https://www.debian.org/releases/buster/]]), just to prove could be done on a system costing under $100 USD.
+
+Google [[Chromium|https://www.chromium.org/Home/]], Mozilla [[Firefox|https://www.mozilla.org/en-US/firefox/browsers/]], and Android [[Brave|https://brave.com/]] (a tablet Chrome) were used to test client side presentation.
+
+Initially used [[Visual Studio Code|https://code.visualstudio.com/]] for project development, but ultimately decided to use the oldie but goldie [[Geany IDE|https://www.geany.org/]] editor and project management system as [[Visual Studio Code|https://code.visualstudio.com/]] was a little much, since not developing an 'app'.
+
+Everything is in [[JavaScript|https://developer.mozilla.org/en-US/docs/Web/javascript]] (some server dependencies in [[TypeScript|https://www.typescriptlang.org/]]) relying on [[node.js|https://nodejs.org]] and it's project management system [[npm|https://www.npmjs.com]].
+
+Version control provided by [[git|https://git-scm.com]] published on [[GitHub|https://github.com/]],
+
+[[nodemon|https://nodemon.io/]] was used server side to auto-restart on code changes.
+
+''Miscellaneous:''
+
+The 'Topics' word cloud was produced by counting the occurance of words in TW5 tickets then uploading to https://www.wordclouds.com/
+
+Icons are used from the standard TiddlyWiki [[Icon Gallery|https://tiddlywiki.com/static/Icon%2520Gallery.html]] and [[tw-icons|https://morosanuae.github.io/tw-icons/]].
+
+Any pictures shown are from [[Pixabay|https://pixabay.com]]. Thumbs-up to the contributors providing quality images royalty free.
+
+{{$:/poc2go/ui/footing}}

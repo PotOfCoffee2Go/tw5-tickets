@@ -1,0 +1,16 @@
+caption: Developer
+created: 20220623183235788
+icon: $:/core/images/github
+modified: 20220712045534680
+tags: info
+title: $:/poc2go/tiddler/developer
+
+!!!Developers
+
+All the source for both the server and TiddlyWiki front-end are on GitHub at [[PotOfCoffee2Go/tw5-tickets|https://github.com/PotOfCoffee2Go/tw5-tickets]]. The default TiddlyWiki delivered to the browser is 'public/search.html'. Also, the 'public/index.html' directs which TiddlyWiki is delivered by default.
+
+You can run the TW5 Ticket server on your local machine that has [[git|https://git-scm.com/]] and [[node.js|https://nodejs.org]] installed. The more difficult part is to keep the your ticket database up to date.
+
+See <$button class="tc-btn-invisible tc-tiddlylink" actions="<<poc2go request-tostory poc2go/docs/dev/intro.tid>>" >More...</$button>
+
+{{$:/poc2go/ui/footing}}

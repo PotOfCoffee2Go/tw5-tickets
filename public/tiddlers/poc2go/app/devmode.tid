@@ -1,0 +1,25 @@
+caption: Dev Mode
+created: 20220714181615485
+icon: $:/core/images/github
+mode: development
+modified: 20220714235045403
+tags: info
+title: $:/poc2go/tiddler/devmode
+
+\define setdev()
+<$action-setfield $tiddler="$:/poc2go/stylesheet-prod" $field="tags" $value="" />
+\end
+
+\define setprod()
+<$action-setfield $tiddler="$:/poc2go/stylesheet-prod" $field="tags" $value="$:/tags/Stylesheet" />
+\end
+
+!!!Development Mode
+
+The the 'more' and 'edit' buttons in the upper right can be displayed (dev mode)
+or not (production mode). The stylesheets must be installed for this to work.
+
+<$radio field=mode value="development" actions="<<setdev>>" > Display </$radio>
+<$radio field=mode value="production" actions="<<setprod>>" > Hide </$radio>
+
+{{$:/poc2go/ui/footing}}

@@ -1,6 +1,4 @@
 const fs = require('fs');
-// Render views
-const { render, renderError } = require('./iframes/render');
 
 // express router
 const express = require('express')
@@ -16,12 +14,14 @@ module.exports = (cfg) => {
 	});
 
 	// Preload Site page templates
+	// Render using Mustache
+	const { render, renderError } = require('./routes/render')(cfg);
 	const pages = {
-		home: fs.readFileSync(cfg.homeDir + '/server/iframes/home.html', { encoding: 'utf8' }),
-		tree: fs.readFileSync(cfg.homeDir + '/server/iframes/tree.html', { encoding: 'utf8' }),
+		home: fs.readFileSync(cfg.homeDir + '/server/routes/iframes/home.html', { encoding: 'utf8' }),
+		tree: fs.readFileSync(cfg.homeDir + '/server/routes/iframes/tree.html', { encoding: 'utf8' }),
 	};
 
-	// Web pages
+	// Web pages and tiddler iframes
 	router.get('/start', (req, res) => render(cfg, req, res, pages.home, {}));
 	router.get('/tree', (req, res) => render(cfg, req, res, pages.tree, {}));
 

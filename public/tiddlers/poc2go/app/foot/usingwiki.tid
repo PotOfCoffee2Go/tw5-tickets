@@ -1,0 +1,56 @@
+caption: Using this wiki
+created: 20220623092042596
+icon: $:/core/images/file
+modified: 20220704035411562
+tags: info
+title: $:/poc2go/tiddler/usingwiki
+
+{{$:/poc2go/tiddler/usageheading}}
+!!!Site Usage
+
+This site is all about searching the GitHub [[TW5 repository|https://github.com/Jermolene/TiddlyWiki5]] issues and pull requests (tickets). The site is a [[TiddlyWiki|https:tiddlywiki.org]] that connects to an [[express|http://expressjs.com/]] server which performs the lookup of the tickets. Search results (tiddlers) that you <b>'keep'</b> are available offline.
+
+To move tiddlers around should 'keep a copy' of interesting search results.
+
+  <details><summary>Keep a copy?</summary><div>
+  <hr style="opacity: .5;">
+  When online at [[TW5 Ticket Search|https://tw5.poc2go.com]] you can conduct ticket searches. The results are shown with a button <b>'Keep a copy'</b>. Pressing that button will add a tiddler of the search results to the wiki. Saving {{$:/core/ui/Buttons/save-wiki}} the wiki locally will still have that search result tiddler. So even though can not conduct any new searches, can review any previous search results 'kept'.
+  <hr style="opacity: .5;">
+  </div></details>
+  <details><summary>Offline?</summary><div>
+  <hr style="opacity: .5;">
+  When you locally save this wiki {{$:/core/ui/Buttons/save-wiki}} and re-open it, the browser (due to safety concerns) will not allow reconnection to the server ;( However, any searches you kept <b>('Keep a copy')</b> will be available even when running the wiki offline.
+  <hr style="opacity: .5;">
+  </div></details>
+
+
+There are many, many ways [[TiddlyWiki|https:tiddlywiki.org]] can store, copy, and format seacrh results.
+
+<div>
+  <details><summary>Drag/Drop to another wiki (my personal favorite)</summary>
+  <hr style="opacity: .5;">
+  TiddlyWiki allows tiddlers to be [[Drag and Dropped|https://tiddlywiki.com/static/Drag%2520and%2520Drop.html]] to another TiddlyWiki. Open your favorite TiddlyWiki and also open [[TW5 Ticket Search|https://tw5.poc2go.com]] site. Do a search and <b>('Keep a copy')</b>.
+<br><br>
+A tiddler will be created with the search results. Drag the name (at the top left of tiddler) to the other wiki. Sweet! See this [[community discussion|https://groups.google.com/g/tiddlywiki/c/dDMG3Ocb29s]] for more ways to Drag and Drop between TiddlyWikis.
+
+  <hr style="opacity: .5;">
+  </details>
+
+  <details><summary>Export to other formats</summary>
+  <hr style="opacity: .5;">
+  A search that has been stored with <b>'Keep a copy'</b> will display a {{$:/core/ui/Buttons/export-tiddler}} button (upper-right). Pressing {{$:/core/ui/Buttons/export-tiddler}} will show a dropdown of different formats. The 'static HTML' option makes a web page of the tiddler. The '.tid' option saves as a tiddler that can be [[Drag and Dropped|https://tiddlywiki.com/static/Drag%2520and%2520Drop.html]] to another TiddlyWiki.
+  <hr style="opacity: .5;">
+  </details>
+
+  <details><summary>Save this wiki locally</summary><div>
+  <hr style="opacity: .5;">
+   To search tickets must go online to the [[TW5 Ticket Search|https:/tw5.poc2go.com]] web site. Play around, do searches, <b>'Keep a copy'</b>, have fun! At any time can download(save) the site on your computer by pressing the {{$:/core/ui/Buttons/save-wiki}} button on the menu bar.
+
+    Opening a saved wiki can not reconnect to the server and will display 'offline'.
+
+  <hr style="opacity: .5;">
+  </div></details>
+
+</div>
+
+{{$:/poc2go/ui/footing}}
