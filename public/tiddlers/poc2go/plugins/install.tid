@@ -2,7 +2,7 @@ caption: Install Ticket Search
 created: 20220714181615485
 modified: 20220714181615485
 icon: $:/core/images/github
-tags: info poc2go
+tags: server
 title: Install/Upgrade Ticket Search
 path: server.install
 installApp: yes
@@ -26,6 +26,8 @@ installPalettes: yes
 
 <$button actions="<<help>>" >More info</$button>
 
+<div style="float: left; width: 45%;">
+
 <$checkbox field="installApp" checked="yes" unchecked="no" default="no"> Application (recommended)</$checkbox>
 
 <$checkbox field="installSheets" checked="yes" unchecked="no" default="no"> Stylesheets (recommended) </$checkbox><br>
@@ -34,6 +36,10 @@ installPalettes: yes
 
 <$checkbox field="installConfig" checked="yes" unchecked="no" default="no"> Tiddlywiki Config (recommended)</$checkbox><br>
 
+</div>
+
+<div style="float: left;">
+
 <$checkbox field="installSidebar" checked="yes" unchecked="no" default="no"> Sidebar </$checkbox><br>
 
 <$checkbox field="installPlugins" checked="yes" unchecked="no" default="no"> Macros </$checkbox><br>
@@ -41,6 +47,9 @@ installPalettes: yes
 <$checkbox field="installSplash" checked="yes" unchecked="no" default="no"> Splash Screen </$checkbox><br>
 
 <$checkbox field="installDocs" checked="yes" unchecked="no" default="no"> Notebook Documentation </$checkbox><br>
+</div>
+
+<div style="clear: both;"></div>
 
 <$button actions="<<install>>" >Install</$button> See below for a summary of the Search related tiddlers already installed.
 
