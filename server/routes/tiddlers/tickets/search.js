@@ -18,6 +18,8 @@ shownTickets: ${search.opt.shownTickets}
 shownPage: ${search.opt.shownPage}
 multiWord: ${search.opt.multiWord}
 topicOrder: ${search.opt.topicOrder}
+submitter: ${search.opt.submitter}
+submitterUrl: ${search.opt.submitterUrl}
 type: ${search.opt.copyType}
 
 `;
@@ -44,6 +46,10 @@ multiWord: ${search.opt.multiWord}
 topicOrder: ${search.opt.topicOrder}
 copyType: ${search.opt.copyType}
 copyText: Keep a copy
+submitter: ${search.opt.submitter}
+submitterUrl: ${search.opt.submitterUrl}
+submitterButton: ${search.opt.submitterButton}
+userOrder: ${search.opt.userOrder}
 
 \\define actions()
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>> />
@@ -59,21 +65,31 @@ copyText: Keep a copy
 \\end
 \\define clear()
 <$action-setfield searchWords="" />
+<$action-setfield submitter="" />
+<$action-setfield submitterUrl="" />
+<$action-setfield submitterButton="display: none;" />
+\\end
+\\define clearUser()
+<$action-setfield submitter="" />
+<$action-setfield submitterUrl="" />
+<$action-setfield submitterButton="display: none;" />
 \\end
 \\define statusPage()
 <$macrocall $name='poc2go' command=request-tostory path="poc2go/app/socket-status.tid" />
 \\end
 
+<span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
 <$button actions="<<gotoPage Suggest>>">Topics</$button>
+<$button actions="<<gotoPage Users>>">Users</$button>
 <$button actions="<<gotoPage Options>>">Options</$button>
 <$button actions="<<gotoPage Usage>>">Usage</$button>
 <$button actions="<<gotoPage About>>">About</$button>
-<span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
 
 <hr style="opacity: .5;">
 
 <span style="float: left;">
-<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="30" />
+<$button class="bttn" style={{!!submitterButton}} actions=<<clearUser>> >{{$:/core/images/cancel-button}} {{!!submitter}}</$button>
+<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="22" />
 <$button class="bttn" actions=<<actions>> >{{$:/core/images/advanced-search-button}} Search</$button>
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
 </span>
@@ -81,11 +97,11 @@ copyText: Keep a copy
 <span style="margin-top: .5em;float: right;">
 <$button class="bttn" actions="<<copySearch>>"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;
 <$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>
-	<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
+&nbsp;<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
 </span>
 
 <div style="clear: both;padding-top: .5rem;">
-	<span style="margin-left: 17%;">
+	<span style="margin-left: 10%;">
 		Show
 		<$select field="maxTickets" actions=<<actions>> >
 		<option> 1 </option>
@@ -119,9 +135,9 @@ copyText: Keep a copy
 
 // ---------------------------------
 // Tickets Search Tiddler
-const contentTiddler = (search) => ` showing ${search.opt.shownTickets} of ${search.opt.foundTickets} tickets matching &quot;${search.opt.searchWords}&quot;
+const contentTiddler = (search) => ` showing ${search.opt.shownTickets} of ${search.opt.foundTickets} open tickets ${search.opt.searchWords ? "matching &quot;"+search.opt.searchWords+"&quot;" : ''}
 sorted by ${search.opt.sortBy}&nbsp;${search.opt.sortOrder}
-on <$view field=fetched format=date template="DDth mmm YYYY at 0hh:0mm:0ss" />.
+on <$view field=fetched format=date template="DDth mmm YYYY at 0hh:0mm:0ss" /> - from the tickets submitted by ${search.opt.submitter ? "'"+search.opt.submitter+"'" : 'all users'}.
 
 ${search.titles}
 

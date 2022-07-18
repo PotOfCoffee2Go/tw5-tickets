@@ -32,9 +32,13 @@ Sort by
 </$select>
 <br><br>
 
-Topics order -
-<$radio field="topicOrder" value="rank" > Most used</$radio>
+Topics order:
+<$radio field="topicOrder" value="rank" > Most used&nbsp;&nbsp;</$radio>
 <$radio field="topicOrder" value="alpha" > Alphabetic</$radio>
+<br>
+Users order:
+<$radio field="userOrder" value="rank" > Most tickets</$radio>
+<$radio field="userOrder" value="alpha" > Alphabetic</$radio>
 </div>
 
 <div style="float:left; width: 49%;">

@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+const fs = require('fs');
+// This job must be run from the project directory
+// 'npm run submitter'
+
+// Input file
+const data = require('../public/assets/db/github-issues.json');
+
+// Output file
+// Needs to have .json file extension
+const submitterFile = './public/assets/db/submitter.json';
+
+// ---------------------------------
+// Build submitter information
+const submitters = {};
+data.forEach(issue => {
+	// Add new user to submitter list
+	if (!submitters[issue.user.login]) {
+		submitters[issue.user.login] = {
+			html_url: issue.user.html_url,
+			total: 0, pr: 0, issues: 0,
+			prList: [], issueList: []
+		}
+	}
+	// Update with ticket counts
+	submitters[issue.user.login].total++
+	if (issue.pull_request) {
+		submitters[issue.user.login].pr++;
+		submitters[issue.user.login].prList.push(issue.number);
+	} else {
+		submitters[issue.user.login].issues++;
+		submitters[issue.user.login].issueList.push(issue.number);
+	}
+});
+
+// ---------------------------------
+// Users submitting to Ticket system
+const ticketSubmitters = () => {
+	const users = [];
+	for (const [submitter, tickets] of Object.entries(submitters)) {
+		let url = tickets.html_url;
+		delete tickets.html_url;
+		users.push({ submitter: submitter, url: url, tickets });
+	}
+	users.sort((a, b) => b.tickets.total - a.tickets.total);
+//	console.log(`Number of submitters ${users.length}`);
+//	users.forEach((submitter) => console.log(submitter));
+	fs.writeFile(submitterFile, JSON.stringify(users, null, 2), (err) => {
+		if (err) {
+			console.log('Write of GitHub issue submitters error!');
+			throw err;
+		}
+		console.log(`\n${users.length} GitHub issue submitters written to '${submitterFile}'.`);
+	})
+};
+
+ticketSubmitters();

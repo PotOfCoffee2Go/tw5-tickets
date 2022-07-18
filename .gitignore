@@ -10,5 +10,6 @@ logs/
 # uploads is temp directory
 uploads/
 
-# Ticket Data - get with node issues.js
+# Ticket Data - get with node get-issues.js and submitter.js
 github-issues.json
+submitter.json
