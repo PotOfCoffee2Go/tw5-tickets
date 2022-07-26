@@ -23,18 +23,24 @@ multiWord: ${opt.multiWord}
 topicOrder: ${opt.topicOrder}
 copyType: ${opt.copyType}
 copyText: Keep a copy
+submitter: ${opt.submitter}
+submitterUrl: ${opt.submitterUrl}
+submitterButton: ${opt.submitterButton}
+userOrder: ${opt.userOrder}
 
 ${macros(cfg, opt)}
 
+<span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
 <$button actions="<<gotoPage Suggest>>">Topics</$button>
+<$button actions="<<gotoPage Users>>">Users</$button>
 <$button actions="<<gotoPage Options>>">Options</$button>
 <$button actions="<<gotoPage Usage>>">Usage</$button>
 <$button actions="<<gotoPage About>>">About</$button>
-<span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
 
-----
+<hr style="opacity: .5;">
 
-<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="30" />
+<$button class="bttn" style={{!!submitterButton}} actions=<<clearUser>> >{{$:/core/images/cancel-button}} {{!!submitter}}</$button>
+<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="22" />
 <$button class="bttn" actions=<<actions>> >{{$:/core/images/advanced-search-button}} Search</$button>
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
 

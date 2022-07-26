@@ -1,5 +1,6 @@
 // Other tiddlers (pages) used with ticket search
 const searchOptions = require('./tickets/Options');
+const searchUsers = require('./tickets/Users');
 const searchUsage = require('./tickets/Usage');
 const searchSuggest = require('./tickets/Suggest');
 const searchAbout = require('./tickets/About');
@@ -51,6 +52,10 @@ ticketDefaults = (opt) => {
 		multiWord: 'single',
 		topicOrder: 'rank',
 		copyType: 'text/vnd.tiddlywiki',
+		submitter: '',
+		submitterUrl: '',
+		submitterButton: 'display: none;',
+		userOrder: 'rank',
 	}, opt);
 }
 
@@ -74,8 +79,20 @@ const ticketSearch = (opt) => {
 	const miniOpt = {
 		fuzzy: opt.fuzzy === 'yes' ? 0.2 : false,
 		prefix: opt.prefix === 'yes' ? true : false,
+		filter: (result) => true,
 	}
-	const foundTickets = miniSearch.search(opt.searchWords, miniOpt);
+	// Search only for tickets submitted by user
+	if (opt.submitter) {
+		miniOpt.filter = (result) => opt.submitter === result.user.login;
+	}
+	var foundTickets;
+	if (opt.searchWords) {
+		foundTickets = miniSearch.search(opt.searchWords, miniOpt);
+	}
+	else {
+		foundTickets = data.filter(iss => opt.submitter === iss.user.login);
+	}
+
 	sortTickets(foundTickets, opt);
 
 	// Limit to number of tickets user requested
@@ -87,7 +104,7 @@ const ticketSearch = (opt) => {
 	limits.forEach((ticket, idx) => {
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}
-	[[${ticket.user.login}|${ticket.user.html_url}]] ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] (search score: ${Math.floor(ticket.score)})</pre>`);
+	[[${ticket.user.login}|${ticket.user.html_url}]] ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
 	})
 
 	// Update search tiddler field values
@@ -164,6 +181,7 @@ const route = (cfg, data, copy) => {
 	if (data.content.path === 'ticketscopy') return regularSearch(cfg, data, true);
 	if (data.content.path.indexOf('Options') > -1) return searchOptions.run(cfg, data);
 	if (data.content.path.indexOf('Usage') > -1) return searchUsage.run(cfg, data);
+	if (data.content.path.indexOf('Users') > -1) return searchUsers.run(cfg, data);
 	if (data.content.path.indexOf('Suggest') > -1) return searchSuggest.run(cfg, data);
 	if (data.content.path.indexOf('About') > -1) return searchAbout.run(cfg, data);
 

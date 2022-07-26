@@ -23,17 +23,17 @@ ${foot(cfg, opt)}
 // ---------------------------------
 // Run the fetch issues request
 exports.run = (cfg, data) => {
-  const opt = data.content.opt;
-  opt.topicOrder = opt.topicOrder || 'rank';
+	const opt = data.content.opt;
+	opt.topicOrder = opt.topicOrder || 'rank';
 
-  const mytopics = topics.slice(); // clone
-  if (opt.topicOrder === 'rank') mytopics.sort((a, b) => b.rank - a.rank);
-  if (opt.topicOrder === 'alpha') mytopics.sort((a, b) => b.word < a.word ? 1 : -1);
+	const mytopics = topics.slice(); // clone
+	if (opt.topicOrder === 'rank') mytopics.sort((a, b) => b.rank - a.rank);
+	if (opt.topicOrder === 'alpha') mytopics.sort((a, b) => b.word < a.word ? 1 : -1);
 
-  const links = [];
-  mytopics.forEach(topic => {
-    links.push(`<$button class="tc-btn-invisible tc-tiddlylink" actions=<<addWord ${topic.word}>> >${topic.word}</$button>`);
-  })
+	const links = [];
+	mytopics.forEach(topic => {
+		links.push(`<$button class="tc-btn-invisible tc-tiddlylink" actions=<<addWord ${topic.word}>> >${topic.word}</$button>`);
+	})
 	return tiddler(cfg, opt, links);
 }
 
