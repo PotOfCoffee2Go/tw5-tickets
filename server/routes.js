@@ -5,7 +5,7 @@ const express = require('express')
 const router = express.Router()
 
 module.exports = (cfg) => {
-	// Display get request URLs - debuggy thing - comment out if not desired
+	// Display get request URLs - debuggy thing - set on by logUrl in config.js
 	router.get('*', (req, res, next) => {
 		if (cfg.logUrl) {
 			console.log('\x1b[36m' + req.protocol + '://' + req.get('host') + req.originalUrl + '\x1b[0m');

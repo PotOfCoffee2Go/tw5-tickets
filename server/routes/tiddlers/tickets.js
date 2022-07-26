@@ -8,7 +8,7 @@ const searchAbout = require('./tickets/About');
 // Components of search tiddler
 const {
 	copyTiddler, workingTiddler,
-	contentTiddler, contentFooting,
+	contentTiddler, nothingRequested, contentFooting,
 	jsonTiddler } = require('./tickets/search');
 
 // Issue and pull requests gathered from GitHub
@@ -55,12 +55,16 @@ ticketDefaults = (opt) => {
 		submitter: '',
 		submitterUrl: '',
 		submitterButton: 'display: none;',
+		combineWith: 'or',
 		userOrder: 'rank',
 	}, opt);
 }
 
 // Create the working search tiddler or a local copy
 const searchTiddler = (cfg, search, copy = false) => {
+	if (search.opt.nothingRequested) {
+		return workingTiddler(cfg, search) + nothingRequested() + contentFooting();
+	}
 	if (copy && search.opt.copyType === 'application/json') {
 		return copyTiddler(search) + jsonTiddler(search);
 	}
@@ -74,17 +78,26 @@ const searchTiddler = (cfg, search, copy = false) => {
 
 // ---------------------------------
 // Search tickets
-const ticketSearch = (opt) => {
+const ticketSearch = (opt, copy) => {
+	opt.searchWords = opt.searchWords.trim();
+	// No search parameters requested
+	if (!opt.submitter && !opt.searchWords) {
+		opt.nothingRequested = true;
+		return { opt, titles: '', json: '[]' };
+	}
+
 	// Search with default options
 	const miniOpt = {
 		fuzzy: opt.fuzzy === 'yes' ? 0.2 : false,
 		prefix: opt.prefix === 'yes' ? true : false,
 		filter: (result) => true,
+		combineWith: opt.combineWith.toUpperCase(),
 	}
 	// Search only for tickets submitted by user
 	if (opt.submitter) {
 		miniOpt.filter = (result) => opt.submitter === result.user.login;
 	}
+	// Select tickets matching the requested words and/or submitter
 	var foundTickets;
 	if (opt.searchWords) {
 		foundTickets = miniSearch.search(opt.searchWords, miniOpt);
@@ -93,18 +106,24 @@ const ticketSearch = (opt) => {
 		foundTickets = data.filter(iss => opt.submitter === iss.user.login);
 	}
 
+	// Sort as requested
 	sortTickets(foundTickets, opt);
 
 	// Limit to number of tickets user requested
 	const limits = foundTickets.slice(0, parseInt(opt.maxTickets));
 
+
 	// Create the wikitext to display the results
 	let page = 1;
 	const titles = [];
 	limits.forEach((ticket, idx) => {
+		// userLink is TW button unless keeping a copy then is a GitHub link
+		var userLink = `<$button class="tc-btn-invisible tc-tiddlylink" actions="""<<addSubmitter ${ticket.user.login} "${ticket.user.html_url}">>""" >${ticket.user.login}</$button>`;
+		if (copy) userLink = `[[${ticket.user.login}|${ticket.user.html_url}]]`;
+
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}
-	[[${ticket.user.login}|${ticket.user.html_url}]] ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
+	${userLink} ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
 	})
 
 	// Update search tiddler field values
@@ -168,7 +187,7 @@ const sortTickets = (foundTickets, opt) => {
 }
 
 const regularSearch = (cfg, data, copy) => {
-	const search = ticketSearch(data.content.opt);
+	const search = ticketSearch(data.content.opt, copy);
 	return searchTiddler(cfg, search, copy);
 }
 

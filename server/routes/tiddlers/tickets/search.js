@@ -20,6 +20,7 @@ multiWord: ${search.opt.multiWord}
 topicOrder: ${search.opt.topicOrder}
 submitter: ${search.opt.submitter}
 submitterUrl: ${search.opt.submitterUrl}
+combineWith: ${search.opt.combineWith}
 type: ${search.opt.copyType}
 
 `;
@@ -49,6 +50,7 @@ copyText: Keep a copy
 submitter: ${search.opt.submitter}
 submitterUrl: ${search.opt.submitterUrl}
 submitterButton: ${search.opt.submitterButton}
+combineWith: ${search.opt.combineWith}
 userOrder: ${search.opt.userOrder}
 
 \\define actions()
@@ -74,6 +76,14 @@ userOrder: ${search.opt.userOrder}
 <$action-setfield submitterUrl="" />
 <$action-setfield submitterButton="display: none;" />
 \\end
+\\define addSubmitter(user url)
+<$macrocall $name='poc2go' command=fetch-tostory path=<<currentTiddler>>
+options='{"path": "tickets", "submitter": "$user$", "submitterUrl": "$url$", "submitterButton": "" }' />
+\\end
+\\define removeSubmitter()
+<$macrocall $name='poc2go' command=fetch path=<<currentTiddler>>
+options='{"path": "tickets", "submitter": "", "submitterUrl": "", "submitterButton": "display: none;" }' />
+\\end
 \\define statusPage()
 <$macrocall $name='poc2go' command=request-tostory path="poc2go/app/socket-status.tid" />
 \\end
@@ -88,8 +98,10 @@ userOrder: ${search.opt.userOrder}
 <hr style="opacity: .5;">
 
 <span style="float: left;">
-<$button class="bttn" style={{!!submitterButton}} actions=<<clearUser>> >{{$:/core/images/cancel-button}} {{!!submitter}}</$button>
-<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="22" />
+<$button class="bttn" style={{!!submitterButton}} actions=<<removeSubmitter>> >{{$:/core/images/cancel-button}} {{!!submitter}}</$button>
+<$keyboard key="enter" actions=<<actions>>>
+	<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="22" />
+</$keyboard>
 <$button class="bttn" actions=<<actions>> >{{$:/core/images/advanced-search-button}} Search</$button>
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
 </span>
@@ -135,7 +147,7 @@ userOrder: ${search.opt.userOrder}
 
 // ---------------------------------
 // Tickets Search Tiddler
-const contentTiddler = (search) => ` showing ${search.opt.shownTickets} of ${search.opt.foundTickets} open tickets ${search.opt.searchWords ? "matching &quot;"+search.opt.searchWords+"&quot;" : ''}
+const contentTiddler = (search) => ` showing ${search.opt.shownTickets} of ${search.opt.foundTickets} open tickets ${search.opt.searchWords ? "matching &quot;"+search.opt.searchWords.replace(/ /g, '&quot; '+search.opt.combineWith+' &quot;')+"&quot;" : ''}
 sorted by ${search.opt.sortBy}&nbsp;${search.opt.sortOrder}
 on <$view field=fetched format=date template="DDth mmm YYYY at 0hh:0mm:0ss" /> - from the tickets submitted by ${search.opt.submitter ? "'"+search.opt.submitter+"'" : 'all users'}.
 
@@ -144,6 +156,20 @@ ${search.titles}
 `;
 // Tickets Search JSON Tiddler
 const jsonTiddler = (search) => `${search.json}
+`;
+
+// When no submitter or words requested
+const nothingRequested = () => `
+ - No search criteria has been requested.
+
+Enter words to search or can select some commonly used words from the
+<$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Suggest'>>">Topics</$button>
+page.
+You can also select a submitter from the
+<$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Users'>>">Users</$button>
+page to see tickets submitted
+by a GitHub user. If enter both, then will search for tickets matching those submitted
+by the user which also includes those topics.
 `;
 
 const contentFooting = () => `
@@ -155,5 +181,6 @@ module.exports = {
   workingTiddler: workingTiddler,
   contentTiddler: contentTiddler,
   jsonTiddler: jsonTiddler,
+  nothingRequested: nothingRequested,
   contentFooting: contentFooting,
 }

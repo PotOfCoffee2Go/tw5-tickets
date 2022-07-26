@@ -7,8 +7,8 @@ module.exports = (cfg) => {
 		})
 		.option('logurl', {
 			alias: 'l',
-      type: 'boolean',
-      default: false,
+			type: 'boolean',
+			default: false,
 			describe: 'Log GET URLs to console'
 		})
 		.usage('Usage: $0 [-p | --port <port>] [-l | --logurl] [-h | --help]')
