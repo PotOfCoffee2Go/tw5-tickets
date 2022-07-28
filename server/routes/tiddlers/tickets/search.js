@@ -170,6 +170,8 @@ You can also select a submitter from the
 page to see tickets submitted
 by a GitHub user. If enter both, then will search for tickets matching those submitted
 by the user which also includes those topics.
+<$button class="bttn" actions="""<<poc2go 'fetch-tostory' 'tickets/Detail' '{"ticketNbr": "6855"}'>>""">Detail</$button>
+
 `;
 
 const contentFooting = () => `

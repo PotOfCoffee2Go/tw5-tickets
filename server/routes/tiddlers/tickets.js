@@ -4,6 +4,7 @@ const searchUsers = require('./tickets/Users');
 const searchUsage = require('./tickets/Usage');
 const searchSuggest = require('./tickets/Suggest');
 const searchAbout = require('./tickets/About');
+const searchDetail = require('./tickets/Detail');
 
 // Components of search tiddler
 const {
@@ -14,12 +15,12 @@ const {
 // Issue and pull requests gathered from GitHub
 // Must have .json file extension
 const issuesDb = '../../../public/assets/db/github-issues.json';
-var data;
+var ghdata;
 try {
 	require.resolve(issuesDb);
-	data = require(issuesDb);
+	ghdata = require(issuesDb);
 } catch(e) {
-	data = [];
+	ghdata = [];
 	console.log(`\x1b[31mTicket database - ${issuesDb} does not exist.\x1b[0m`);
 	console.log(`\x1b[31mNo tickets to search! Run 'npm run get-issues'\x1b[0m`);
 }
@@ -29,10 +30,10 @@ const MiniSearch = require('minisearch');
 const miniSearch = new MiniSearch({
 	fields: ['title', 'body'], // fields to search
 	storeFields: [ // fields to return
-		'number', 'title', 'html_url', 'comments', 'user',
+		'number', 'title', 'body', 'html_url', 'comments', 'user',
 		'pull_request', 'created_at']
 })
-miniSearch.addAll(data)
+miniSearch.addAll(ghdata)
 
 // Default ticket fields
 ticketDefaults = (opt) => {
@@ -103,7 +104,7 @@ const ticketSearch = (opt, copy) => {
 		foundTickets = miniSearch.search(opt.searchWords, miniOpt);
 	}
 	else {
-		foundTickets = data.filter(iss => opt.submitter === iss.user.login);
+		foundTickets = ghdata.filter(iss => opt.submitter === iss.user.login);
 	}
 
 	// Sort as requested
@@ -117,12 +118,17 @@ const ticketSearch = (opt, copy) => {
 	let page = 1;
 	const titles = [];
 	limits.forEach((ticket, idx) => {
+		//console.log(ticket.body);
 		// userLink is TW button unless keeping a copy then is a GitHub link
 		var userLink = `<$button class="tc-btn-invisible tc-tiddlylink" actions="""<<addSubmitter ${ticket.user.login} "${ticket.user.html_url}">>""" >${ticket.user.login}</$button>`;
-		if (copy) userLink = `[[${ticket.user.login}|${ticket.user.html_url}]]`;
+		var moreBttn = `- <$button class="tc-btn-invisible tc-tiddlylink" actions="""<<poc2go 'fetch-tostory' 'tickets/Detail' '{"ticketNbr": "${ticket.number}"}'>>""">more...</$button>`;
 
+		if (copy) {
+			userLink = `[[${ticket.user.login}|${ticket.user.html_url}]]`;
+			moreBttn = '';
+		}
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}
+		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}  ${moreBttn}
 	${userLink} ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
 	})
 
@@ -203,6 +209,7 @@ const route = (cfg, data, copy) => {
 	if (data.content.path.indexOf('Users') > -1) return searchUsers.run(cfg, data);
 	if (data.content.path.indexOf('Suggest') > -1) return searchSuggest.run(cfg, data);
 	if (data.content.path.indexOf('About') > -1) return searchAbout.run(cfg, data);
+	if (data.content.path.indexOf('Detail') > -1) return searchDetail.run(cfg, data, ghdata);
 
 	return regularSearch(cfg, data, false);
 }
