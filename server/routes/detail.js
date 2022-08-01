@@ -11,7 +11,8 @@ const detail = (cfg, req, res) => {
 	const ticketNbr = parseInt(req.params.ticketNbr);
 	const found = db.find(ticket => ticket.number === ticketNbr);
 	const copy = Object.assign({}, found);
-	copy.body = copy.body.replace(/`/g,'\\`');
+	copy.pr_issueText = copy.pull_request ? 'Pull Request' : 'Issue';
+	copy.body = copy.body.replace(/\\/g,'\\\\').replace(/`/g,'\\`');
 	copy.cfg = cfg;
 	return res.send(Mustache.render(pages.detail, copy));
 }

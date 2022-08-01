@@ -12,9 +12,6 @@ toStory: ${opt.toStory}
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>>  options='{ "path": "tickets/$page$" }'/>
 \\end
 
-
-!!! TW5 Ticket #${opt.ticketNbr} Details
-
 <iframe class="server-view" src="/detail/${opt.ticketNbr}"></iframe>
 
 {{$:/poc2go/ui/footing}}

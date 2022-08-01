@@ -14,9 +14,12 @@ The
 <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Suggest'>>">Topics</$button>
 button displays some common search words pertaining to TiddlyWiki.
 
-Enter a word or words in the textbox then press the <b>'Search'</b> button. Separate each word by a space. The search provides a 'score' based on number of words and hits found in the ticket. That can be used to sort the results.
+Enter a word or words in the textbox then press the <b>'Search'</b> button. Separate each word by a space. Can combine multiple words with <span style="border: 1px solid currentColor;">&nbsp;&nbsp;
+<$radio field="combineWith" value="or" > Or</$radio>&nbsp;or&nbsp;
+<$radio field="combineWith" value="and" > And</$radio> </span>&nbsp; on the <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Options'>>">Options</$button> page.
 
-<div>
+ The search provides a 'score' based on number of words and hits found in the ticket. That can be used to sort the results
+<span>
   <$select field="sortBy">
   <option>score</option>
   <option>date</option>
@@ -28,15 +31,14 @@ Enter a word or words in the textbox then press the <b>'Search'</b> button. Sepa
   <option>ascending</option>
   <option>decending</option>
   </$select>
-</div>
-
-The top <$select field="maxTickets" >
+</span>.
+The number of tickets returned can be selected <$select field="maxTickets" >
 <option> 1 </option>
 <option> 5 </option>
 <option> 10 </option>
 <option> 20 </option>
 <option> 30 </option>
-</$select> tickets that match are displayed.
+</$select> that are the top matching tickets.
 
 The search results will display a '
 <$button class="bttn"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;<$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>

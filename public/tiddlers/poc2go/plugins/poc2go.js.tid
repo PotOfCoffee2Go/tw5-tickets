@@ -70,7 +70,6 @@ $tw.poc2go = {
 		send:  offlinePopup,
 		saved:  offlinePopup,
 		construct: offlinePopup,
-		refresh: offlinePopup,
 		tidToTiddler: offlinePopup,
 	}
 };
@@ -248,7 +247,7 @@ const tidSend = (title, toStory) => {
 	Object.keys(tiddler.fields).forEach((fld) => {
 		if (fld !== 'text') {
 			if (['created', 'modified','fetched'].indexOf(fld) !== -1) {
-				// If date is TW format leave as
+				// If date is TW format leave as is
 				if (/^\d/.test(tiddler.fields[fld])) {
 					tid += (fld + ': ' + tiddler.fields[fld] + '\n');
 				}	else { // need to convert date to TW format
@@ -286,14 +285,6 @@ const construct = (body, toStory = false) => {
 	body.created = exist ? exist.fields.created : $tw.wiki.getCreationFields();
 	$tw.wiki.addTiddler(new $tw.Tiddler(body, $tw.wiki.getModificationFields()));
 	if (toStory) $tw.poc2go.toStory(body.title);
-}
-
-// Refresh a tiddler by re-adding it - can retitle it too.
-const refresh = (title, toTitle = '') => {
-	let copy = $tw.wiki.getTiddler(title);
-	copy.fields.refreshed = copy.fields.refreshed ? copy.fields.refreshed++ : 0;
-	if (toTitle) copy.fields.title = toTitle;
-	$tw.wiki.addTiddler($tw.poc2go.tiddler.construct(copy.fields, true));
 }
 
 // Open tiddler in story river
@@ -355,7 +346,6 @@ const initialize = () => {
 			send: tidSend,
 			saved: tidSaved,
 			construct: construct,
-			refresh: refresh,
 			tidToTiddler: tidToTiddler,
 		},
 	}

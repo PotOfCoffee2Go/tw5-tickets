@@ -25,6 +25,8 @@ try {
 	console.log(`\x1b[31mNo tickets to search! Run 'npm run get-issues'\x1b[0m`);
 }
 
+console.log(`\x1b[35mDatabase contains ${ghdata.length} tickets\x1b[0m`);
+
 // Module that performs the search
 const MiniSearch = require('minisearch');
 const miniSearch = new MiniSearch({
@@ -129,7 +131,7 @@ const ticketSearch = (opt, copy) => {
 		}
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}  ${moreBttn}
-	${userLink} ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
+	${userLink} ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} comment${ticket.comments === 1 ? '' : 's'}] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
 	})
 
 	// Update search tiddler field values

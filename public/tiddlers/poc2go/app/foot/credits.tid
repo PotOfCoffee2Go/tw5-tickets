@@ -17,7 +17,7 @@ Both [[HTTP|https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview]] and [[S
 
 <$link to="$:/poc2go/tiddler/tiddlywiki">{{$:/poc2go/tiddler/tiddlywiki!!caption}}</$link> https://tiddlywiki.org. A special thanks to all the TiddlyWiki developers and community members which posted answers (over the years) which were invaluable in the production of this site. "The bestest candy comes from strangers."
 
-Not to mention, since the front-end of the web site is a TiddlyWiki, the server delivers 'tiddlers', not HTML pages. These tiddlers rely on TiddlyWiki stuff like using [[filters|https://tiddlywiki.com/static/Filters.html]] , [[$action-widgets|https://tiddlywiki.com/static/ActionWidgets.html]], [[$buttton|https://tiddlywiki.com/static/ButtonWidget.html]], [[$view|https://tiddlywiki.com/static/ViewWidget.html]], etc.
+Since the front-end of the web site is a TiddlyWiki, the server delivers 'tiddlers' as well as HTML pages. These tiddlers rely on TiddlyWiki stuff like using [[filters|https://tiddlywiki.com/static/Filters.html]] , [[$action-widgets|https://tiddlywiki.com/static/ActionWidgets.html]], [[$buttton|https://tiddlywiki.com/static/ButtonWidget.html]], [[$view|https://tiddlywiki.com/static/ViewWidget.html]], etc.
 
 [[Tix|https://talk.tiddlywiki.org/t/tix-plugin-new-tiddler-experience-release/2859]] and [[Btx|https://talk.tiddlywiki.org/t/new-plugin-btx-bottom-toolbar-experience-tw-5-2-1/2684]] TiddlyWiki plugins available at https://tid.li/tw5/plugins.html by [[telmiger|https://talk.tiddlywiki.org/u/telmiger]] provides the story river display. Well organized into `<section>'s`. user engaging and developer friendly.
 
@@ -30,7 +30,7 @@ The server is an [[express|http://expressjs.com/]] server. See the [[tw5-tickets
 
 Would like to give special note of the [[minisearch|https://github.com/lucaong/minisearch/blob/master/README.md]] library which  performs the ticket search.
 
-The server accesses the GitHub [[TiddlyWiki5|https://github.com/Jermolene/TiddlyWiki5#readme]] issues and pull requests. The database is built using the [[GitHub REST API|https://docs.github.com/en/rest]] with the results stored on the server.
+The server accesses the GitHub [[TiddlyWiki5|https://github.com/Jermolene/TiddlyWiki5#readme]] issues and pull requests. The database is built using the [[GitHub REST API|https://docs.github.com/en/rest]] with the results stored on the server. The [[markdown|https://daringfireball.net/projects/markdown/]] of the tickets and comments are rendered by [[markdown-it|https://github.com/markdown-it/markdown-it]].
 
 The server site runs on domain '[[tw5.poc2go.com|https://tw5.poc2go.com]]' which is a shared host site powered by [[FastComet|https://www.fastcomet.com/]].
 
@@ -54,6 +54,6 @@ The 'Topics' word cloud was produced by counting the occurance of words in TW5 t
 
 Icons are used from the standard TiddlyWiki [[Icon Gallery|https://tiddlywiki.com/static/Icon%2520Gallery.html]] and [[tw-icons|https://morosanuae.github.io/tw-icons/]].
 
-Any pictures shown are from [[Pixabay|https://pixabay.com]]. Thumbs-up to the contributors providing quality images royalty free.
+Any pictures shown are from [[Pixabay|https://pixabay.com]]. Thumbs-up to the contributors providing quality images in the public domain.
 
 {{$:/poc2go/ui/footing}}

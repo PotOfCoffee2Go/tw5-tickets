@@ -25,6 +25,17 @@ type: ${search.opt.copyType}
 
 `;
 
+const keepCopy = (cfg, search) => {
+	if (search.opt.nothingRequested) {
+		return '';
+	}
+	return `<span style="margin-top: .5em;float: right;">
+<$button class="bttn" actions="<<copySearch>>"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;
+<$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>
+&nbsp;<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
+</span>`;
+}
+
 const workingTiddler = (cfg, search) =>
 `title: TiddlyWiki5 Open Tickets
 searchWords: ${search.opt.searchWords}
@@ -67,9 +78,6 @@ userOrder: ${search.opt.userOrder}
 \\end
 \\define clear()
 <$action-setfield searchWords="" />
-<$action-setfield submitter="" />
-<$action-setfield submitterUrl="" />
-<$action-setfield submitterButton="display: none;" />
 \\end
 \\define clearUser()
 <$action-setfield submitter="" />
@@ -106,11 +114,7 @@ options='{"path": "tickets", "submitter": "", "submitterUrl": "", "submitterButt
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
 </span>
 
-<span style="margin-top: .5em;float: right;">
-<$button class="bttn" actions="<<copySearch>>"><span style={{!!copyStyle}}>{{!!copyButton}}</span> {{!!copyText}} </$button>&nbsp;
-<$checkbox field="toStory" checked="fetch-tostory" unchecked="fetch" default="fetch"> Open</$checkbox>
-&nbsp;<$checkbox field="copyType" checked="application/json" unchecked="text/vnd.tiddlywiki" default="text/vnd.tiddlywiki"> Json&nbsp;</$checkbox>
-</span>
+${keepCopy(cfg, search)}
 
 <div style="clear: both;padding-top: .5rem;">
 	<span style="margin-left: 10%;">
@@ -170,8 +174,9 @@ You can also select a submitter from the
 page to see tickets submitted
 by a GitHub user. If enter both, then will search for tickets matching those submitted
 by the user which also includes those topics.
-<$button class="bttn" actions="""<<poc2go 'fetch-tostory' 'tickets/Detail' '{"ticketNbr": "6855"}'>>""">Detail</$button>
 
+Many options are displayed above. The <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Options'>>">Options</$button>
+allows setting all options.
 `;
 
 const contentFooting = () => `

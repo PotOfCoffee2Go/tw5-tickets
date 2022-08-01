@@ -5,6 +5,9 @@ const cfg = {
 	// Port the server listens for requests
 	listenPort: 8000,
 
+	// GitHub repository issues to search
+	repo: '/repos/Jermolene/TiddlyWiki5/issues',
+
 	// Subdirectory path in 'public' to hold TiddlyWikis
 	// Do not include '/public/' - just the subdirectory path
 	// ex: 'tw', 'tiddlywiki/mine', 'store'
