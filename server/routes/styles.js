@@ -59,7 +59,6 @@ tree: `
 <style>
 html, body {
  font-family : ariel, monospace, sans-serif;
- line-height: .95rem;
 	background-image: url('/assets/images/sunset-1634374_640_dark.jpg');
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -260,6 +259,27 @@ developer: `
 		text-align: center;
 	}
 	.footer-text {
+	}
+</style>
+`,
+// Styles for the ticket detail page
+detail: `
+<style>
+	a.bttn {
+		text-decoration: none;
+		border: none;
+	}
+	a.bttn:hover, a.bttn:visited, a.bttn:focus, a.bttn:active {
+		text-decoration: none;
+	}
+	.left-div {
+		float: left;
+	}
+	.right-div {
+		float: right;
+		width: 70%;
+		margin-top: 3rem;
+		color: aquamarine;
 	}
 </style>
 `,

@@ -2,7 +2,7 @@ const fs = require('fs');
 const tickets = require('./tiddlers/tickets');
 
 // Route the 'fetch' command
-const fetch = async (cfg, req, res) => {
+const fetch = (cfg, req, res) => {
 	// console.log(req.body) // Show all fetches
 	const data = req.body;
 	var opt;

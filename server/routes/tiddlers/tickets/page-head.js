@@ -26,6 +26,7 @@ copyText: Keep a copy
 submitter: ${opt.submitter}
 submitterUrl: ${opt.submitterUrl}
 submitterButton: ${opt.submitterButton}
+combineWith: ${opt.combineWith}
 userOrder: ${opt.userOrder}
 
 ${macros(cfg, opt)}
@@ -40,7 +41,9 @@ ${macros(cfg, opt)}
 <hr style="opacity: .5;">
 
 <$button class="bttn" style={{!!submitterButton}} actions=<<clearUser>> >{{$:/core/images/cancel-button}} {{!!submitter}}</$button>
-<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="22" />
+<$keyboard key="enter" actions=<<actions>>>
+	<$edit-text field="searchWords" placeholder="Enter word(s) - press 'Search'" size="22" />
+</$keyboard>
 <$button class="bttn" actions=<<actions>> >{{$:/core/images/advanced-search-button}} Search</$button>
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
 

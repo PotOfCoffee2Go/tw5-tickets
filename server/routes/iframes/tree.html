@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Home page -->
+<!-- Directory tree page -->
 <head>
 	{{{cfg.head}}}
 	{{{cfg.styles.theme}}}
 	{{{cfg.styles.tree}}}
 
 	<title>Tree</title>
+	<script>
+		poc2go.twSheets(); // Load tiddlywiki style sheets into document
+		onload = () => {
+			poc2go.onload(); // load the iframe content into tiddler
+		}
+	</script>
 </head>
-<body>
+<body class="tc-body" style="line-height: .95rem;">
 	<button class="bttn LINK" style="float:right;margin: 1rem 1rem 0 0;" onclick="poc2go.fetch('tickets');">Search TW5 Tickets</button>
 	<div class="left-div">
 <!--

@@ -6,7 +6,7 @@ const buildRows = (sortedUsers) => {
 	var userMarkup = '';
 	const row = [];
 	sortedUsers.forEach((user, idx) => {
-		userMarkup += ` <$button class="tc-btn-invisible tc-tiddlylink" actions="""<<selectUser ${user.submitter} "${user.url}">>""" tooltip="Issues: ${user.tickets.issues} - Pull Requests: ${user.tickets.pr}">${user.submitter}</$button>&nbsp;-&nbsp;${user.tickets.total} |`;
+		userMarkup += ` <$button class="tc-btn-invisible tc-tiddlylink" actions="""<<addSubmitter ${user.submitter} "${user.url}">>""" tooltip="Issues: ${user.tickets.issues} - Pull Requests: ${user.tickets.pr}">${user.submitter}</$button>&nbsp;-&nbsp;${user.tickets.total} |`;
 		if ((idx+1)%4 === 0) {
 			row.push('|' + userMarkup);
 			userMarkup = '';

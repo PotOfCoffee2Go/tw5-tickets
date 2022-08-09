@@ -5,6 +5,9 @@ const cfg = {
 	// Port the server listens for requests
 	listenPort: 8000,
 
+	// GitHub repository issues to search
+	repo: '/repos/Jermolene/TiddlyWiki5/issues',
+
 	// Subdirectory path in 'public' to hold TiddlyWikis
 	// Do not include '/public/' - just the subdirectory path
 	// ex: 'tw', 'tiddlywiki/mine', 'store'
@@ -36,7 +39,7 @@ const cfg = {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" href="/favicon.png" />
-	<script src="assigntw.js"></script>
+	<script src="/assigntw.js"></script>
 	`,
 
 }

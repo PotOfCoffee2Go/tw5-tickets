@@ -19,6 +19,10 @@ exports.macros = (cfg, opt) => `
 \\define addWord(word)
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>> options='{"path": "tickets", "searchWords": "$word$" }' />
 \\end
+\\define addSubmitter(user url)
+<$macrocall $name='poc2go' command=fetch path=<<currentTiddler>>
+options='{"path": "tickets", "submitter": "$user$", "submitterUrl": "$url$", "submitterButton": "" }' />
+\\end
 \\define orderActions()
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>> options='{"path": "tickets/Suggest"}' />
 \\end

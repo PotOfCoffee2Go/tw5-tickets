@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Ticket details page -->
+<head>
+	{{{cfg.head}}}
+	{{{cfg.styles.detail}}}
+
+    <base target="_blank">
+
+	<title>Ticket Detail</title>
+	<style>
+	pre {
+		border: 1px solid currentColor;
+	}
+	</style>
+	<!-- link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css" / -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js" integrity="sha512-gU7kztaQEl7SHJyraPfZLQCNnrKdaQi5ndOyt4L4UPL/FHDd/uB9Je6KDARIqwnNNE27hnqoWLBq+Kpe4iHfeQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js" integrity="sha512-SYfDUYPg5xspsG6OOpXU366G8SZsdHOhqk/icdrYJ2E/WKZxPxze7d2HD3AyXpT7U22PZ5y74xRpqZ6A2bJ+kQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<script>
+		const mdtext = `{{{body}}}`;
+		var mdcomments = '';
+		const fetchComments = () => {
+			return fetch('{{{comments_url}}}', {
+			method: 'GET',
+			headers: {'Content-Type': 'application/json'},
+			})
+			// Verify fetch successful
+			.then((res) => {
+				if (res.status !== 200) {
+					throw new Error(`Unable to fetch {{{comments_url}}} - HTTP status: ${res.status}`);
+				}
+				return res.json();
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+		}
+	</script>
+
+	<script>
+		onload = () => {
+			poc2go.twSheets();
+			var md = window.markdownit({
+				html: true,
+				linkify: true,
+				typographer: true,
+				highlight: function (str, lang) {
+					if (lang && hljs.getLanguage(lang)) {
+					  try {
+						return hljs.highlight(str, { language: lang }).value;
+					  } catch (__) {}
+					}
+					return ''; // use external default escaping
+				}
+			});
+			document.getElementById('subdate').innerHTML = (new Date('{{{created_at}}}')).toLocaleString();
+			var result = md.render(mdtext);
+			document.getElementById('mdown').innerHTML = result;
+			fetchComments()
+			.then ((cmts) => {
+				cmts.forEach(comment => {
+					mdcomments += '<hr style="opacity: .5;">' +
+					'<a href="'+ comment.user.html_url +'">' + comment.user.login +'</a>' +
+					' - <span style="font-size: .8rem;">' + (new Date(comment.created_at)).toLocaleString() + '</span>' +
+					' <a href="'+ comment.html_url +'">view</a> comment on GitHub' +
+					md.render(comment.body);
+				})
+				document.getElementById('mdcmts').innerHTML = mdcomments;
+				poc2go.onload();
+			})
+			.catch((err) => {
+				console.log(err);
+				poc2go.onload();
+			})
+		}
+	</script>
+</head>
+<body class="tc-body" style="margin: 0 1rem 0 1rem;">
+	<div>
+	<h3><a href="{{{html_url}}}">{{number}}</a> {{{title}}}</h3>
+	<b>{{pr_issueText}} submitted by <a href="{{{user.html_url}}}">{{{user.login}}}</a></b>
+	&nbsp;<span id="subdate"></span>
+	<hr style="opacity: .5;">
+	<div id="mdown"></div>
+	<div><hr style="opacity: .5;"></div>
+	<div id="mdcmts"></div>
+	<div><hr style="opacity: .5;"></div>
+	JSON data - Ticket <a href="{{{url}}}">#{{number}}</a>
+	with <a href="{{comments_url}}">comments</a>
+	from GitHub <a href="{{repository_url}}">repository</a>
+	<hr style="opacity: .5;">
+	</div>
+</body>
+</html>

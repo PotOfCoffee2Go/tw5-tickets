@@ -5,7 +5,7 @@ const express = require('express')
 const router = express.Router()
 
 module.exports = (cfg) => {
-	// Display get request URLs - debuggy thing - comment out if not desired
+	// Display get request URLs - debuggy thing - set on by logUrl in config.js
 	router.get('*', (req, res, next) => {
 		if (cfg.logUrl) {
 			console.log('\x1b[36m' + req.protocol + '://' + req.get('host') + req.originalUrl + '\x1b[0m');
@@ -14,16 +14,19 @@ module.exports = (cfg) => {
 	});
 
 	// Preload Site page templates
-	// Render using Mustache
 	const { render, renderError } = require('./routes/render')(cfg);
 	const pages = {
 		home: fs.readFileSync(cfg.homeDir + '/server/routes/iframes/home.html', { encoding: 'utf8' }),
 		tree: fs.readFileSync(cfg.homeDir + '/server/routes/iframes/tree.html', { encoding: 'utf8' }),
 	};
 
-	// Web pages and tiddler iframes
+	// Static web pages and tiddler iframes
 	router.get('/start', (req, res) => render(cfg, req, res, pages.home, {}));
 	router.get('/tree', (req, res) => render(cfg, req, res, pages.tree, {}));
+
+	// Detail tiddler iframe
+	const { detail } = require('./routes/detail')(cfg);
+	router.get('/detail/:ticketNbr', (req, res) => detail(cfg, req, res));
 
 	// Fetch  dynamic tidder
 	const { fetch } = require('./routes/fetch');

@@ -1,36 +1,19 @@
 /*
  * This script is designed to be used in pages displayed in tiddler <iframe>
  * <script src="/assigntw.js"></script>
+ *
+ * Iframe will normally have a script with :
+	poc2go.twSheets(); // Load tiddlywiki style sheets into document
+	onload = () => {
+		... do something ...
+		poc2go.onload(); // load the iframe content into tiddler
+	}
  */
-
-// Reload pages in tiddler
-var refreshIframe = () => {
-	parent.document.querySelectorAll('iframe').forEach((frame) => {
-		frame.style.visibility = 'hidden';
-		frame.src = frame.src;
-	})
-}
 
 // Global access to $tw when within an iframe
 if (!$tw) var $tw = undefined;
 if (!$tw && parent && parent.$tw) {
 	$tw = parent.$tw;
-
-
-	onload = () => {
-		// Insert TiddlyWiki stylesheet before first stylesheet in iframe's document
-		var oHead = document.getElementsByTagName("head")[0];
-		var frmStyleSheet = document.getElementsByTagName("style")[0];
-		var arrStyleSheets = parent.document.getElementsByTagName("style");
-		for (var i = 0; i < arrStyleSheets.length; i++)
-				oHead.insertBefore(arrStyleSheets[i].cloneNode(true), frmStyleSheet);
-		// Get all iframes in this tiddler and resize height to documents height
-		parent.document.querySelectorAll('iframe').forEach((frame) => {
-			frame.style.visibility = 'hidden';
-			$tw.poc2go.resizeIframe(frame, 32);
-			frame.style.visibility = 'visible';
-		});
-	}
 
 	// Eye candy pointing to $tw.poc2go functions
 	poc2go = {
@@ -38,6 +21,24 @@ if (!$tw && parent && parent.$tw) {
 		request: (title, toStory) => $tw.poc2go.tiddler.request(title, toStory),
 		fetch: (path, options, toStory) => $tw.poc2go.tiddler.fetch(path, options, toStory),
 		send: (title, toStory) => $tw.poc2go.tiddler.send(title, toStory),
+		// Must call at end of page's 'onload' function to load TW styles
+		twSheets: () => {
+			// Insert TiddlyWiki stylesheet before first stylesheet in iframe's document
+			var oHead = document.getElementsByTagName("head")[0];
+			var frmStyleSheet = document.getElementsByTagName("style")[0];
+			var arrStyleSheets = parent.document.getElementsByTagName("style");
+			for (var i = 0; i < arrStyleSheets.length; i++) {
+				oHead.insertBefore(arrStyleSheets[i].cloneNode(true), frmStyleSheet);
+			}
+		},
+		onload: () => {
+			// Get all iframes in this tiddler and resize height to documents height
+			parent.document.querySelectorAll('iframe').forEach((frame) => {
+				frame.style.visibility = 'hidden';
+				$tw.poc2go.resizeIframe(frame, 32);
+				frame.style.visibility = 'visible';
+			});
+		},
 	}
 	toStory = (toTitle, fromTitle) => $tw.poc2go.toStory(toTitle, fromTitle);
 	resizeIframe = (frame) => $tw.poc2go.resizeIframe(frame);

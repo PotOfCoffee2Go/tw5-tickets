@@ -42,6 +42,10 @@ Users order:
 </div>
 
 <div style="float:left; width: 49%;">
+Combine multiple words with:&nbsp;&nbsp;
+<$radio field="combineWith" value="or" > Or</$radio>&nbsp;&nbsp;
+<$radio field="combineWith" value="and" > And</$radio>
+<br><br>
 <$checkbox field="prefix" checked="yes" unchecked="no" default="no"> Prefix search (so that 'moto' will match 'motorcycle')</$checkbox>
 <br>
 <$checkbox field="fuzzy" checked="yes" unchecked="no" default="no"> Fuzzy search (mispelled 'ismael' will match 'ishmael')</$checkbox>

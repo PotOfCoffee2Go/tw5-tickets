@@ -4,35 +4,38 @@ const searchUsers = require('./tickets/Users');
 const searchUsage = require('./tickets/Usage');
 const searchSuggest = require('./tickets/Suggest');
 const searchAbout = require('./tickets/About');
+const searchDetail = require('./tickets/Detail');
 
 // Components of search tiddler
 const {
 	copyTiddler, workingTiddler,
-	contentTiddler, contentFooting,
+	contentTiddler, nothingRequested, contentFooting,
 	jsonTiddler } = require('./tickets/search');
 
 // Issue and pull requests gathered from GitHub
 // Must have .json file extension
 const issuesDb = '../../../public/assets/db/github-issues.json';
-var data;
+var ghdata;
 try {
 	require.resolve(issuesDb);
-	data = require(issuesDb);
+	ghdata = require(issuesDb);
 } catch(e) {
-	data = [];
+	ghdata = [];
 	console.log(`\x1b[31mTicket database - ${issuesDb} does not exist.\x1b[0m`);
 	console.log(`\x1b[31mNo tickets to search! Run 'npm run get-issues'\x1b[0m`);
 }
+
+console.log(`\x1b[35mDatabase contains ${ghdata.length} tickets\x1b[0m`);
 
 // Module that performs the search
 const MiniSearch = require('minisearch');
 const miniSearch = new MiniSearch({
 	fields: ['title', 'body'], // fields to search
 	storeFields: [ // fields to return
-		'number', 'title', 'html_url', 'comments', 'user',
+		'number', 'title', 'body', 'html_url', 'comments', 'user',
 		'pull_request', 'created_at']
 })
-miniSearch.addAll(data)
+miniSearch.addAll(ghdata)
 
 // Default ticket fields
 ticketDefaults = (opt) => {
@@ -55,12 +58,16 @@ ticketDefaults = (opt) => {
 		submitter: '',
 		submitterUrl: '',
 		submitterButton: 'display: none;',
+		combineWith: 'or',
 		userOrder: 'rank',
 	}, opt);
 }
 
 // Create the working search tiddler or a local copy
 const searchTiddler = (cfg, search, copy = false) => {
+	if (search.opt.nothingRequested) {
+		return workingTiddler(cfg, search) + nothingRequested() + contentFooting();
+	}
 	if (copy && search.opt.copyType === 'application/json') {
 		return copyTiddler(search) + jsonTiddler(search);
 	}
@@ -74,37 +81,57 @@ const searchTiddler = (cfg, search, copy = false) => {
 
 // ---------------------------------
 // Search tickets
-const ticketSearch = (opt) => {
+const ticketSearch = (opt, copy) => {
+	opt.searchWords = opt.searchWords.trim();
+	// No search parameters requested
+	if (!opt.submitter && !opt.searchWords) {
+		opt.nothingRequested = true;
+		return { opt, titles: '', json: '[]' };
+	}
+
 	// Search with default options
 	const miniOpt = {
 		fuzzy: opt.fuzzy === 'yes' ? 0.2 : false,
 		prefix: opt.prefix === 'yes' ? true : false,
 		filter: (result) => true,
+		combineWith: opt.combineWith.toUpperCase(),
 	}
 	// Search only for tickets submitted by user
 	if (opt.submitter) {
 		miniOpt.filter = (result) => opt.submitter === result.user.login;
 	}
+	// Select tickets matching the requested words and/or submitter
 	var foundTickets;
 	if (opt.searchWords) {
 		foundTickets = miniSearch.search(opt.searchWords, miniOpt);
 	}
 	else {
-		foundTickets = data.filter(iss => opt.submitter === iss.user.login);
+		foundTickets = ghdata.filter(iss => opt.submitter === iss.user.login);
 	}
 
+	// Sort as requested
 	sortTickets(foundTickets, opt);
 
 	// Limit to number of tickets user requested
 	const limits = foundTickets.slice(0, parseInt(opt.maxTickets));
 
+
 	// Create the wikitext to display the results
 	let page = 1;
 	const titles = [];
 	limits.forEach((ticket, idx) => {
+		//console.log(ticket.body);
+		// userLink is TW button unless keeping a copy then is a GitHub link
+		var userLink = `<$button class="tc-btn-invisible tc-tiddlylink" actions="""<<addSubmitter ${ticket.user.login} "${ticket.user.html_url}">>""" >${ticket.user.login}</$button>`;
+		var moreBttn = `- <$button class="tc-btn-invisible tc-tiddlylink" actions="""<<poc2go 'fetch-tostory' 'tickets/Detail' '{"ticketNbr": "${ticket.number}"}'>>""">more...</$button>`;
+
+		if (copy) {
+			userLink = `[[${ticket.user.login}|${ticket.user.html_url}]]`;
+			moreBttn = '';
+		}
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}
-	[[${ticket.user.login}|${ticket.user.html_url}]] ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} [[comment${ticket.comments === 1 ? '' : 's'}|${ticket.html_url}]]] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
+		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}  ${moreBttn}
+	${userLink} ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} comment${ticket.comments === 1 ? '' : 's'}] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
 	})
 
 	// Update search tiddler field values
@@ -168,7 +195,7 @@ const sortTickets = (foundTickets, opt) => {
 }
 
 const regularSearch = (cfg, data, copy) => {
-	const search = ticketSearch(data.content.opt);
+	const search = ticketSearch(data.content.opt, copy);
 	return searchTiddler(cfg, search, copy);
 }
 
@@ -184,6 +211,7 @@ const route = (cfg, data, copy) => {
 	if (data.content.path.indexOf('Users') > -1) return searchUsers.run(cfg, data);
 	if (data.content.path.indexOf('Suggest') > -1) return searchSuggest.run(cfg, data);
 	if (data.content.path.indexOf('About') > -1) return searchAbout.run(cfg, data);
+	if (data.content.path.indexOf('Detail') > -1) return searchDetail.run(cfg, data, ghdata);
 
 	return regularSearch(cfg, data, false);
 }
