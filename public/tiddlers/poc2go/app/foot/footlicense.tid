@@ -1,0 +1,8 @@
+caption: License Links
+created: 20220625172635425
+icon: $:/core/images/file
+modified: 20220704031009185
+tags: info poc2go
+title: $:/poc2go/ui/licenselink
+
+<span style="float: right;">[[MIT Licence|$:/poc2go/tiddler/mitlicense]] &copy; 2021-2022 [[PotOfCoffee2Go|$:/poc2go/tiddler/potofcoffee2go]]</span>

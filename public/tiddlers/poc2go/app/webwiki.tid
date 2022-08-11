@@ -1,7 +1,7 @@
 caption: About Web Wiki
 created: 20220702031216653
 modified: 20220702231901265
-tags: info
+tags: info poc2go
 title: $:/poc2go/tiddler/webwiki
 
 A 'web wiki' is a TiddlyWiki where certain tiddlers are delivered from a web server. Some tiddlers are stored locally - but some tiddlers are 'dynamic', modified by a web server based on the requests of the user.

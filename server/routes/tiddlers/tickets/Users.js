@@ -43,7 +43,7 @@ exports.run = (cfg, data) => {
 
 	const myusers = users.slice(); // clone
 	if (opt.userOrder === 'rank') myusers.sort((a, b) => b.tickets.total - a.tickets.total);
-	if (opt.userOrder === 'alpha') myusers.sort((a, b) => b.submitter < a.submitter ? 1 : -1);
+	if (opt.userOrder === 'alpha') myusers.sort((a, b) => b.submitter.toUpperCase() < a.submitter.toUpperCase() ? 1 : -1);
 
 	return tiddler(cfg, opt, buildRows(myusers));
 }

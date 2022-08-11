@@ -14,7 +14,14 @@ title: $:/poc2go/tiddler/devmode
 <$action-setfield $tiddler="$:/poc2go/stylesheet-prod" $field="tags" $value="$:/tags/Stylesheet" />
 \end
 
+\define installPage()
+<$macrocall $name='poc2go' command=request-tostory path='install/install.tid' />
+\end
+
 !!!Development Mode
+
+Open <$button actions="<<installPage>>" >Install/Upgrade Ticket Search</$button> tiddler.
+
 
 The the 'more' and 'edit' buttons in the upper right can be displayed (dev mode)
 or not (production mode). The stylesheets must be installed for this to work.
@@ -23,3 +30,4 @@ or not (production mode). The stylesheets must be installed for this to work.
 <$radio field=mode value="production" actions="<<setprod>>" > Hide </$radio>
 
 {{$:/poc2go/ui/footing}}
+{{$:/poc2go/ui/licenselink}}

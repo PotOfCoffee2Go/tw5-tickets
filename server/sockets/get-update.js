@@ -36,6 +36,9 @@ module.exports = (cfg, socket, data, callback) => {
 	callback({ data });
 	delete data.body.acknowledged;
 
+	// Always install assets
+	installFiles(cfg, socket, update.assets, data);
+
 	if (opt.installApp === 'yes') {
 		installFiles(cfg, socket, update.app, data);
 		installFiles(cfg, socket, update['app-foot'], data);
@@ -45,7 +48,7 @@ module.exports = (cfg, socket, data, callback) => {
 		installFiles(cfg, socket, update['docs-dev'], data);
 	}
 	if (opt.installPlugins === 'yes') {
-		installFiles(cfg, socket, update.plugins, data);
+		installFiles(cfg, socket, update.install, data);
 	}
 	if (opt.installSidebar === 'yes') {
 		installFiles(cfg, socket, update.sidebar, data);

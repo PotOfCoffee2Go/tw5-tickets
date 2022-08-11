@@ -17,7 +17,7 @@ const detail = (cfg, req, res) => {
 	return res.send(Mustache.render(pages.detail, copy));
 }
 
-// Load error page template
+// Load page template
 module.exports = (cfg) => {
   pages.detail = fs.readFileSync(cfg.homeDir + '/server/routes/iframes/detail.html', { encoding: 'utf8' });
   return {detail};
