@@ -36,12 +36,15 @@ module.exports = (cfg, socket, data, callback) => {
 	callback({ data });
 	delete data.body.acknowledged;
 
-	// Always install assets
-	installFiles(cfg, socket, update.assets, data);
 
+	if (opt.installAssets === 'yes') {
+		installFiles(cfg, socket, update.assets, data);
+	}
 	if (opt.installApp === 'yes') {
 		installFiles(cfg, socket, update.app, data);
 		installFiles(cfg, socket, update['app-foot'], data);
+		installFiles(cfg, socket, update['docs-usage'], data);
+		installFiles(cfg, socket, update['docs-dev'], data);
 	}
 	if (opt.installDocs === 'yes') {
 		installFiles(cfg, socket, update['docs-usage'], data);

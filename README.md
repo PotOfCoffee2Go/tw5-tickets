@@ -2,6 +2,12 @@
 
 The server is running at [TiddlyWiki5 Ticket Search][10] - https://tw5.poc2go.com
 
+The idea is to provide a [node.js][4] multi-user backend [express][11] server which loads and interfaces to a browser side [TiddlyWiki][12] frontend. Along with standard HTTP request/response protocol, [socket.io][13] is used to provide bi-directional communications between the server and TiddlyWiki. The interface does NOT use the TiddlyWiki built-in server communication functions, thus runs independantly from TiddlyWiki itself.
+
+Basically, the server can respond with static or dynamically generated TiddlyWiki '.tid' files as well as normal HTML files. Although TiddlyWiki is designed to provide a personal note/journal storage system - there are many features which make it a powerful web presentation system - has a domain specific computer language which extends standard HTML. Browser on steroids!
+
+This implementation of the system allows users to query the TiddlyWiki GitHub Issues and Pull-request database.
+
 ## Installation
 > The server requires [git][3] and [nodejs][4] to be pre-installed on your computer.
 
@@ -13,13 +19,16 @@ cd tw5-tickets
 npm install
 ```
 
-The more difficult part is to build the JSON database of tickets. To do so will need to use or create a [GitHub Personal Access Token][9]. Place the token in a file '.env' in the 'parent' directory of the project (ie: parent of 'tw5-tickets') which contains a line like so:
+## Database
+The somewhat more difficult part is to build the JSON database of TiddlyWiki tickets. To do so will need to use or create a [GitHub Personal Access Token][9]. Place the token in a file '.env' in the 'parent' directory of the project (ie: parent of 'tw5-tickets') which contains a line like so:
 
 `TOKEN=YourGithubPersonalAccessToken`
 
 From the 'tw5-tickets' project directory run `npm run get-issues` which will create the ticket database in file 'public/assets/db/github-issues.json'. If is not present a warning will be displayed when the server is launched.
 
-Fire up the server:
+The database of ticket submitters (GitHub users) can then be created by `npm run submitters` which stores the info in 'public/assets/db/submitter.json'. Now all set to start the server...
+
+## Fire up the server
 
 ```cmd
 npm start
@@ -34,9 +43,9 @@ A common tweak is to change the port which the server 'listens'. This can be cha
 Home page would then be at `http://localhost:3030`.
 
 ### Kudos
-To [Socket.io][13] network, running on [Express][11] and [TiddlyWiki][12] which are the foundations of the site back and front end.
+To [socket.io][13 ] network, running on [Express][11] and [TiddlyWiki][12] which are the foundations of the site back and front end.
 
-Images provided by [Pixabay][8].
+Images on the site is provided by [Pixabay][8].
 
 [1]: https://github.com/mykeels/steganography
 [2]: https://github.com/rodrigouroz/steganography

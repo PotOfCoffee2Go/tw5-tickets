@@ -18,6 +18,9 @@ type:
 .tc-tagged-info button[aria-label="edit"],
 .tc-tagged-info button[aria-label="more"],
 .tc-tagged-info button[aria-label^="export"],
-.tc-tagged-info button[aria-label="delete"] {
+.tc-tagged-info button[aria-label="delete"],
+.nc-bar input[type="search"],
+button[aria-label="advanced search"]
+{
   display: none;
 }
