@@ -1,0 +1,111 @@
+caption: Install Ticket Search
+created: 20220714181615485
+modified: 20220714181615485
+icon: $:/core/images/github
+tags: server
+title: Install Ticket Search
+path: server.install
+installApp: no
+installDocs: no
+installPlugins: no
+installSidebar: no
+installSheets: yes
+installConfig: yes
+installSplash: no
+installPalettes: yes
+
+\define install()
+<$macrocall $name='poc2go' command=request path=<<currentTiddler>> />
+\end
+
+!! Installation
+
+TiddlyWiki v<<version>> - {{$:/temp/poc2go/netstat}}
+
+<details><summary>
+Instructions...
+</summary><hr>
+Press the 'Install selected options' button below followed by the {{$:/core/ui/Buttons/save-wiki}} button. Save wiki in the server `public` directory then reload.
+<br><br>
+See [[tw5-tickets|https://github.com/PotOfCoffee2Go/tw5-tickets]] on GitHub for directions on installing and starting the server.
+<br><br>
+Drag and drop the tiddlers from the `public/tiddlers/install` directory into a wiki, save wiki (ex: `YourSavedName.html`) in the `public` directory and reload from the server at `http://localhost:8000/YourSavedName.html`. This provides a core skeletal search system with the search pages ready to use.
+<br><br>
+Place the line `<$button actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>">TW5 Ticket Search</$button>` in a tiddler to access the system.
+<hr></details>
+
+<$button actions="<<install>>" >Install selected options</$button>
+{{$:/core/ui/Buttons/save-wiki}}
+<$button style="margin-left: 6rem;" actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>">TW5 Ticket Search</$button>
+
+<div style="float: left; width: 45%;">
+<hr>
+
+<details><summary>
+<$checkbox field="installSheets" checked="yes" unchecked="no" default="no" /> Stylesheets (highly recommended)
+</summary><hr>
+The stylesheets handle the display of buttons between developer and production mode, as well as visual refinements to dropdown boxes and Tix/Btx plugins.
+<hr></details>
+
+<details><summary>
+<$checkbox field="installPalettes" checked="yes" unchecked="no" default="no" /> Palettes (highly recommended)
+</summary><hr>
+Modifications to a few palettes, mostly pertaining to dropdown boxes, which makes them display a little prettier.
+<hr></details>
+
+<details><summary>
+<$checkbox field="installConfig" checked="yes" unchecked="no" default="no" /> Saver Config (recommended)
+</summary><hr>
+Tiddlers tagged with 'server' come from the server so auto removes them when you save the wiki in the server `public` directory. Reduces loading time.
+<hr></details>
+
+<hr>
+
+<details><summary>
+<$checkbox field="installApp" checked="yes" unchecked="no" default="no" /> Application
+</summary><hr>
+Includes default footer with tiddlers that contains PotOfCoffee2Go related documention, developer tips, and such. Used to install the foundation of the `https://tw5.poc2go.com` site.
+<hr></details>
+
+<details><summary>
+<$checkbox field="installSidebar" checked="yes" unchecked="no" default="no" /> Sidebar
+</summary><hr>
+This checkbox installs the 'Catacombs' tab in the sidebar which displays the search system tiddlers that you have been installed.
+<hr></details>
+
+
+<details><summary>
+<$checkbox field="installPlugins" checked="yes" unchecked="no" default="no" /> Macros
+</summary><hr>
+These tiddlers are the same ones you drag and dropped from the server `public/install` above. Will require a save/reload to take effect. Includes the network interface, disables CamelCase links, and installs this 'install' tiddler. Is generally used when upgrading to a new release.
+<hr></details>
+
+
+<details><summary>
+<$checkbox field="installSplash" checked="yes" unchecked="no" default="no" /> Splash Screen
+</summary><hr>
+As might guess - this is the splash screen that shows when loading the wiki. Is a good start if you wish to personalize - right now shows PotOfCoffee2Go stuff.
+<hr></details>
+
+<details><summary>
+<$checkbox field="installDocs" checked="yes" unchecked="no" default="no" /> Notebook Documentation
+</summary><hr>
+These tiddlers are user documentation specific to the Notebook Plugin. If not using Notebook then no need to install.
+<hr></details>
+
+</div>
+
+<div style="float: left; width: 49%; border-left: 1px solid currentColor;">
+<hr>
+
+&nbsp;Installed tiddlers:
+
+<<list-links filter:"[tag[poc2go]]">>
+
+</div>
+
+<div style="clear: both;"></div>
+
+
+{{$:/poc2go/ui/footing}}
+{{$:/poc2go/ui/licenselink}}

@@ -265,6 +265,11 @@ developer: `
 // Styles for the ticket detail page
 detail: `
 <style>
+	img {
+	  width: 100%;
+	  max-width: 900px;
+	  height: auto;
+	}
 	a.bttn {
 		text-decoration: none;
 		border: none;

@@ -4,7 +4,7 @@ modified: 20220710103037664
 revision: 5
 tags: $:/tags/Stylesheet
 title: $:/poc2go/stylesheet
-type: 
+type:
 
 a.tc-tiddlylink-external {
   text-decoration: none;
@@ -13,14 +13,12 @@ a.tc-tiddlylink-external {
 .lox-tiddler-toolbar:not(:first-child) {
     justify-content: flex-end;
 }
+/*
 summary {
   margin-left: 2rem;
   font-weight: bold;
 }
-details > div {
- style="padding-left: 4rem;"
-}
-
+*/
 select {
   background: <<colour tab-background>>;
   color: <<colour tab-foreground>>;

@@ -54,3 +54,4 @@ A tiddler will be created with the search results. Drag the name (at the top lef
 </div>
 
 {{$:/poc2go/ui/footing}}
+{{$:/poc2go/ui/licenselink}}

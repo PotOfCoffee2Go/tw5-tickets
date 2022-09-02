@@ -123,14 +123,14 @@ const ticketSearch = (opt, copy) => {
 		//console.log(ticket.body);
 		// userLink is TW button unless keeping a copy then is a GitHub link
 		var userLink = `<$button class="tc-btn-invisible tc-tiddlylink" actions="""<<addSubmitter ${ticket.user.login} "${ticket.user.html_url}">>""" >${ticket.user.login}</$button>`;
-		var moreBttn = `- <$button class="tc-btn-invisible tc-tiddlylink" actions="""<<poc2go 'fetch-tostory' 'tickets/Detail' '{"ticketNbr": "${ticket.number}"}'>>""">more...</$button>`;
+		var moreBttn = `<$button class="tc-btn-invisible tc-tiddlylink" actions="""<<poc2go 'fetch-tostory' 'tickets/Detail' '{"ticketNbr": "${ticket.number}"}'>>""">#${ticket.number}</$button>`;
 
 		if (copy) {
 			userLink = `[[${ticket.user.login}|${ticket.user.html_url}]]`;
-			moreBttn = '';
+			moreBttn = `[[#${ticket.number}|${ticket.html_url}]]`;
 		}
 		const title = ticket.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">[[${ticket.number}|${ticket.html_url}]] ${title}  ${moreBttn}
+		titles.push(`<pre style="border-top-left-radius: 18px; border-top-right-radius: 18px;padding-top: .4em;">${moreBttn} ${title}
 	${userLink} ${ticket.pull_request ? '- Pull Request' : '- Issue'} on ${ticket.created_at.substr(0,10)} UTC [${ticket.comments} comment${ticket.comments === 1 ? '' : 's'}] ${isNaN(ticket.score) ? '' : '(search score: '+Math.floor(ticket.score)+')'}</pre>`);
 	})
 

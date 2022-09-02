@@ -23,3 +23,4 @@ The site is part of an experiment of building a TiddlyWiki that interacts with a
 The idea is the server delivers tiddlers, assets, and rarely web pages. This is done using HTTP and [[socket.io|https://socket.io]] which allows a more flexible interface between server and browser.
 
 {{$:/poc2go/ui/footing}}
+{{$:/poc2go/ui/licenselink}}

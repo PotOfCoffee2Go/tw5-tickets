@@ -14,3 +14,4 @@ You can run the TW5 Ticket server on your local machine that has [[git|https://g
 See <$button class="tc-btn-invisible tc-tiddlylink" actions="<<poc2go request-tostory poc2go/docs/dev/intro.tid>>" >More...</$button>
 
 {{$:/poc2go/ui/footing}}
+{{$:/poc2go/ui/licenselink}}
