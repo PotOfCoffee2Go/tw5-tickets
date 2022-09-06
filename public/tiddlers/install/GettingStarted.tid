@@ -6,8 +6,18 @@ Welcome to ~TiddlyWiki and the ~TiddlyWiki community
 <div style="border: 1px solid; ">
   <p style="margin: 4px;">
   <$button actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>" >TW5 Ticket Search</$button>
-  <$button actions="<<poc2go 'fetch-tostory' 'install/install'>>" >Installation Options</$button>
+  <$button to="Install Ticket Search" >Installation Options</$button>
   <br>{{$:/temp/poc2go/netstat}} - TiddlyWiki v<<version>>
+  <details><summary>
+  Instructions...
+  </summary><hr>
+  Press 'TW5 Ticket Search' to enter the ticker search system.
+  <br>
+  Press the 'Installation Options' button to install sub-components.
+  <br><br>
+  Also can insert the line `<$button actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>">TW5 Ticket Search</$button>` in a tiddler to access the system.
+  <br>
+  </details>
   </p>
 </div>
 

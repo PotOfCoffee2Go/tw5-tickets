@@ -20,8 +20,8 @@ summary {
 }
 */
 select {
-  background: <<colour tab-background>>;
-  color: <<colour tab-foreground>>;
+  background: <<colour dropdown-tab-background>>;
+  /* color: <<colour tab-foreground>>; */
 }
 
 .pc-noserver-form {

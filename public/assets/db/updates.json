@@ -1,16 +1,14 @@
 {
 	"assets": [
-		"poc2go/app/socket-status.tid",
-		"poc2go/app/potofcoffee2go.tid",
-		"poc2go/app/person.tid",
-		"poc2go/app/cloud.tid",
-		"poc2go/app/mitlicense.tid",
-		"poc2go/app/foot/footlicense.tid"
+		"poc2go/assets/socket-status.tid",
+		"poc2go/assets/potofcoffee2go.tid",
+		"poc2go/assets/person.tid",
+		"poc2go/assets/cloud.tid",
+		"poc2go/assets/mitlicense.tid",
+		"poc2go/assets/footlicense.tid"
 	],
 	"sheets": [
-		"poc2go/sheets/stylesheet.tid",
-		"poc2go/sheets/stylesheet-prod.tid",
-		"poc2go/sheets/devmode.tid"
+		"poc2go/sheets/stylesheet.tid"
 	],
 	"sidebar": [
 		"poc2go/sidebar/catacombs.tid"
@@ -38,7 +36,10 @@
 		"poc2go/app/welcome.tid",
 		"poc2go/app/webwiki.tid",
 		"poc2go/app/TiddlyWiki5 Ticket Search.tid",
-		"poc2go/app/DefaultTiddlers.tid"
+		"poc2go/app/DefaultTiddlers.tid",
+		"poc2go/app/stylesheet-prod.tid",
+		"poc2go/app/devmode.tid"
+
 	],
 	"app-foot": [
 		"poc2go/app/foot/developer.tid",

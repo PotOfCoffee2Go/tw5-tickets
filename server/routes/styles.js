@@ -266,9 +266,10 @@ developer: `
 detail: `
 <style>
 	img {
-	  width: 100%;
-	  max-width: 900px;
-	  height: auto;
+		width: 100%;
+		object-fit: contain;
+		max-width: 900px;
+		height: auto;
 	}
 	a.bttn {
 		text-decoration: none;
