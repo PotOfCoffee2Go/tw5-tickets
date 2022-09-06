@@ -24,8 +24,8 @@ module.exports = (cfg) => {
 	router.get('/start', (req, res) => render(cfg, req, res, pages.home, {}));
 	router.get('/tree', (req, res) => render(cfg, req, res, pages.tree, {}));
 
-	// Detail tiddler iframe
-	const { detail } = require('./routes/detail')(cfg);
+	// Detail tiddler with iframe
+	const { detail } = require('./routes/tiddlers/detail')(cfg);
 	router.get('/detail/:ticketNbr', (req, res) => detail(cfg, req, res));
 
 	// Fetch  dynamic tidder

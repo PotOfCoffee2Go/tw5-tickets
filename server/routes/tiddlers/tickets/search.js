@@ -13,6 +13,8 @@ prefix: ${search.opt.prefix}
 sortBy: ${search.opt.sortBy}
 sortOrder: ${search.opt.sortOrder}
 searchWords: ${search.opt.searchWords}
+getPage: ${search.opt.getPage}
+skipTickets: ${search.opt.skipTickets}
 foundTickets: ${search.opt.foundTickets}
 shownTickets: ${search.opt.shownTickets}
 shownPage: ${search.opt.shownPage}
@@ -49,6 +51,8 @@ fuzzy: ${search.opt.fuzzy}
 prefix: ${search.opt.prefix}
 sortBy: ${search.opt.sortBy}
 sortOrder: ${search.opt.sortOrder}
+getPage: ${search.opt.getPage}
+skipTickets: ${search.opt.skipTickets}
 searchWords: ${search.opt.searchWords}
 foundTickets: ${search.opt.foundTickets}
 shownTickets: ${search.opt.shownTickets}
@@ -117,8 +121,14 @@ options='{"path": "tickets", "submitter": "", "submitterUrl": "", "submitterButt
 ${keepCopy(cfg, search)}
 
 <div style="clear: both;padding-top: .5rem;">
-	<span style="margin-left: 10%;">
-		Show
+	<span style="margin-left: 1%;">
+		Page
+		<$select field="getPage" actions=<<actions>> >
+		<option> 1 </option>
+		<option> 2 </option>
+		<option> 3 </option>
+		</$select>
+		&nbsp;&nbsp;Show
 		<$select field="maxTickets" actions=<<actions>> >
 		<option> 1 </option>
 		<option> 5 </option>

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const db = require('../../public/assets/db/github-issues.json');
+const db = require('../../../public/assets/db/github-issues.json');
 // Render mustache templates
 const Mustache = require('mustache');
 

@@ -21,7 +21,7 @@ summary {
 */
 select {
   background: <<colour dropdown-tab-background>>;
-  /* color: <<colour tab-foreground>>; */
+  color: <<colour tab-foreground>>;
 }
 
 .pc-noserver-form {

@@ -7,7 +7,6 @@ title: Install Ticket Search
 path: server.install
 installApp: no
 installAssets: no
-installDocs: no
 installPlugins: no
 installSidebar: no
 installSheets: no
@@ -77,17 +76,16 @@ When saving a wiki, automatically removes tiddlers that are dynamically produced
 <hr>
 
 <details><summary>
-<$checkbox field="installApp" checked="yes" unchecked="no" default="no" /> Application
-</summary><hr>
-Includes default footer with tiddlers that contains PotOfCoffee2Go related documention, ticket search usage, developer tips, and such. Installs tiddlers used for the online `https://tw5.poc2go.com` site.
-<hr></details>
-
-<details><summary>
 <$checkbox field="installSidebar" checked="yes" unchecked="no" default="no" /> Sidebar
 </summary><hr>
 This checkbox installs the 'Catacombs' tab in the sidebar which displays the search system tiddlers that you have installed. Is used mostly by developers as easy access to ticket system tiddlers.
 <hr></details>
 
+<details><summary>
+<$checkbox field="installApp" checked="yes" unchecked="no" default="no" /> Application
+</summary><hr>
+Includes default footer with tiddlers that contains PotOfCoffee2Go related documention, ticket search usage, developer tips, and such. Installs tiddlers used for the online `https://tw5.poc2go.com` site.
+<hr></details>
 
 <details><summary>
 <$checkbox field="installPlugins" checked="yes" unchecked="no" default="no" /> Macros
@@ -95,17 +93,10 @@ This checkbox installs the 'Catacombs' tab in the sidebar which displays the sea
 These tiddlers are the same ones you drag and dropped from the server `public/install` directory. Includes the network interface, GettingStarted, and disables auto CamelCase links. Is generally used when upgrading to a new release of TiddlyWiki.
 <hr></details>
 
-
 <details><summary>
 <$checkbox field="installSplash" checked="yes" unchecked="no" default="no" /> Splash Screen
 </summary><hr>
 As might guess - this is the splash screen that shows when loading the wiki. Is a good start if you wish to personalize - right now shows PotOfCoffee2Go stuff.
-<hr></details>
-
-<details><summary>
-<$checkbox field="installDocs" checked="yes" unchecked="no" default="no" /> Notebook Documentation
-</summary><hr>
-These tiddlers are user documentation specific to the Notebook Plugin used by the `https://tw5.poc2go.com` site. If not using Notebook then no need to install.
 <hr></details>
 
 </div>

@@ -1,13 +1,17 @@
 caption: Credits
+caption: Overview
 created: 20220624101829794
 icon: $:/core/images/file
 modified: 20220704163225244
-tags: info
-title: $:/poc2go/tiddler/credits
+tags: server
+title: Ticket Notes
 
-!!!Credits
+!! Credits
+<$button class="bttn" actions="<<poc2go request poc2go/docs/credits/credits.tid>>" >Intro</$button>
+<span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
+<hr style="opacity: .5;">
 
-This project required more resources than initially expected but just kinda 'grew'.
+!!! {{!!caption}}
 
 ''Network:''
 

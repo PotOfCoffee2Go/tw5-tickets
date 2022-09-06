@@ -2,10 +2,12 @@ caption: TiddlyWiki
 created: 20220621214558786
 icon: $:/core/icon
 modified: 20220710162830370
-tags: info
-title: $:/poc2go/tiddler/tiddlywiki
+tags: server
+title: Ticket Notes
 
-\define lingo-base() $:/language/ControlPanel/
+!! TiddlyWiki
+
+<hr style="opacity: .5;">
 
 TiddlyWiki <<version>>
 
