@@ -266,9 +266,9 @@ developer: `
 detail: `
 <style>
 	img {
-		width: 100%;
+		/* width: 100%; */
 		object-fit: contain;
-		max-width: 900px;
+		max-width: 840px;
 		height: auto;
 	}
 	a.bttn {

@@ -18,7 +18,14 @@ Enter a word or words in the textbox then press the <b>'Search'</b> button. Sepa
 <$radio field="combineWith" value="or" > Or</$radio>&nbsp;or&nbsp;
 <$radio field="combineWith" value="and" > And</$radio> </span>&nbsp; on the <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Options'>>">Options</$button> page.
 
- The search provides a 'score' based on number of words and hits found in the ticket. That can be used to sort the results
+
+<img src="/assets/images/ticketlinks.png" width="300" style="float: left; margin-right: 1rem;">
+By clicking the ticket number a detail page will open with the Issue or Pull Requst along with any comments pertaining to the ticket.
+Pressing the user name refines the search to only include tickets submitted by that user that also matches the search criteria.
+
+<div style="clear: both;" />
+
+The search provides a 'score' based on number of words and hits found in the ticket. That can be used to sort the results
 <span>
   <$select field="sortBy">
   <option>score</option>
@@ -53,8 +60,6 @@ The '
 ' option handles commonly mispelled words, 'mispelled' would match the correct 'misspelled'.
 
 The search includes only ''open'' tickets that are on the [[TW5 GitHub repository|https://github.com/Jermolene/TiddlyWiki5]]. The title and body are scanned (ie: ticket comments are NOT part of the scan). The server database is updated from GitHub once a day.
-
-Enjoy! - [[PotOfCoffee2Go]]
 
 ${foot(cfg, opt)}
 `;

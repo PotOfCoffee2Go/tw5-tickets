@@ -21,32 +21,15 @@
 		"poc2go/app/socket-status.tid"
 	],
 	"docs-usage": [
-		"poc2go/docs/usage/tags.tid",
-		"poc2go/docs/usage/sidebar.tid",
-		"poc2go/docs/usage/menubar.tid",
-		"poc2go/docs/usage/heading.tid"
 	],
 	"docs-dev": [
-		"poc2go/docs/dev/startup.tid",
-		"poc2go/docs/dev/intro.tid",
-		"poc2go/docs/dev/dirs.tid",
-		"poc2go/docs/dev/branching.tid"
 	],
 	"app": [
-		"poc2go/app/welcome.tid",
-		"poc2go/app/webwiki.tid",
 		"poc2go/app/TiddlyWiki5 Ticket Search.tid",
 		"poc2go/app/DefaultTiddlers.tid",
 		"poc2go/app/stylesheet-prod.tid",
-		"poc2go/app/devmode.tid"
-
-	],
-	"app-foot": [
-		"poc2go/app/foot/developer.tid",
-		"poc2go/app/foot/usingwiki.tid",
-		"poc2go/app/foot/tiddlywiki.tid",
-		"poc2go/app/foot/footing.tid",
-		"poc2go/app/foot/credits.tid"
+		"poc2go/app/devmode.tid",
+		"poc2go/app/footing.tid"
 	],
 	"config": [
 		"poc2go/config/saverfilter.tid",

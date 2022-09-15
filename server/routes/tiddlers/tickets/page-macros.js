@@ -30,7 +30,7 @@ options='{"path": "tickets", "submitter": "$user$", "submitterUrl": "$url$", "su
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>> options='{"path": "tickets/Users"}' />
 \\end
 \\define statusPage()
-<$macrocall $name='poc2go' command=request-tostory path="poc2go/app/socket-status.tid" />
+<$macrocall $name='poc2go' command=request-tostory path="poc2go/assets/socket-status.tid" />
 \\end
 \\define selectUser(user url)
 <$action-setfield submitter="$user$"/>

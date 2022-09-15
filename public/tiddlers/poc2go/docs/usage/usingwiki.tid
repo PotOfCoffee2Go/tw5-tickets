@@ -1,12 +1,19 @@
-caption: Using this wiki
+caption: Site Usage
 created: 20220623092042596
-icon: $:/core/images/file
 modified: 20220704035411562
-tags: info
-title: $:/poc2go/tiddler/usingwiki
+icon: $:/core/images/file
+tags: server
+title: Ticket Notes
 
-{{$:/poc2go/tiddler/usageheading}}
-!!!Site Usage
+!! Usage
+<$button class="bttn" actions="<<poc2go request poc2go/docs/usage/usingwiki.tid>>" >Usage</$button>
+<$button class="bttn" actions="<<poc2go request poc2go/docs/usage/menubar.tid>>" >Menu Bar</$button>
+<$button class="bttn" actions="<<poc2go request poc2go/docs/usage/sidebar.tid>>" >Sidebar</$button>
+<$button class="bttn" actions="<<poc2go request poc2go/docs/usage/tags.tid>>" >Tags</$button>
+<span style="float: right;"><$button class="bttn" actions="<<poc2go fetch-tostory tickets/Suggest>>">{{TiddlyWiki5 Ticket Search!!buttonText}}</$button></span>
+<hr style="opacity: .5;">
+
+!!! {{!!caption}}
 
 This site is all about searching the GitHub [[TW5 repository|https://github.com/Jermolene/TiddlyWiki5]] issues and pull requests (tickets). The site is a [[TiddlyWiki|https:tiddlywiki.org]] that connects to an [[express|http://expressjs.com/]] server which performs the lookup of the tickets. Search results (tiddlers) that you <b>'keep'</b> are available offline.
 

@@ -39,8 +39,17 @@
 	</script>
 
 	<script>
+		function adjustImages(elem) {
+			const images = elem.querySelectorAll("img");
+
+			images.forEach((image) => {
+				if (!image.getAttribute('width') && image.naturalWidth > 500) {
+					image.style.width = '100%';
+					image.style.height = 'auto';
+				}
+			});
+		}
 		onload = () => {
-			poc2go.twSheets();
 			var md = window.markdownit({
 				html: true,
 				linkify: true,
@@ -56,39 +65,46 @@
 			});
 			document.getElementById('subdate').innerHTML = (new Date('{{{created_at}}}')).toLocaleString();
 			var result = md.render(mdtext);
+			result = result.replace(/<a href/g, '<a class="tc-tiddlylink-external" target="_blank" href');
 			document.getElementById('mdown').innerHTML = result;
 			fetchComments()
 			.then ((cmts) => {
-				cmts.forEach(comment => {
-					mdcomments += '<hr style="opacity: .5;">' +
-					'<a href="'+ comment.user.html_url +'">' + comment.user.login +'</a>' +
-					' - <span style="font-size: .8rem;">' + (new Date(comment.created_at)).toLocaleString() + '</span>' +
-					' <a href="'+ comment.html_url +'">view</a> comment on GitHub' +
-					md.render(comment.body);
+				cmts.forEach((comment) => {
+					mdcomments += '<hr style="opacity: 1;">' +
+					'<a class="tc-tiddlylink-external" href="'+ comment.user.html_url +'">' + comment.user.login +'</a>' +
+					' - <span style="font-size: .9rem;">' + (new Date(comment.created_at)).toLocaleString() + '</span>' +
+					' <a class="tc-tiddlylink-external" href="'+ comment.html_url +'">view</a> comment on GitHub' +
+					'<div style="margin-left: 1rem;">' +
+					md.render(comment.body).replace(/<a href/g, '<a class="tc-tiddlylink-external" href') +
+					'</div>';
 				})
 				document.getElementById('mdcmts').innerHTML = mdcomments;
-				poc2go.onload();
+				adjustImages(document.getElementById('mdown'));
+				adjustImages(document.getElementById('mdcmts'));
+				$tw.poc2go.tiddler.construct({
+					title: 'TiddlyWiki5 Ticket Detail',
+					tags: '#{{number}} tickets TW5',
+					text: document.body.innerHTML});
 			})
 			.catch((err) => {
 				console.log(err);
-				poc2go.onload();
 			})
 		}
 	</script>
 </head>
 <body class="tc-story-river" style="margin: 0 1rem 0 1rem;">
 	<div>
-	<h3><a href="{{{html_url}}}">{{number}}</a> {{{title}}}</h3>
-	<b>{{pr_issueText}} submitted by <a href="{{{user.html_url}}}">{{{user.login}}}</a></b>
-	&nbsp;<span id="subdate"></span>
+	<h3><a class="tc-tiddlylink-external" href="{{{html_url}}}">#{{number}}</a> {{{title}}}</h3>
+	{{pr_issueText}} submitted by <a class="tc-tiddlylink-external" href="{{{user.html_url}}}">{{{user.login}}}</a>
+	<span id="subdate"></span>
 	<hr style="opacity: .5;">
 	<div id="mdown"></div>
-	<div><hr style="opacity: .5;"></div>
+
 	<div id="mdcmts"></div>
 	<div><hr style="opacity: .5;"></div>
-	JSON data - Ticket <a href="{{{url}}}">#{{number}}</a>
-	with <a href="{{comments_url}}">comments</a>
-	from GitHub <a href="{{repository_url}}">repository</a>
+	JSON data - Ticket <a class="tc-tiddlylink-external" href="{{{url}}}">#{{number}}</a>
+	with <a class="tc-tiddlylink-external" href="{{comments_url}}">comments</a>
+	from GitHub <a class="tc-tiddlylink-external" href="{{repository_url}}">repository</a>
 	<hr style="opacity: .5;">
 	</div>
 </body>

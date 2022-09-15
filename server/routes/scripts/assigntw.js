@@ -30,6 +30,8 @@ if (!$tw && parent && parent.$tw) {
 			for (var i = 0; i < arrStyleSheets.length; i++) {
 				oHead.insertBefore(arrStyleSheets[i].cloneNode(true), frmStyleSheet);
 			}
+			// hack to get foreground color from parent
+			document.body.style.color = parent.window.getComputedStyle( parent.document.body ,null).getPropertyValue('color');
 		},
 		onload: () => {
 			// Get all iframes in this tiddler and resize height to documents height

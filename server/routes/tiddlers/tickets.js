@@ -48,6 +48,8 @@ ticketDefaults = (opt) => {
 		prefix: 'no',
 		sortBy: 'date',
 		sortOrder: 'decending',
+		getPage: 1,
+		skipTickets: 0,
 		shownPage: '0',
 		shownTickets: '0',
 		foundTickets: '0',
@@ -112,6 +114,9 @@ const ticketSearch = (opt, copy) => {
 	// Sort as requested
 	sortTickets(foundTickets, opt);
 
+	// Go to page requested
+	pageTickets(foundTickets, opt)
+
 	// Limit to number of tickets user requested
 	const limits = foundTickets.slice(0, parseInt(opt.maxTickets));
 
@@ -138,7 +143,6 @@ const ticketSearch = (opt, copy) => {
 	var format = '';
 	opt.shownPage = `${page}`;
 	opt.shownTickets = `${titles.length}`;
-	opt.foundTickets = `${foundTickets.length}`;
 	// Format results for display
 	if (titles.length) {
 		format = titles.join('<hr style="opacity: .3; margin-top: -1em;">');
@@ -192,6 +196,13 @@ const sortTickets = (foundTickets, opt) => {
 
 		default: break;
 	}
+}
+
+// Figure out what page to display
+const pageTickets = (foundTickets, opt) => {
+	opt.foundTickets = `${foundTickets.length}`;
+	opt.skipTickets = (opt.getPage - 1) * parseInt(opt.maxTickets);
+	//foundTickets.splice(0, skipTickets);
 }
 
 const regularSearch = (cfg, data, copy) => {

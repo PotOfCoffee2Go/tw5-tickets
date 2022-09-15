@@ -40,33 +40,26 @@ module.exports = (cfg, socket, data, callback) => {
 	if (opt.installAssets === 'yes') {
 		installFiles(cfg, socket, update.assets, data);
 	}
-	if (opt.installApp === 'yes') {
-		installFiles(cfg, socket, update.app, data);
-		installFiles(cfg, socket, update['app-foot'], data);
-		installFiles(cfg, socket, update['docs-usage'], data);
-		installFiles(cfg, socket, update['docs-dev'], data);
+	if (opt.installSheets === 'yes') {
+		installFiles(cfg, socket, update.sheets, data);
 	}
-	if (opt.installDocs === 'yes') {
-		installFiles(cfg, socket, update['docs-usage'], data);
-		installFiles(cfg, socket, update['docs-dev'], data);
-	}
-	if (opt.installPlugins === 'yes') {
-		installFiles(cfg, socket, update.install, data);
-	}
-	if (opt.installSidebar === 'yes') {
-		installFiles(cfg, socket, update.sidebar, data);
+	if (opt.installPalettes === 'yes') {
+		installFiles(cfg, socket, update.palettes, data);
 	}
 	if (opt.installConfig === 'yes') {
 		installFiles(cfg, socket, update.config, data);
 	}
-	if (opt.installSheets === 'yes') {
-		installFiles(cfg, socket, update.sheets, data);
+	if (opt.installSidebar === 'yes') {
+		installFiles(cfg, socket, update.sidebar, data);
+	}
+	if (opt.installApp === 'yes') {
+		installFiles(cfg, socket, update.app, data);
+	}
+	if (opt.installPlugins === 'yes') {
+		installFiles(cfg, socket, update.install, data);
 	}
 	if (opt.installSplash === 'yes') {
 		installFiles(cfg, socket, update.splashscreen, data);
-	}
-	if (opt.installPalettes === 'yes') {
-		installFiles(cfg, socket, update.palettes, data);
 	}
 }
 

@@ -1,0 +1,20 @@
+caption: Footing
+created: 20220625172635425
+icon: $:/core/images/file
+modified: 20220704031009185
+tags: info
+title: $:/poc2go/ui/footing
+
+\define pocLink(linkText linkPath)
+<$button class="tc-btn-invisible tc-tiddlylink" actions="<<poc2go request-tostory $linkPath$>>" >$linkText$</$button>
+\end
+
+<hr style="opacity:.5;clear:both;">
+<span style="float: left;">|&nbsp;
+<<pocLink Usage poc2go/docs/usage/usingwiki.tid>>&nbsp;|&nbsp;
+<<pocLink TiddlyWiki poc2go/docs/tiddlywiki/tiddlywiki.tid>>&nbsp;|&nbsp;
+<<pocLink Developer poc2go/docs/dev/intro.tid>>&nbsp;|&nbsp;
+<<pocLink Credits poc2go/docs/credits/credits.tid>>&nbsp;|&nbsp;
+<<pocLink About poc2go/docs/about/webwiki.tid>>&nbsp;|&nbsp;
+
+</span>

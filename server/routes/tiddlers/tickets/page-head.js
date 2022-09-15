@@ -16,6 +16,8 @@ prefix: ${opt.prefix}
 sortBy: ${opt.sortBy}
 sortOrder: ${opt.sortOrder}
 searchWords: ${opt.searchWords}
+skipTickets: ${opt.skipTickets}
+searchWords: ${opt.searchWords}
 foundTickets: ${opt.foundTickets}
 shownTickets: ${opt.shownTickets}
 shownPage: ${opt.shownPage}
