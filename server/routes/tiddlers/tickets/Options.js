@@ -3,7 +3,7 @@ const { foot } = require('./page-foot');
 
 const tiddler = (cfg, opt) => `${head(cfg, opt)}
 
-<span style="float: right;"><img src="/assets/images/options.svg"></span>
+<span style="float: right;z-index: 100;"><img src="/assets/images/options.svg"></span>
 
 !!!Options
 
@@ -42,7 +42,7 @@ Users order:
 </div>
 
 <div style="float:left; width: 49%;">
-Combine multiple words with:&nbsp;&nbsp;
+Combine multiple words:&nbsp;&nbsp;
 <$radio field="combineWith" value="or" > Or</$radio>&nbsp;&nbsp;
 <$radio field="combineWith" value="and" > And</$radio>
 <br><br>

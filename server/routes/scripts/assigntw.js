@@ -21,8 +21,10 @@ if (!$tw && parent && parent.$tw) {
 		request: (title, toStory) => $tw.poc2go.tiddler.request(title, toStory),
 		fetch: (path, options, toStory) => $tw.poc2go.tiddler.fetch(path, options, toStory),
 		send: (title, toStory) => $tw.poc2go.tiddler.send(title, toStory),
-		// Must call at end of page's 'onload' function to load TW styles
-		twSheets: () => {
+		construct: (body, toStory = false) => $tw.poc2go.tiddler.construct(body, toStory),
+
+		// call at end of page's 'onload' function to load TW styles and auto size
+		onload: () => {
 			// Insert TiddlyWiki stylesheet before first stylesheet in iframe's document
 			var oHead = document.getElementsByTagName("head")[0];
 			var frmStyleSheet = document.getElementsByTagName("style")[0];
@@ -32,8 +34,6 @@ if (!$tw && parent && parent.$tw) {
 			}
 			// hack to get foreground color from parent
 			document.body.style.color = parent.window.getComputedStyle( parent.document.body ,null).getPropertyValue('color');
-		},
-		onload: () => {
 			// Get all iframes in this tiddler and resize height to documents height
 			parent.document.querySelectorAll('iframe').forEach((frame) => {
 				frame.style.visibility = 'hidden';

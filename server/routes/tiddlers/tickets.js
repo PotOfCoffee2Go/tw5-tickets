@@ -10,7 +10,7 @@ const searchDetail = require('./tickets/Detail');
 const {
 	copyTiddler, workingTiddler,
 	contentTiddler, nothingRequested, contentFooting,
-	jsonTiddler } = require('./tickets/search');
+	jsonTiddler } = require('./search');
 
 // Issue and pull requests gathered from GitHub
 // Must have .json file extension
@@ -43,7 +43,7 @@ ticketDefaults = (opt) => {
 		searchWords: '',
 		path: 'tickets',
 		toStory: 'fetch-tostory',
-		maxTickets: '10',
+		maxTickets: '50',
 		fuzzy: 'no',
 		prefix: 'no',
 		sortBy: 'date',
@@ -62,6 +62,7 @@ ticketDefaults = (opt) => {
 		submitterButton: 'display: none;',
 		combineWith: 'or',
 		userOrder: 'rank',
+		ticketNbr: '',
 	}, opt);
 }
 
@@ -222,7 +223,7 @@ const route = (cfg, data, copy) => {
 	if (data.content.path.indexOf('Users') > -1) return searchUsers.run(cfg, data);
 	if (data.content.path.indexOf('Suggest') > -1) return searchSuggest.run(cfg, data);
 	if (data.content.path.indexOf('About') > -1) return searchAbout.run(cfg, data);
-	if (data.content.path.indexOf('Detail') > -1) return searchDetail.run(cfg, data, ghdata);
+	if (data.content.path.indexOf('Detail') > -1) return searchDetail.run(cfg, data);
 
 	return regularSearch(cfg, data, false);
 }
@@ -232,10 +233,9 @@ const route = (cfg, data, copy) => {
 // Run the fetch issues request
 exports.run = (cfg, data, copy = false) => {
 	let maxTickets = parseInt(data.content.opt.maxTickets);
-	if (isNaN(maxTickets)) { maxTickets = 0; }
-
-	if (maxTickets < 1 || maxTickets > 30) {
-		data.content.opt.maxTickets = '10';
+	if (isNaN(maxTickets) || maxTickets < 1 || maxTickets > 300) {
+		console.log('hit max',data.content.opt.maxTickets);
+		data.content.opt.maxTickets = '50';
 	}
 	return route(cfg, data, copy);
 }

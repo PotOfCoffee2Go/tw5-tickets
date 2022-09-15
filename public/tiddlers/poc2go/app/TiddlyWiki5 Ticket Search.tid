@@ -22,8 +22,8 @@ title: TiddlyWiki5 Ticket Search
 
 <$button class="bttn" actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>">{{!!buttonText}}</$button>
 
-Searches that you kept a copy:
-<<list-links filter:"[prefix[Search]] +[sort[title]]">>
+Ticket detail tiddlers:
+<<list-links filter:"[tag[tickets]] +[sort[title]]">>
 
 </div>
 

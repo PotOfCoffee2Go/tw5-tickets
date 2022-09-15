@@ -11,11 +11,9 @@ Welcome to ~TiddlyWiki and the ~TiddlyWiki community
   <details><summary>
   Instructions...
   </summary><hr>
-  Press 'TW5 Ticket Search' to enter the ticker search system.
-  <br>
-  Press the 'Installation Options' button to install sub-components.
+  Press 'TW5 Ticket Search' to enter the ticket search system. Or (like the button above) can insert the line `<$button actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>">TW5 Ticket Search</$button>` in a tiddler to access the system.
   <br><br>
-  Also can insert the line `<$button actions="<<poc2go 'fetch-tostory' 'tickets/Suggest'>>">TW5 Ticket Search</$button>` in a tiddler to access the system.
+  Press the 'Installation Options' button to install handy sub-components.
   <br>
   </details>
   </p>

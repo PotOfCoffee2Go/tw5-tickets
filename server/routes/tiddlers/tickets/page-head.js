@@ -2,8 +2,6 @@ const { macros } = require('./page-macros');
 
 exports.head = (cfg, opt) => `created: 20220618230816674
 modified:	20220618230816674
-creator: PotOfCoffee2Go
-modifier: PotOfCoffee2Go
 title: TiddlyWiki5 Open Tickets
 tags: server
 licence: [[MIT Licence]]
@@ -30,6 +28,7 @@ submitterUrl: ${opt.submitterUrl}
 submitterButton: ${opt.submitterButton}
 combineWith: ${opt.combineWith}
 userOrder: ${opt.userOrder}
+ticketNbr: ${opt.ticketNbr}
 
 ${macros(cfg, opt)}
 
@@ -48,5 +47,10 @@ ${macros(cfg, opt)}
 </$keyboard>
 <$button class="bttn" actions=<<actions>> >{{$:/core/images/advanced-search-button}} Search</$button>
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
+Or a ticket #
+<$keyboard key="enter" actions=<<gotoDetail>> >
+	<$edit-text field="ticketNbr" placeholder="" size="6" />
+</$keyboard>
+<$button class="bttn" actions=<<gotoDetail>> >Go</$button>
 
 `;

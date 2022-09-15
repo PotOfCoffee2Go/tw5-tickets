@@ -5,13 +5,15 @@ const cfg = {
 	// Port the server listens for requests
 	listenPort: 8000,
 
-	// GitHub repository issues to search
-	repo: '/repos/Jermolene/TiddlyWiki5/issues',
+	// GitHub API repository, users, and issues to search
+	repolink: 'https://github.com/Jermolene/TiddlyWiki5',
+	userslink: 'https://github.com',
+	ticketslink: 'https://api.github.com/repos/Jermolene/TiddlyWiki5/issues',
 
 	// Subdirectory path in 'public' to hold TiddlyWikis
 	// Do not include '/public/' - just the subdirectory path
 	// ex: 'tw', 'tiddlywiki/mine', 'store'
-	twDir: 'tiddlywiki',
+	twDir: 'wikis',
 
 	// Display 'get' URL's on console
 	logUrl: false,
