@@ -24,7 +24,7 @@ module.exports = (cfg) => {
 	router.get('/start', (req, res) => render(cfg, req, res, pages.home, {}));
 	router.get('/tree', (req, res) => render(cfg, req, res, pages.tree, {}));
 
-	// Detail tiddler with iframe
+	// Called by iframe in Detail tiddler to fetch ticket info from Github
 	const { detail } = require('./routes/tiddlers/detail')(cfg);
 	router.get('/detail/:ticketNbr', (req, res) => detail(cfg, req, res));
 

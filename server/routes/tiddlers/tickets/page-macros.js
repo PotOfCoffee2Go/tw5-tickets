@@ -5,8 +5,12 @@ exports.macros = (cfg, opt) => `
 \\define gotoPage('page')
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>>  options='{ "path": "tickets/$page$" }'/>
 \\end
+\\define gotoDetail()
+<$macrocall $name='poc2go' command=fetch-tostory path=<<currentTiddler>> options='{ "path": "tickets/Detail" }'/>
+\\end
 \\define clear()
 <$action-setfield searchWords=""/>
+<$action-setfield ticketNbr="" />
 <$action-setfield submitter="" />
 <$action-setfield submitterUrl="" />
 <$action-setfield submitterButton="display: none;" />

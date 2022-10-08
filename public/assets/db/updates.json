@@ -17,8 +17,7 @@
 		"install/poc2go.js.tid",
 		"install/install.tid",
 		"install/install-info.tid",
-		"install/Inline_wikilink.tid",
-		"poc2go/app/socket-status.tid"
+		"install/Inline_wikilink.tid"
 	],
 	"docs-usage": [
 	],

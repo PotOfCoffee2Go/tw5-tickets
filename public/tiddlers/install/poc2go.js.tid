@@ -1,19 +1,20 @@
+title: $:/plugins/poc2go/sockets/macros/poc2go.js
 caption: Network Interface
 created: 20220607214310616
-modified: 20220709074251977
-module-type: macro
-tags:
-title: $:/plugins/poc2go/sockets/macros/poc2go.js
+modified: 20220922111705268
 type: application/javascript
+module-type: macro
 
 /*\
-title: $:/plugins/poc2go/sockets/macros/poc2go.js
-type: application/javascript
-module-type: macro
+Macro to fetch static/dynamic tiddlers from server. By design
+the macro uses basic HTTP, socket.io, and TiddlyWiki functions.
 
-Macro to fetch a dynamic server tiddler
-
+When this macro is loaded by TW $:/boot the socket.io library is
+fetched from the server and is loaded into the site <head> element.
+The library maintains a connection to the server independently from
+TiddlyWiki.
 \*/
+
 (function(){
 
 /*jslint node: true, browser: true */
@@ -28,6 +29,8 @@ exports.params = [
 	{name: 'options'},
 ];
 
+// Socket.io allows server to push tiddlers to TiddlyWiki
+const socketLibrary = '/socket.io/socket.io.min.js';
 
 // ------
 // Add a tiddler that has state of the network status
@@ -74,60 +77,41 @@ $tw.poc2go = {
 	}
 };
 
-/*
-Running the poc2go macro
- examples:
- * <$button actions="<<poc2go 'fetch' 'Test/mystuff'>>" >Usage</$button>
- * <$macrocall $name='poc2go' command=fetch path=tickets />
+// commands = 'fetch' via HTTP, 'request' via socket-io
+// path = tiddler, url (route), or filepath to .tid in server 'public' folders
+// options = optional JSON of fields to send to server
+//
+// If path is a tiddler - will use the value of field 'path' in tiddler
+//  as well as send all fields in the tiddler
+// Fields in options override tiddler fields
+const commands = {
+	'fetch': (path, options) => $tw.poc2go.tiddler.fetch(path, options, false),
+	'fetch-tostory': (path, options) => $tw.poc2go.tiddler.fetch(path, options, true),
+	'request':  (path, options) => $tw.poc2go.tiddler.request(path, options, false),
+	'request-tostory':  (path, options) => $tw.poc2go.tiddler.request(path, options, true),
+	'send': (path) => $tw.poc2go.tiddler.send(path, true),
+}
 
- command = 'fetch','fetch-tostory', 'send'
- path = tiddler on which command is performed
- options = only used with specific 'fetch's
+// Running the poc2go macro
+//  examples:
+//  * <$button actions="<<poc2go 'fetch' 'test/mystuff'>>" >Test My Stuff</$button>
+//  * <$macrocall $name='poc2go' command=fetch path=tickets />
+exports.run = function(command, path, options) {
+		if (!commands[command]) {
+			return $tw.poc2go.tiddler.construct({
+				title: 'Poc2go macro',
+				text: `Invalid command: ${command}`,
+			}, true);
+		}
 
- Any these three status can let macro run
-  offline - popup saying offline
-  connected - all is good
-  disconnected - socket.io will buffer/send on reconnect
- Otherwise socket.io is still starting up
-  Keep trying for up to 10 seconds - then quietly give up
-*/
-exports.run = function(command, path, options, tries = 0) {
-	if (['offline','connected','disconnected'].indexOf($tw.poc2go.status) > -1) {
 		// Combine path and options param with fields of this tiddler
 		options = jsonOptions(path, options);
 		path = options.path;
 		options = JSON.stringify(options);
 
-		// Fetch a dynamic server tiddler (no scrolling)
-		if (command === 'fetch') { $tw.poc2go.tiddler.fetch(path, options, false); }
-		// Fetch a dynamic server tiddler - to story (scroll tiddler to top also)
-		else if (command === 'fetch-tostory') { $tw.poc2go.tiddler.fetch(path, options, true); }
-		// Request a static server tiddler (no scrolling)
-		else if (command === 'request') { $tw.poc2go.tiddler.request(path, options, false); }
-		// Request a static server tiddler - to story (scroll tiddler to top also)
-		else if (command === 'request-tostory') { $tw.poc2go.tiddler.request(path, options, true); }
-		// Store tiddler on server
-		else if (command === 'send') { $tw.poc2go.tiddler.send(path, true); }
-	} else { // still starting up - so try later
-		if (tries < 20) { // If tried for 10 seconds - just give up
-			setTimeout(() => exports.run(command, path, options, tries+1), 500);
-		}
-	}
-};
-
-/*\
-When this macro is loaded by TW $:/boot the following module is
-executed which fetches the socket.io library from the server and is loaded
-into the site <head> element. The library maintains a connection to the
-server independently from TiddlyWiki.
-
-If the socket.io fetch is successful the module will add the poc2go
-namespace to $tw ($tw.poc2go) which interfaces socket events (on the network
-side) to/from tiddlers (on the TiddlyWiki side).
-\*/
-
-var socketLibrary = '/socket.io/socket.io.min.js';
-
+		// Perform TiddlyWiki <-> Server command
+		commands[command](path, options);
+}
 
 // ------
 // Helper functions
@@ -139,10 +123,10 @@ const jsonOptions = (path, opt) => {
 	} catch (e) {
 		opt = {};
 	};
-	//let tiddler = $tw.wiki.getTiddler('TiddlyWiki5 Open Tickets');
+
 	const fields = { path };
 	let tiddler = $tw.wiki.getTiddler(path);
-	if(tiddler) {
+	if (tiddler) {
 		for(var field in tiddler.fields) {
 			if (field !== 'text') fields[field] = tiddler.getFieldString(field);
 		}
@@ -150,17 +134,15 @@ const jsonOptions = (path, opt) => {
 	return Object.assign(fields, opt);
 }
 
-// Resize when onload in an iframe
+// Handy resize when loading an iframe
+//  Call in the iframe's 'onload' function
 // Need to add a few pixels to height to remove the vertical
-// scrollbar in some edge cases
+//  scrollbar in some edge cases
 const resizeIframe = (elem, addPixels = 16) => {
 	if (!window.parent) return; // if not an iframe just return
-	let frame = undefined;
+	let frame = elem;
 	if (typeof elem === 'string') {
 		frame = window.parent.document.getElementById(elem);
-	}
-	else {
-		frame = elem;
 	}
 	if (frame && frame.contentWindow.document.body) frame.style.height =
 		(frame.contentWindow.document.body.scrollHeight + addPixels) + 'px';

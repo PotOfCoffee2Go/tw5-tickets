@@ -1,111 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Ticket details page -->
+<!--
+Ticket details page
+
+This page runs as a tiddler iframe which fetches the ticket details from GitHub,
+ formats the results, and replaces the containing tiddler (tiddler with the iframe)
+ with the content fetched.
+ -->
 <head>
-	{{{cfg.head}}}
-	{{{cfg.styles.detail}}}
-
-    <base target="_blank">
-
 	<title>Ticket Detail</title>
-	<style>
-	pre {
-		border: 1px solid currentColor;
-	}
-	</style>
-	<!-- link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css" / -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js" integrity="sha512-gU7kztaQEl7SHJyraPfZLQCNnrKdaQi5ndOyt4L4UPL/FHDd/uB9Je6KDARIqwnNNE27hnqoWLBq+Kpe4iHfeQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js" integrity="sha512-SYfDUYPg5xspsG6OOpXU366G8SZsdHOhqk/icdrYJ2E/WKZxPxze7d2HD3AyXpT7U22PZ5y74xRpqZ6A2bJ+kQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+	<script src="/assigntw.js"></script>
 	<script>
-		const mdtext = `{{{body}}}`;
-		var mdcomments = '';
-		const fetchComments = () => {
-			return fetch('{{{comments_url}}}', {
-			method: 'GET',
-			headers: {'Content-Type': 'application/json'},
+		// Link to GitHub issues by number
+		const ticketNbr = '{{number}}';
+		const githubLink = '{{{cfg.ticketslink}}}/{{number}}';
+
+		const fetchRemote = (url, type) =>
+			fetch(url, {
+				method: 'GET',
+				headers: {'Content-Type': 'application/json'},
 			})
-			// Verify fetch successful
 			.then((res) => {
 				if (res.status !== 200) {
-					throw new Error(`Unable to fetch {{{comments_url}}} - HTTP status: ${res.status}`);
+					if (res.status === 404) {
+						error.tiddler(`Ticket not found - HTTP status: ${res.status}<br><img src="/assets/images/error-404.png" width="200">`);
+					} else {
+						error.tiddler(`Unable to fetch ${type} - HTTP status: ${res.status}`);
+					}
+					throw new Error(`Unable to fetch ${type} - HTTP status: ${res.status}`);
 				}
 				return res.json();
 			})
 			.catch((err) => {
 				console.log(err);
 			})
-		}
-	</script>
 
-	<script>
-		function adjustImages(elem) {
-			const images = elem.querySelectorAll("img");
-
-			images.forEach((image) => {
-				if (!image.getAttribute('width') && image.naturalWidth > 500) {
-					image.style.width = '100%';
-					image.style.height = 'auto';
-				}
-			});
-		}
 		onload = () => {
-			var md = window.markdownit({
-				html: true,
-				linkify: true,
-				typographer: true,
-				highlight: function (str, lang) {
-					if (lang && hljs.getLanguage(lang)) {
-					  try {
-						return hljs.highlight(str, { language: lang }).value;
-					  } catch (__) {}
-					}
-					return ''; // use external default escaping
-				}
-			});
-			document.getElementById('subdate').innerHTML = (new Date('{{{created_at}}}')).toLocaleString();
-			var result = md.render(mdtext);
-			result = result.replace(/<a href/g, '<a class="tc-tiddlylink-external" target="_blank" href');
-			document.getElementById('mdown').innerHTML = result;
-			fetchComments()
-			.then ((cmts) => {
-				cmts.forEach((comment) => {
-					mdcomments += '<hr style="opacity: 1;">' +
-					'<a class="tc-tiddlylink-external" href="'+ comment.user.html_url +'">' + comment.user.login +'</a>' +
-					' - <span style="font-size: .9rem;">' + (new Date(comment.created_at)).toLocaleString() + '</span>' +
-					' <a class="tc-tiddlylink-external" href="'+ comment.html_url +'">view</a> comment on GitHub' +
-					'<div style="margin-left: 1rem;">' +
-					md.render(comment.body).replace(/<a href/g, '<a class="tc-tiddlylink-external" href') +
-					'</div>';
+			if (!ticketNbr || isNaN(parseInt(ticketNbr))) {
+				return error.tiddler('Error - Invalid Ticket Number');
+			}
+			var mdtext = '', mdComments = '', mdAddCommentLink = '';
+			// Fetch the ticket
+			fetchRemote(githubLink, 'ticket')
+			.then((issue) => {
+				if (!issue) return;
+				mdAddCommentLink = format.addComment(issue);
+				mdtext = format.ticketBody(issue);
+				// Fetch the comments for this ticket
+				fetchRemote(issue.comments_url, 'comments')
+				.then ((comments) => {
+					comments.forEach((comment) => {
+						mdComments += format.ticketComment(comment);
+					})
+					// Combine all together and make a tiddler out of
+					//  it (replaces this tiddler)
+					mdtext = mdtext + mdComments + mdAddCommentLink;
+					mdtext = mdlinkify(issue, mdtext);
+					poc2go.construct({
+						title: `TiddlyWiki5 Ticket Detail - ${ticketNbr}`,
+						tags: `#${issue.number} tickets TW5`,
+						type: 'text/x-markdown',
+						text: mdtext + format.footer(issue)
+					});
 				})
-				document.getElementById('mdcmts').innerHTML = mdcomments;
-				adjustImages(document.getElementById('mdown'));
-				adjustImages(document.getElementById('mdcmts'));
-				$tw.poc2go.tiddler.construct({
-					title: 'TiddlyWiki5 Ticket Detail',
-					tags: '#{{number}} tickets TW5',
-					text: document.body.innerHTML});
 			})
+
 			.catch((err) => {
 				console.log(err);
 			})
 		}
+
+const error = {
+	tiddler: (msg) => {
+		poc2go.construct({
+			title: 'TiddlyWiki5 Ticket Detail - {{number}}',
+			tags: 'server',
+			text: msg
+		});
+	}
+}
+
+// The user link needs to be run twice to pick up all users
+const mdlinkify = (issue, mdtext) =>
+	mdtext
+		.replace(' https://github.com/Jermolene/TiddlyWiki5/issues/',' #')
+		.replace(' https://github.com/Jermolene/TiddlyWiki5/pull/',' #')
+		.replace(/(\s)(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])([\s,])/g,'$1[$2://$3$4]($2://$3$4)$5')
+		.replace(/(\s)#(\d{2,})([\s.,])/g,`$1&nbsp;<$button actions="""<$macrocall $name='poc2go' command=fetch-tostory path=<<currentTiddler>> options='{ "path": "tickets/Detail", "ticketNbr": "$2"}' >""">#$2</$button>$3`)
+		.replace(/([\s>])@([\w-]+)([\s.,])/g,`$1[@$2]({{{cfg.userslink}}}/$2)$3`)
+		.replace(/([\s>])@([\w-]+)([\s.,])/g,`$1[@$2]({{{cfg.userslink}}}/$2)$3`);
+
+const format = {
+	ticketComment: (comment) => `
+---
+### [${comment.user.login}](${comment.user.html_url}) - <span style="font-size: .85rem;">${(new Date(comment.created_at)).toLocaleString()}</span> - [view](${comment.html_url}) comment on GitHub
+
+
+${comment.body}
+
+`,
+
+	ticketBody: (issue) => `
+---
+<img src="${issue.user.avatar_url}" style="width: 74px;  background: white; float: left; margin-right: 1em; border-radius: 12px;">
+##  [#${issue.number}](${issue.html_url}) ${issue.title} ${issue.draft ? '(draft)' : ''}
+### [${issue.user.login}](${issue.user.html_url}) - Submitted ${issue.pull_request ? 'pull request' : 'ticket'} on <span style="font-size: .9rem;"> ${(new Date(`${issue.created_at}`)).toLocaleString()}.</span>
+
+${format.ticketStatus(issue)}
+
+${issue.body}
+
+`,
+
+	ticketStatus: (issue) => `${issue.closed_at || (issue.pull_request && issue.pull_request.merged_at) ? '### ' : ''}${issue.pull_request && issue.pull_request.merged_at ? `Merged on <span style="font-size: .9rem;">${(new Date(`${issue.pull_request.merged_at}`)).toLocaleString()}.</span> ` : ''}${issue.closed_at ? `Closed by [${issue.closed_by.login}](${issue.closed_by.html_url}) on <span style="font-size: .9rem;"> ${(new Date(`${issue.closed_at}`)).toLocaleString()}</span>.` : ''}${issue.closed_at || (issue.pull_request && issue.pull_request.merged_at) ? '\n\n' : ''}
+`,
+
+	addComment: (issue) => `
+---
+
+Add a comment to this ${issue.pull_request ? 'pull request' : 'issue'} [#${issue.number}](${issue.html_url}#issuecomment-new).
+
+`,
+
+	footer: (issue) => `
+JSON data - Ticket [#${issue.number}](${issue.url})
+with [comments](${issue.comments_url})
+from TiddlyWiki5 GitHub [repository](${issue.repository_url}).
+<br>
+[TW5 Ticket Search](https://tw5.poc2go.com) ticket detail using [TiddlyWiki](https:tiddlywiki.com) with data via [GitHub Rest API](https://docs.github.com/en/rest)
+
+`
+}
+
 	</script>
 </head>
-<body class="tc-story-river" style="margin: 0 1rem 0 1rem;">
-	<div>
-	<h3><a class="tc-tiddlylink-external" href="{{{html_url}}}">#{{number}}</a> {{{title}}}</h3>
-	{{pr_issueText}} submitted by <a class="tc-tiddlylink-external" href="{{{user.html_url}}}">{{{user.login}}}</a>
-	<span id="subdate"></span>
-	<hr style="opacity: .5;">
-	<div id="mdown"></div>
-
-	<div id="mdcmts"></div>
-	<div><hr style="opacity: .5;"></div>
-	JSON data - Ticket <a class="tc-tiddlylink-external" href="{{{url}}}">#{{number}}</a>
-	with <a class="tc-tiddlylink-external" href="{{comments_url}}">comments</a>
-	from GitHub <a class="tc-tiddlylink-external" href="{{repository_url}}">repository</a>
-	<hr style="opacity: .5;">
-	</div>
+<body>
 </body>
 </html>

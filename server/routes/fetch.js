@@ -17,9 +17,11 @@ const fetch = (cfg, req, res) => {
 
 	if (data.content.path.substr(0,7) === 'tickets') {
 		data.body = {
-			title: 'GitHub Issue',
+			title: 'fetch response',
 			text: tickets.run(cfg, data)
 		}
+		// Empty response will be ignored
+		if (!data.body.text) delete data.body;
 		return res.json({data});
 	}
 

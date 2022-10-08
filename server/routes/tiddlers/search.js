@@ -67,12 +67,16 @@ submitterUrl: ${search.opt.submitterUrl}
 submitterButton: ${search.opt.submitterButton}
 combineWith: ${search.opt.combineWith}
 userOrder: ${search.opt.userOrder}
+ticketNbr: ${search.opt.ticketNbr}
 
 \\define actions()
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>> />
 \\end
 \\define gotoPage('page')
 <$macrocall $name='poc2go' command=fetch path=<<currentTiddler>>  options='{ "path": "tickets/$page$" }'/>
+\\end
+\\define gotoDetail('nbr')
+<$macrocall $name='poc2go' command=fetch-tostory path=<<currentTiddler>> options='{ "path": "tickets/Detail" }'/>
 \\end
 \\define copySearch()
 <$macrocall $name='poc2go' command={{!!toStory}} path=<<currentTiddler>> options='{ "path": "ticketscopy" }' />
@@ -82,6 +86,7 @@ userOrder: ${search.opt.userOrder}
 \\end
 \\define clear()
 <$action-setfield searchWords="" />
+<$action-setfield ticketNbr="" />
 \\end
 \\define clearUser()
 <$action-setfield submitter="" />
@@ -97,7 +102,7 @@ options='{"path": "tickets", "submitter": "$user$", "submitterUrl": "$url$", "su
 options='{"path": "tickets", "submitter": "", "submitterUrl": "", "submitterButton": "display: none;" }' />
 \\end
 \\define statusPage()
-<$macrocall $name='poc2go' command=request-tostory path="poc2go/app/socket-status.tid" />
+<$macrocall $name='poc2go' command=request-tostory path="poc2go/assets/socket-status.tid" />
 \\end
 
 <span style="float: right;"><$button class="tc-btn-invisible tc-tiddlylink" actions="<<statusPage>>" tooltip="Server Status">{{$:/temp/poc2go/netstat}}</$button> - v${cfg.pkg.version}</span>
@@ -117,24 +122,31 @@ options='{"path": "tickets", "submitter": "", "submitterUrl": "", "submitterButt
 <$button class="bttn" actions=<<actions>> >{{$:/core/images/advanced-search-button}} Search</$button>
 <$button class="bttn" actions=<<clear>> >{{$:/core/images/paint}} Clear</$button>
 </span>
+&nbsp;Or a ticket #
+<$keyboard key="enter" actions=<<gotoDetail>> >
+	<$edit-text field="ticketNbr" placeholder="" size="6" />
+</$keyboard>
+<$button class="bttn" actions=<<gotoDetail>> >Go</$button>
 
-${keepCopy(cfg, search)}
+<!-- ${keepCopy(cfg, search)} -->
 
 <div style="clear: both;padding-top: .5rem;">
-	<span style="margin-left: 1%;">
-		Page
+	<span style="margin-left: 8%;">
+		<!-- Page
 		<$select field="getPage" actions=<<actions>> >
 		<option> 1 </option>
 		<option> 2 </option>
 		<option> 3 </option>
-		</$select>
+		</$select> -->
 		&nbsp;&nbsp;Show
 		<$select field="maxTickets" actions=<<actions>> >
-		<option> 1 </option>
-		<option> 5 </option>
 		<option> 10 </option>
 		<option> 20 </option>
 		<option> 30 </option>
+		<option> 50 </option>
+		<option> 100 </option>
+		<option> 200 </option>
+		<option> 300 </option>
 		</$select>
 		&nbsp;&nbsp;Sort by
 		<$select field="sortBy" actions=<<actions>> >
@@ -174,7 +186,7 @@ const jsonTiddler = (search) => `${search.json}
 
 // When no submitter or words requested
 const nothingRequested = () => `
- - No search criteria has been requested.
+ - No search criteria has been requested. See <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Usage'>>">Usage</$button>
 
 Enter words to search or can select some commonly used words from the
 <$button style="transform: scale(.8);" actions="<<poc2go 'fetch' 'tickets/Suggest'>>">Topics</$button>

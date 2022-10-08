@@ -17,7 +17,7 @@ require('dotenv').config({path: '../.env'});
 const TOKEN = process.env.TOKEN;
 
 // Link to GitHub issues by page
-const githubLink = (pagenbr) => `${cfg.repo}?page=${pagenbr}&per_page=100`;
+const githubLink = (pagenbr) => `${cfg.ticketslink}?page=${pagenbr}&per_page=100`;
 
 // ---------------------------------
 // Get data from GitHub
@@ -36,7 +36,7 @@ const githubopts = {
 const githubissues = [];
 const requestIssues = (pagenbr = 1) => {
 	// Fetch and process the feed
-	fetch(`https://api.github.com${githubLink(pagenbr)}`, githubopts)
+	fetch(`${githubLink(pagenbr)}`, githubopts)
 	.then((res) => {
 		if (res.status !== 200) {
 			throw new Error(`Fetch GitHub issues HTTP error - status: ${res.status}`);
