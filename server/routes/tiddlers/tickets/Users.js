@@ -1,6 +1,18 @@
-const users = require('../../../../public/assets/db/submitter.json');
 const { head } = require('./page-head');
 const { foot } = require('./page-foot');
+
+const usersDb = '../../../../public/assets/db/submitter.json';
+var users;
+try {
+	require.resolve(usersDb);
+	users = require(usersDb);
+} catch(e) {
+	users = [];
+	console.log(`\x1b[31mTicket database - ${usersDb} does not exist.\x1b[0m`);
+	console.log(`\x1b[31mNo users to search! Run 'npm run submitter'\x1b[0m`);
+}
+
+console.log(`\x1b[35mDatabase contains ${users.length} users\x1b[0m`);
 
 const buildRows = (sortedUsers) => {
 	var userMarkup = '';
