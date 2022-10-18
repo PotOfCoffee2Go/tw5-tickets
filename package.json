@@ -1,6 +1,6 @@
 {
   "name": "tw5-tickets",
-  "version": "0.13.2",
+  "version": "0.14.0",
   "description": "Search TiddlyWiki5 repository issues and pull requests",
   "main": "server.js",
   "scripts": {

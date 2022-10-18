@@ -234,7 +234,6 @@ const route = (cfg, data, copy) => {
 exports.run = (cfg, data, copy = false) => {
 	let maxTickets = parseInt(data.content.opt.maxTickets);
 	if (isNaN(maxTickets) || maxTickets < 1 || maxTickets > 300) {
-		console.log('hit max',data.content.opt.maxTickets);
 		data.content.opt.maxTickets = '50';
 	}
 	return route(cfg, data, copy);
